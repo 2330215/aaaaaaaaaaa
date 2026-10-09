@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://dh3uwqsjr7t6s"]
 
+[ext_resource type="Script" uid="uid://c7t8u8x1k01" path="res://gui/touch_controls.gd" id="1_controls_script"]
 [ext_resource type="Texture2D" uid="uid://bwexvk7mhejjn" path="res://gui/touch_button_left.png" id="1_leftbtn"]
 [ext_resource type="Texture2D" uid="uid://82mnw4u87u87" path="res://gui/touch_button_right.png" id="2_rightbtn"]
 [ext_resource type="Texture2D" uid="uid://tgw4f8fu0btj" path="res://gui/touch_button_fire.webp" id="3_firebtn"]
@@ -7,6 +8,34 @@
 [ext_resource type="Script" uid="uid://c5a1krlnxww5n" path="res://player/touch_button.gd" id="5_touchscript"]
 
 [node name="TouchControls" type="CanvasLayer" unique_id=1351327736]
+script = ExtResource("1_controls_script")
+
+[node name="ChargeBar" type="ProgressBar" parent="." unique_id=987654321]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -230.0
+offset_top = 12.0
+offset_right = -15.0
+offset_bottom = 36.0
+grow_horizontal = 0
+max_value = 5.0
+step = 1.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="ChargeBar" unique_id=987654322]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 14
+text = "CARGA: 0/5"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="TextureButtonIzq" type="TextureButton" parent="." unique_id=975388466]
 anchors_preset = -1
@@ -72,7 +101,7 @@ texture_normal = ExtResource("3_firebtn")
 ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource("5_touchscript")
-action = "shoot"
+action = "special_attack"
 
 [node name="TextureButtonJump" type="TextureButton" parent="." unique_id=897920863]
 anchors_preset = -1

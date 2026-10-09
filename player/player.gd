@@ -2,7 +2,10 @@ class_name Player extends CharacterBody2D
 
 
 signal coin_collected()
+signal special_charge_changed(current: int, max_charge: int)
+signal special_attack_ready(is_ready: bool)
 
+const MAX_SPECIAL_CHARGE = 5
 const WALK_SPEED = 300.0
 const ACCELERATION_SPEED = WALK_SPEED * 6.0
 const JUMP_VELOCITY = -725.0
@@ -14,6 +17,8 @@ const TERMINAL_VELOCITY = 700
 @export var action_suffix := ""
 
 var gravity: int = ProjectSettings.get("physics/2d/default_gravity")
+var special_charge := 0
+
 @onready var platform_detector := $PlatformDetector as RayCast2D
 @onready var animation_player := $AnimationPlayer as AnimationPlayer
 @onready var shoot_timer := $ShootAnimation as Timer
@@ -22,6 +27,18 @@ var gravity: int = ProjectSettings.get("physics/2d/default_gravity")
 @onready var gun = sprite.get_node(^"Gun") as Gun
 @onready var camera := $Camera as Camera2D
 var _double_jump_charged := false
+
+
+func _ready() -> void:
+	coin_collected.connect(_on_coin_collected_internal)
+
+
+func _on_coin_collected_internal() -> void:
+	if special_charge < MAX_SPECIAL_CHARGE:
+		special_charge += 1
+		special_charge_changed.emit(special_charge, MAX_SPECIAL_CHARGE)
+		if special_charge >= MAX_SPECIAL_CHARGE:
+			special_attack_ready.emit(true)
 
 
 func _physics_process(delta: float) -> void:
@@ -48,7 +65,14 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 	var is_shooting := false
-	if Input.is_action_just_pressed("shoot" + action_suffix):
+	if Input.is_action_just_pressed("special_attack" + action_suffix) or Input.is_action_just_pressed("special_attack"):
+		if special_charge >= MAX_SPECIAL_CHARGE:
+			special_charge = 0
+			special_charge_changed.emit(special_charge, MAX_SPECIAL_CHARGE)
+			special_attack_ready.emit(false)
+			is_shooting = true
+			gun.shoot_special(sprite.scale.x)
+	elif Input.is_action_just_pressed("shoot" + action_suffix):
 		is_shooting = gun.shoot(sprite.scale.x)
 
 	var animation := get_new_animation(is_shooting)
@@ -56,6 +80,7 @@ func _physics_process(delta: float) -> void:
 		if is_shooting:
 			shoot_timer.start()
 		animation_player.play(animation)
+
 
 
 func get_new_animation(is_shooting := false) -> String:
