@@ -1,5 +1,3 @@
-res://enemy/enemy.tscn
-res://level/tileset.tres
-res://gui/theme.tres
-res://enemy/enemy.gd
-res://level/level.tscn
+res://level/coin.tscn
+res://level/level.gd
+res://level/special_coin.tscn

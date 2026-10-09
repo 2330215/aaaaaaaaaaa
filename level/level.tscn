@@ -742,18 +742,18 @@ tile_set = ExtResource("1_tileset")
 [node name="ParallaxBackground" parent="." unique_id=950639615 instance=ExtResource("2_bg")]
 
 [node name="SpecialCoin1" parent="." unique_id=1121133372 instance=ExtResource("3_coin")]
-position = Vector2(3648, 416)
+position = Vector2(3648, 350)
 target_position = Vector2(128, 2208)
 target_stage_index = 1
 
 [node name="SpecialCoin2" parent="." unique_id=1025301933 instance=ExtResource("3_coin")]
-position = Vector2(3648, 2208)
+position = Vector2(3648, 2140)
 target_position = Vector2(128, 3990)
 target_stage_index = 2
 switch_to_cave = true
 
 [node name="SpecialCoin3" parent="." unique_id=405188148 instance=ExtResource("3_coin")]
-position = Vector2(3648, 3990)
+position = Vector2(3648, 3920)
 target_position = Vector2(128, 416)
 switch_to_sky = true
 
