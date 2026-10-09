@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://dh3uwqsjr7t6s"]
+
+[ext_resource type="Texture2D" uid="uid://bwexvk7mhejjn" path="res://gui/touch_button_left.png" id="1_leftbtn"]
+[ext_resource type="Texture2D" uid="uid://82mnw4u87u87" path="res://gui/touch_button_right.png" id="2_rightbtn"]
+[ext_resource type="Texture2D" uid="uid://tgw4f8fu0btj" path="res://gui/touch_button_fire.webp" id="3_firebtn"]
+[ext_resource type="Texture2D" uid="uid://bx5lprqgmkf1n" path="res://gui/touch_button_jump.png" id="4_jumpbtn"]
+[ext_resource type="Script" uid="uid://c5a1krlnxww5n" path="res://player/touch_button.gd" id="5_touchscript"]
+
+[node name="TouchControls" type="CanvasLayer" unique_id=1351327736]
+
+[node name="TextureButtonIzq" type="TextureButton" parent="." unique_id=975388466]
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -110.0
+offset_right = 95.0
+offset_bottom = -35.0
+grow_vertical = 0
+texture_normal = ExtResource("1_leftbtn")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("5_touchscript")
+action = "move_left"
+
+[node name="TextureButtonDer" type="TextureButton" parent="." unique_id=1931341645]
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 110.0
+offset_top = -110.0
+offset_right = 185.0
+offset_bottom = -35.0
+grow_vertical = 0
+texture_normal = ExtResource("2_rightbtn")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("5_touchscript")
+action = "move_right"
+
+[node name="TextureButtonAttack1" type="TextureButton" parent="." unique_id=2000000004]
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -230.0
+offset_top = -110.0
+offset_right = -155.0
+offset_bottom = -35.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("3_firebtn")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("5_touchscript")
+action = "shoot"
+
+[node name="TextureButtonAttack2" type="TextureButton" parent="." unique_id=2000000005]
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -160.0
+offset_top = -175.0
+offset_right = -85.0
+offset_bottom = -100.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("3_firebtn")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("5_touchscript")
+action = "shoot"
+
+[node name="TextureButtonJump" type="TextureButton" parent="." unique_id=897920863]
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -90.0
+offset_top = -110.0
+offset_right = -15.0
+offset_bottom = -35.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("4_jumpbtn")
+ignore_texture_size = true
+stretch_mode = 5
+script = ExtResource("5_touchscript")
+action = "jump"
