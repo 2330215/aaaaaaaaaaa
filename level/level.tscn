@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://b6bbw7ccfpneu" path="res://level/tiles2.png" id="3_6gtgk"]
 [ext_resource type="PackedScene" uid="uid://b8y4570xnm321" path="res://level/special_coin.tscn" id="3_coin"]
 [ext_resource type="PackedScene" uid="uid://c6v2n8m7x1402" path="res://level/pit_hazard.tscn" id="6_ivpvi"]
+[ext_resource type="PackedScene" uid="uid://6mtip3ruyn" path="res://enemy/enemy.tscn" id="9_6gtgk"]
 [ext_resource type="PackedScene" uid="uid://df6kw4n78yq21" path="res://enemy/dialogue_enemy.tscn" id="9_cw150"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw150"]
@@ -774,3 +775,6 @@ dialogue_lines = ["¡Cuidado! Más adelante hay un pozo oscuro sin fondo.", "Si 
 position = Vector2(700, 3840)
 speaker_name = "ESPECTRO DE LA CUEVA"
 dialogue_lines = ["Has llegado a las profundidades oscuras de la cueva...", "La última moneda especial te aguarda al final del camino.", "Tócala para regresar victorioso a la superficie."]
+
+[node name="Enemy" parent="." unique_id=91234316 instance=ExtResource("9_6gtgk")]
+position = Vector2(562, 433)

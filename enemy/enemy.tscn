@@ -58,6 +58,18 @@ tracks/3/keys = {
 "update": 1,
 "values": [2]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D:hframes")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
 
 [sub_resource type="Animation" id="2"]
 resource_name = "destroy"
@@ -198,7 +210,7 @@ tracks/10/keys = {
 }
 
 [sub_resource type="Animation" id="3"]
-length = 3.0
+length = 0.5
 loop_mode = 1
 step = 0.25
 tracks/0/type = "value"
@@ -208,10 +220,25 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.333, 0.666, 0.999, 1.332, 1.665, 1.998, 2.331, 2.664, 2.997),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.25, 0.999, 1.332, 1.665, 1.998),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [5, 6, 5, 6, 5, 6, 7, 6, 7, 5]
+"values": [6, 5, 6, 5, 6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_pmsee"]
+resource_name = "rebote"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:hframes")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [7, 2]
 }
 
 [sub_resource type="Animation" id="4"]
@@ -223,10 +250,10 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.062475, 0.12495, 0.187425, 0.2499, 0.312375, 0.37485, 0.437325, 0.4998, 0.562275, 0.62475, 0.687225, 0.7497, 0.812175, 0.87465, 0.937125),
+"times": PackedFloat32Array(0, 0.06666667, 0.13333333, 0.16666667, 0.23333333, 0.312375, 0.37485, 0.46666667, 0.4998, 0.562275, 0.6, 0.62475, 0.7497, 0.812175, 0.87465, 0.937125),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+"values": [0, 1, 11, 3, 4, 5, 6, 7, 8, 9, 2, 10, 12, 13, 14, 15]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0kjfc"]
@@ -234,6 +261,7 @@ _data = {
 &"RESET": SubResource("8"),
 &"destroy": SubResource("2"),
 &"idle": SubResource("3"),
+&"rebote": SubResource("Animation_pmsee"),
 &"walk": SubResource("4")
 }
 
