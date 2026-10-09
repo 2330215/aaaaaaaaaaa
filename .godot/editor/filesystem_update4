@@ -1,0 +1,6 @@
+res://player/player.tscn
+res://level/tileset.tres
+res://gui/theme.tres
+res://level/level.tscn
+res://enemy/dialogue_enemy.tscn
+res://enemy/enemy.tscn

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://df6kw4n78yq21"]
 
 [ext_resource type="Script" uid="uid://bp52s1pssxli2" path="res://enemy/dialogue_enemy.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://bjjywmvba0sve" path="res://enemy/enemy.webp" id="2_tex"]
+[ext_resource type="Texture2D" uid="uid://dnymheytu4k1b" path="res://enemy/jaguar_frente_64x64.png" id="2_rotvu"]
 
 [sub_resource type="Animation" id="Animation_idle"]
 length = 3.0
@@ -44,12 +44,9 @@ collision_mask = 24
 script = ExtResource("1_script")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=859685666]
-scale = Vector2(0.8, 0.8)
-texture = ExtResource("2_tex")
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_rotvu")
 flip_h = true
-hframes = 8
-vframes = 2
-frame = 5
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1375266841]
 libraries/ = SubResource("AnimationLibrary_enemy")
