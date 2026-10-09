@@ -1,10 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://vh7pmputa7r3"]
+[gd_scene format=3 uid="uid://vh7pmputa7r3"]
 
-[ext_resource type="Script" path="res://player/player.gd" id="3"]
+[ext_resource type="Texture2D" uid="uid://btvff520704x0" path="res://player/robot.png" id="2_qjkh3"]
+[ext_resource type="Script" uid="uid://dbslsctwk26jh" path="res://player/player.gd" id="3"]
 [ext_resource type="AudioStream" uid="uid://sjod173axgwf" path="res://player/jump.wav" id="5"]
 [ext_resource type="AudioStream" uid="uid://b01brytl75mwa" path="res://player/shoot.wav" id="6"]
-[ext_resource type="Script" path="res://player/gun.gd" id="8"]
-[ext_resource type="Texture2D" uid="uid://cc7o7t0ramd6y" path="res://player/robot.webp" id="9"]
+[ext_resource type="Script" uid="uid://delifkap63ect" path="res://player/gun.gd" id="8"]
 
 [sub_resource type="Animation" id="1"]
 resource_name = "crouch"
@@ -170,60 +170,58 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jnr5f"]
 _data = {
-"crouch": SubResource("1"),
-"falling": SubResource("2"),
-"falling_weapon": SubResource("3"),
-"idle": SubResource("4"),
-"idle_weapon": SubResource("5"),
-"jumping": SubResource("6"),
-"jumping_weapon": SubResource("7"),
-"run": SubResource("8"),
-"run_weapon": SubResource("9"),
-"standing_weapon_ready": SubResource("10")
+&"crouch": SubResource("1"),
+&"falling": SubResource("2"),
+&"falling_weapon": SubResource("3"),
+&"idle": SubResource("4"),
+&"idle_weapon": SubResource("5"),
+&"jumping": SubResource("6"),
+&"jumping_weapon": SubResource("7"),
+&"run": SubResource("8"),
+&"run_weapon": SubResource("9"),
+&"standing_weapon_ready": SubResource("10")
 }
 
 [sub_resource type="RectangleShape2D" id="11"]
 size = Vector2(42.5, 54.5)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" unique_id=1467610487]
 scale = Vector2(0.8, 0.8)
 collision_mask = 30
 floor_constant_speed = true
 platform_on_leave = 2
 script = ExtResource("3")
 
-[node name="ShootAnimation" type="Timer" parent="."]
+[node name="ShootAnimation" type="Timer" parent="." unique_id=2108381154]
 wait_time = 0.2
 one_shot = true
 
-[node name="PlatformDetector" type="RayCast2D" parent="."]
+[node name="PlatformDetector" type="RayCast2D" parent="." unique_id=1842004283]
 target_position = Vector2(0, 6)
 collision_mask = 8
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1507198268]
 position = Vector2(0, -14)
-texture = ExtResource("9")
+texture = ExtResource("2_qjkh3")
 hframes = 8
 vframes = 8
 
-[node name="Gun" type="Marker2D" parent="Sprite2D"]
+[node name="Gun" type="Marker2D" parent="Sprite2D" unique_id=1579385694]
 position = Vector2(14, 1)
 script = ExtResource("8")
 
-[node name="Shoot" type="AudioStreamPlayer2D" parent="Sprite2D/Gun"]
+[node name="Shoot" type="AudioStreamPlayer2D" parent="Sprite2D/Gun" unique_id=1972484250]
 position = Vector2(-30.6589, -6.13176)
 stream = ExtResource("6")
 
-[node name="Cooldown" type="Timer" parent="Sprite2D/Gun"]
+[node name="Cooldown" type="Timer" parent="Sprite2D/Gun" unique_id=1162081454]
 wait_time = 0.3
 one_shot = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_jnr5f")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2131734753]
+libraries/ = SubResource("AnimationLibrary_jnr5f")
 
-[node name="Camera" type="Camera2D" parent="."]
+[node name="Camera" type="Camera2D" parent="." unique_id=1627875236]
 position = Vector2(0, -28)
 offset = Vector2(0, 50)
 zoom = Vector2(0.7, 0.7)
@@ -232,41 +230,40 @@ limit_top = -250
 limit_right = 1425
 limit_bottom = 690
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1344710521]
 position = Vector2(0, -14)
 shape = SubResource("11")
 
-[node name="AudioListener2D" type="AudioListener2D" parent="."]
+[node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=507652681]
 current = true
 
-[node name="Jump" type="AudioStreamPlayer2D" parent="."]
+[node name="Jump" type="AudioStreamPlayer2D" parent="." unique_id=594990157]
 stream = ExtResource("5")
-volume_db = 0.0
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=233352564]
 layer = 0
 
-[node name="Left" type="TouchScreenButton" parent="UI"]
+[node name="Left" type="TouchScreenButton" parent="UI" unique_id=1435794399]
 position = Vector2(157, 813)
 scale = Vector2(2, 2)
 passby_press = true
 action = "move_left"
 visibility_mode = 1
 
-[node name="Right" type="TouchScreenButton" parent="UI"]
+[node name="Right" type="TouchScreenButton" parent="UI" unique_id=10657514]
 position = Vector2(425, 813)
 scale = Vector2(2, 2)
 passby_press = true
 action = "move_right"
 visibility_mode = 1
 
-[node name="Jump" type="TouchScreenButton" parent="UI"]
+[node name="Jump" type="TouchScreenButton" parent="UI" unique_id=31698216]
 position = Vector2(1871, 813)
 scale = Vector2(2, 2)
 action = "jump"
 visibility_mode = 1
 
-[node name="Fire" type="TouchScreenButton" parent="UI"]
+[node name="Fire" type="TouchScreenButton" parent="UI" unique_id=1865671763]
 position = Vector2(1870, 564)
 scale = Vector2(2, 2)
 action = "shoot"
