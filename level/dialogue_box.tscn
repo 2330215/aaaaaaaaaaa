@@ -1,0 +1,101 @@
+[gd_scene format=3 uid="uid://c88t65y1x0a11"]
+
+[ext_resource type="Script" path="res://level/dialogue_box.gd" id="1_script"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_name"]
+font_size = 18
+font_color = Color(0.2, 0.9, 1, 1)
+outline_size = 4
+outline_color = Color(0, 0.2, 0.4, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_text"]
+font_size = 16
+font_color = Color(0.95, 0.95, 0.95, 1)
+shadow_size = 2
+shadow_color = Color(0, 0, 0, 0.8)
+
+[sub_resource type="LabelSettings" id="LabelSettings_prompt"]
+font_size = 12
+font_color = Color(0.7, 0.7, 0.7, 1)
+
+[node name="DialogueBox" type="CanvasLayer"]
+layer = 110
+script = ExtResource("1_script")
+
+[node name="Panel" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = -140.0
+offset_right = -40.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Border" type="ColorRect" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2, 0.8, 1, 0.8)
+
+[node name="Background" type="ColorRect" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.05, 0.12, 0.92)
+
+[node name="HBox" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_top = 10.0
+offset_right = -15.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
+
+[node name="Portrait" type="TextureRect" parent="Panel/HBox"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBox" type="VBoxContainer" parent="Panel/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="NameLabel" type="Label" parent="Panel/HBox/VBox"]
+layout_mode = 2
+text = "PERSONAJE"
+label_settings = SubResource("LabelSettings_name")
+
+[node name="TextLabel" type="Label" parent="Panel/HBox/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Texto de diálogo..."
+label_settings = SubResource("LabelSettings_text")
+autowrap_mode = 3
+
+[node name="PromptLabel" type="Label" parent="Panel/HBox/VBox"]
+layout_mode = 2
+text = "[ ESPACIO / Z ] ▶"
+label_settings = SubResource("LabelSettings_prompt")
+horizontal_alignment = 2
