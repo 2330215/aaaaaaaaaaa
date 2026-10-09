@@ -1,5 +1,5 @@
 9cad1ddce9e5a63143ba340c9520626b
-::res://::1791558619
+::res://::1791565511
 default_bus_layout.tres::AudioBusLayout::6419567431398995635::1791558523::0::1::::<><><>0<>0<><>::
 export_presets.cfg::TextFile::-1::1791558523::0::1::::<><><>0<>0<><>::
 game.gd::GDScript::1948710170256859825::1791558523::0::1::::Game<>Node<><>0<>0<><>::
@@ -11,12 +11,12 @@ music.gd::GDScript::7163267612775333003::1791558523::0::1::::<>AudioStreamPlayer
 music.ogg::AudioStreamOggVorbis::8264891743947441087::1791558523::1791558556::1::::<><><>0<>0<>153cde292598393a442353254ef23f3e<>res://.godot/imported/music.ogg-3bd46d3a4b41702b152014078d12a390.oggvorbisstr::
 music.tscn::PackedScene::8208426152851302441::1791558523::0::1::::<><><>0<>0<><>::uid://dp0tta14mu7ux::::res://music.ogg
 touch_controls.tscn::PackedScene::7709641029593439660::1791558523::0::1::::<><><>0<>0<><>::uid://bwexvk7mhejjn::::res://gui/touch_button_left.png<>uid://82mnw4u87u87::::res://gui/touch_button_right.png<>uid://tgw4f8fu0btj::::res://gui/touch_button_fire.webp<>uid://bx5lprqgmkf1n::::res://gui/touch_button_jump.png<>uid://c5a1krlnxww5n::::res://player/touch_button.gd
-::res://enemy/::1791560584
+::res://enemy/::1791560698
 dialogue_enemy.gd::GDScript::3502857563602341423::1791558523::0::1::::DialogueEnemy<>CharacterBody2D<><>0<>0<><>::
 dialogue_enemy.tscn::PackedScene::7574849981797497472::1791560511::0::1::::<><><>0<>0<><>::uid://bp52s1pssxli2::::res://enemy/dialogue_enemy.gd<>uid://dnymheytu4k1b::::res://enemy/jaguar_frente_64x64.png
 enemy.gd::GDScript::1200716422520217220::1791558523::0::1::::Enemy<>CharacterBody2D<><>0<>0<><>::
 enemy.png::CompressedTexture2D::4737565341188110490::1791300081::1791560590::1::::<><><>0<>0<>efb90bc71f1317835a5144f793b229d9<>res://.godot/imported/enemy.png-1891d9038eeed672a2459bc4e7db5910.ctex::
-enemy.tscn::PackedScene::1904667324348085::1791558523::0::1::::<><><>0<>0<><>::uid://coj0d33vyyqx1::::res://player/bullet.webp<>uid://duwm7i44o75o2::::res://enemy/explode.wav<>uid://dm7wsawmylc7b::::res://enemy/hit.wav<>uid://bjjywmvba0sve::::res://enemy/enemy.webp<>res://enemy/enemy.gd
+enemy.tscn::PackedScene::1904667324348085::1791560698::0::1::::<><><>0<>0<><>::uid://coj0d33vyyqx1::::res://player/bullet.webp<>uid://duwm7i44o75o2::::res://enemy/explode.wav<>uid://b8q6akn3ijy6u::::res://enemy/enemy.png<>uid://dm7wsawmylc7b::::res://enemy/hit.wav<>uid://rdvvhn0hgd8w::::res://enemy/enemy.gd
 enemy.webp::CompressedTexture2D::3038196834281767358::1791558523::1791558557::1::::<><><>0<>0<>6d26a7c768e1a20e3af3d75663edcb6c<>res://.godot/imported/enemy.webp-c5e00d5c5f64233c41f70dc392999636.ctex::
 explode.wav::AudioStreamWAV::8609241450071178287::1791558523::1791558558::1::::<><><>0<>0<>a276a4a114432230c85c765782cf8f81<>res://.godot/imported/explode.wav-2389d0cf62710ef336bf397194eae82e.sample::
 hit.wav::AudioStreamWAV::8068956215560184993::1791558523::1791558558::1::::<><><>0<>0<>61ac44a4612e6d60f6a9f6d626e830fb<>res://.godot/imported/hit.wav-02ea2b331eef4f150ed1e5cb9477122b.sample::
