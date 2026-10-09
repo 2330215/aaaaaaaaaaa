@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://cw6nldo3rjyyq"]
+
+[ext_resource type="Texture2D" uid="uid://cvknem5bj24sc" path="res://level/background/distant_platforms_2.webp" id="1"]
+[ext_resource type="Texture2D" uid="uid://sk8j7o4wr2ar" path="res://level/background/Sky.webp" id="2"]
+[ext_resource type="Script" path="res://level/background/parallax_background.gd" id="4_script"]
+[ext_resource type="Texture2D" uid="uid://eeitd2vus25o" path="res://level/background/distant_platforms_1.webp" id="6"]
+
+[node name="ParallaxBackground" type="ParallaxBackground" unique_id=91308733]
+scroll_base_scale = Vector2(0.1, 0)
+script = ExtResource("4_script")
+
+[node name="Sky" type="ParallaxLayer" parent="." unique_id=1690213654]
+motion_scale = Vector2(0.2, 1)
+motion_mirroring = Vector2(1024, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Sky" unique_id=498925165]
+position = Vector2(-1024, -100)
+texture = ExtResource("2")
+centered = false
+
+[node name="Sprite2" type="Sprite2D" parent="Sky" unique_id=812567949]
+position = Vector2(0, -100)
+texture = ExtResource("2")
+centered = false
+
+[node name="Sprite3" type="Sprite2D" parent="Sky" unique_id=2126795542]
+position = Vector2(1024, -100)
+texture = ExtResource("2")
+centered = false
+
+[node name="Mountains2" type="ParallaxLayer" parent="." unique_id=2064741430]
+position = Vector2(0, 243)
+motion_scale = Vector2(0.2, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="Mountains2" unique_id=1564716072]
+position = Vector2(567, 301.2)
+texture = ExtResource("1")
+region_enabled = true
+region_rect = Rect2(0, 0, 2048, 251.104)
+
+[node name="Mountains1" type="ParallaxLayer" parent="." unique_id=755208363]
+position = Vector2(0, 246)
+motion_scale = Vector2(0.4, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="Mountains1" unique_id=622594036]
+position = Vector2(437, 278.2)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("6")
+region_enabled = true
+region_rect = Rect2(0, 0, 2048, 251.104)
