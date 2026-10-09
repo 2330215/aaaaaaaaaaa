@@ -1,0 +1,97 @@
+[gd_scene format=3 uid="uid://b8y4570xnm321"]
+
+[ext_resource type="Texture2D" uid="uid://cj2absxg54f75" path="res://level/coin.webp" id="1"]
+[ext_resource type="AudioStream" uid="uid://w4j7xs5uhoer" path="res://player/coin_pickup.wav" id="2"]
+[ext_resource type="Script" path="res://level/special_coin.gd" id="3"]
+
+[sub_resource type="Animation" id="Animation_4kkvr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:monitoring")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="2"]
+resource_name = "spinning"
+loop_mode = 1
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16675, 0.3335, 0.50025, 0.667, 0.83375, 1.0005),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 2, 1, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 2,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i7oeb"]
+_data = {
+"RESET": SubResource("Animation_4kkvr"),
+"spinning": SubResource("2")
+}
+
+[sub_resource type="CircleShape2D" id="3"]
+radius = 20.0
+
+[node name="SpecialCoin" type="Area2D"]
+collision_layer = 0
+monitorable = false
+script = ExtResource("3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(0.2, 0.8, 1, 1)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("1")
+hframes = 8
+vframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_i7oeb")
+}
+autoplay = "spinning"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("3")
+
+[node name="Pickup" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 120
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://bf3wnwihk7ymg"]
+
+[ext_resource type="Script" uid="uid://2078bnnk7lw0" path="res://game.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://ctgumjaytuoch" path="res://level/level.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://vh7pmputa7r3" path="res://player/player.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://dh3uwqsjr7t6s" path="res://touch_controls.tscn" id="4_2olji"]
+[ext_resource type="PackedScene" uid="uid://c7ai4bigaryci" path="res://gui/pause_menu_singleplayer.tscn" id="4_x6l06"]
+
+[node name="Game" type="Node" unique_id=371941293]
+process_mode = 3
+script = ExtResource("2")
+
+[node name="Level" parent="." unique_id=1522939191 instance=ExtResource("3")]
+
+[node name="Player" parent="Level" unique_id=660538548 instance=ExtResource("4")]
+position = Vector2(128, 448)
+
+[node name="TouchControls" parent="Level" unique_id=1351327736 instance=ExtResource("4_2olji")]
+
+[node name="InterfaceLayer" type="CanvasLayer" parent="." unique_id=1527951188]
+layer = 100
+
+[node name="PauseMenu" parent="InterfaceLayer" unique_id=1458796010 instance=ExtResource("4_x6l06")]
+
+[connection signal="coin_collected" from="Level/Player" to="InterfaceLayer/PauseMenu" method="_on_coin_collected"]
