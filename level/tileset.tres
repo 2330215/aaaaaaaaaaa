@@ -1,6 +1,7 @@
 [gd_resource type="TileSet" format=3 uid="uid://08mkofgbxx70"]
 
 [ext_resource type="Texture2D" uid="uid://d0ops71sk562g" path="res://level/tiles.webp" id="1"]
+[ext_resource type="Texture2D" uid="uid://bhnxfccpkxox6" path="res://level/desierto3.png" id="2_g6068"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_86n7h"]
 texture = ExtResource("1")
@@ -430,6 +431,56 @@ texture_region_size = Vector2i(64, 64)
 0:0/7/transpose = true
 0:0/7/physics_layer_0/polygon_0/points = PackedVector2Array(32, 22, -32, 22, -32, -32, 32, -32)
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2o3vj"]
+texture = ExtResource("2_g6068")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+8:1/0 = 0
+9:1/0 = 0
+10:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+8:2/0 = 0
+9:2/0 = 0
+10:2/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:3/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+8:4/0 = 0
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vhpsr"]
 texture = ExtResource("1")
 margins = Vector2i(128, 0)
@@ -691,3 +742,4 @@ sources/16 = SubResource("TileSetAtlasSource_yr11e")
 sources/17 = SubResource("TileSetAtlasSource_74kwm")
 sources/18 = SubResource("TileSetAtlasSource_jxo3y")
 sources/19 = SubResource("TileSetAtlasSource_70rax")
+sources/21 = SubResource("TileSetAtlasSource_2o3vj")
