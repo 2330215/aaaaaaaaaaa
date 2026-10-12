@@ -1,0 +1,5 @@
+res://level/level.tscn
+res://level/tileset.tres
+res://gui/theme.tres
+res://gui/touch_controls.gd
+res://player/player.gd

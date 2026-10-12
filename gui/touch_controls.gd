@@ -3,6 +3,9 @@ extends CanvasLayer
 @onready var special_button := $TextureButtonAttack2 as TextureButton
 @onready var charge_bar := $ChargeBar as ProgressBar
 @onready var label := $ChargeBar/Label as Label
+@onready var skin_button := $SkinButton as Button
+
+var _player: Node = null
 
 
 func _ready() -> void:
@@ -16,6 +19,10 @@ func _ready() -> void:
 		charge_bar.max_value = 5
 		charge_bar.value = 0
 
+	if skin_button:
+		skin_button.pressed.connect(_on_skin_button_pressed)
+		_update_skin_button_text("Robot")
+
 	call_deferred("_connect_to_player")
 
 
@@ -27,13 +34,28 @@ func _connect_to_player() -> void:
 	if not player:
 		player = parent.find_child("Player1", true, false)
 	if player:
+		_player = player
 		if player.has_signal("special_charge_changed"):
 			player.special_charge_changed.connect(_on_special_charge_changed)
 		if player.has_signal("special_attack_ready"):
 			player.special_attack_ready.connect(set_special_ready)
+		if player.has_signal("skin_changed"):
+			player.skin_changed.connect(_update_skin_button_text)
+		if player.has_method("get_skin_name"):
+			_update_skin_button_text(player.get_skin_name())
 		if "special_charge" in player and "MAX_SPECIAL_CHARGE" in player:
 			_on_special_charge_changed(player.special_charge, player.MAX_SPECIAL_CHARGE)
 			set_special_ready(player.special_charge >= player.MAX_SPECIAL_CHARGE)
+
+
+func _on_skin_button_pressed() -> void:
+	if _player and _player.has_method("toggle_skin"):
+		_player.toggle_skin()
+
+
+func _update_skin_button_text(skin_name: String) -> void:
+	if skin_button:
+		skin_button.text = "Personaje: " + skin_name
 
 
 func _on_special_charge_changed(current: int, max_charge: int) -> void:
