@@ -4,6 +4,13 @@ class_name Player extends CharacterBody2D
 signal coin_collected()
 signal special_charge_changed(current: int, max_charge: int)
 signal special_attack_ready(is_ready: bool)
+signal skin_changed(skin_name: String)
+
+const TEXTURE_ROBOT = preload("res://player/robot.png")
+const TEXTURE_AGUACATE = preload("res://player/aguacate.png")
+
+enum CharacterSkin { ROBOT, AGUACATE }
+var current_skin: CharacterSkin = CharacterSkin.ROBOT
 
 const MAX_SPECIAL_CHARGE = 5
 const WALK_SPEED = 300.0
@@ -111,3 +118,37 @@ func try_jump() -> void:
 		return
 	velocity.y = JUMP_VELOCITY
 	jump_sound.play()
+
+
+func toggle_skin() -> void:
+	if current_skin == CharacterSkin.ROBOT:
+		set_skin(CharacterSkin.AGUACATE)
+	else:
+		set_skin(CharacterSkin.ROBOT)
+
+
+func set_skin(new_skin: CharacterSkin) -> void:
+	current_skin = new_skin
+	if sprite:
+		match current_skin:
+			CharacterSkin.ROBOT:
+				sprite.texture = TEXTURE_ROBOT
+			CharacterSkin.AGUACATE:
+				sprite.texture = TEXTURE_AGUACATE
+	skin_changed.emit(get_skin_name())
+
+
+func get_skin_name() -> String:
+	match current_skin:
+		CharacterSkin.ROBOT:
+			return "Robot"
+		CharacterSkin.AGUACATE:
+			return "Aguacate"
+		_:
+			return "Robot"
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_V:
+			toggle_skin()
