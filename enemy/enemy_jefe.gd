@@ -9,8 +9,8 @@ class_name EnemyJefe extends Enemy
 @export var jump_interval_max: float = 2.2
 
 ## Disparo de proyectiles
-@export var shoot_interval_min: float = 0.8
-@export var shoot_interval_max: float = 1.6
+@export var shoot_interval_min: float = 2
+@export var shoot_interval_max: float = 2
 
 const SEEKER_SCENE := preload("res://enemy/jefe_seeker.tscn")
 

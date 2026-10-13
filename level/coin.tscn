@@ -1,8 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://c3dh7xb6ef76q"]
+[gd_scene format=3 uid="uid://c3dh7xb6ef76q"]
 
 [ext_resource type="Texture2D" uid="uid://cj2absxg54f75" path="res://level/coin.webp" id="1"]
 [ext_resource type="AudioStream" uid="uid://w4j7xs5uhoer" path="res://player/coin_pickup.wav" id="3"]
-[ext_resource type="Script" path="res://level/coin.gd" id="4"]
+[ext_resource type="Script" uid="uid://casp2jg3xrf58" path="res://level/coin.gd" id="4"]
 
 [sub_resource type="Animation" id="Animation_4kkvr"]
 length = 0.001
@@ -104,6 +104,7 @@ tracks/5/use_blend = true
 [sub_resource type="Animation" id="2"]
 loop_mode = 1
 step = 0.25
+capture_included = true
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -155,34 +156,34 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_i7oeb"]
 _data = {
-"RESET": SubResource("Animation_4kkvr"),
-"picked": SubResource("1"),
-"spinning": SubResource("2")
+&"RESET": SubResource("Animation_4kkvr"),
+&"picked": SubResource("1"),
+&"spinning": SubResource("2")
 }
 
-[sub_resource type="CircleShape2D" id="3"]
-radius = 6.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7jqyl"]
+size = Vector2(32, 38)
 
-[node name="Coin" type="Area2D"]
+[node name="Coin" type="Area2D" unique_id=2049719167]
 collision_layer = 0
 monitorable = false
 script = ExtResource("4")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.35, 0.35)
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1780857480]
+position = Vector2(-5, -6)
+scale = Vector2(0.17712176, 0.14640883)
 texture = ExtResource("1")
 hframes = 8
 vframes = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_i7oeb")
-}
-autoplay = "spinning"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=279970773]
+libraries/ = SubResource("AnimationLibrary_i7oeb")
+autoplay = &"spinning"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("3")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=303250058]
+position = Vector2(-1, -1)
+shape = SubResource("RectangleShape2D_7jqyl")
 
-[node name="Pickup" type="AudioStreamPlayer2D" parent="."]
+[node name="Pickup" type="AudioStreamPlayer2D" parent="." unique_id=641997113]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
