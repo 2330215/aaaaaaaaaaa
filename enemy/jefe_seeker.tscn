@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bnlnuojvfy1ii"]
+
+[ext_resource type="Texture2D" uid="uid://coj0d33vyyqx1" path="res://player/bullet.webp" id="1_tex"]
+[ext_resource type="Script" path="res://enemy/jefe_seeker.gd" id="2_script"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_seeker"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_tex")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_seeker"]
+radius = 10.0
+
+[node name="JefeSeeker" type="Area2D"]
+collision_layer = 16
+collision_mask = 1
+script = ExtResource("2_script")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_seeker")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_seeker")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

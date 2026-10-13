@@ -1,5 +1,6 @@
-res://level/level.tscn
-res://level/tileset.tres
-res://gui/theme.tres
-res://gui/touch_controls.gd
+res://enemy/enemy_jefe.gd
+res://enemy/jefe_seeker.tscn
+res://enemy/jefe_seeker.gd
 res://player/player.gd
+res://player/bullet.gd
+res://level/pit_hazard.gd
