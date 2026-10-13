@@ -10,6 +10,9 @@ var _triggered := false
 
 
 func _ready() -> void:
+	add_to_group("pit_hazard")
+	# Seguir corriendo aunque el árbol esté pausado
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	if fade_rect:
 		fade_rect.color = Color(0, 0, 0, 0)
 		fade_rect.visible = false
@@ -18,13 +21,20 @@ func _ready() -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if _triggered:
-		return
 	if not (body is Player):
+		return
+	trigger(body)
+
+
+func trigger(body: Node2D) -> void:
+	if _triggered:
 		return
 	_triggered = true
 
-	# 1. Detach camera so it stays fixed at top of pit while player falls into the abyss
+	# Pausar TODO el juego inmediatamente
+	get_tree().paused = true
+
+	# 1. Detach camera so it stays fixed while screen shows PERDISTE
 	var camera: Camera2D = body.get_node_or_null("Camera")
 	if camera:
 		camera.top_level = true
@@ -42,22 +52,17 @@ func _on_body_entered(body: Node2D) -> void:
 		tween_ui.tween_property(game_over_panel, "modulate:a", 1.0, 0.4)
 		await tween_ui.finished
 
-	# 4. Display "PERDISTE" screen for 1.8 seconds while player falls down
-	await get_tree().create_timer(1.8).timeout
+	# 4. Esperar con timer que corre aunque el árbol esté pausado
+	await get_tree().create_timer(1.8, true).timeout
 
-	# 5. Stop player physics movement before teleport
-	if body is CharacterBody2D:
-		body.velocity = Vector2.ZERO
-		body.set_physics_process(false)
-
-	# 6. Fade screen to black over 1 second
+	# 5. Fade screen to black
 	if fade_rect:
 		fade_rect.visible = true
 		var tween_fade := create_tween()
 		tween_fade.tween_property(fade_rect, "color:a", 1.0, 1.0)
 		await tween_fade.finished
 
-	# 7. Restore Sky background and align to Stage 1 while screen is 100% black
+	# 6. Restore background y reset position mientras la pantalla está negra
 	var current_scene = get_tree().current_scene
 	if current_scene:
 		var bg = current_scene.find_child("ParallaxBackground", true, false)
@@ -67,11 +72,11 @@ func _on_body_entered(body: Node2D) -> void:
 			if bg.has_method("align_to_stage"):
 				bg.align_to_stage(0)
 
-	# Hide "PERDISTE" UI panel while screen is black
+	# Ocultar panel mientras pantalla es negra
 	if game_over_panel:
 		game_over_panel.visible = false
 
-	# 8. Reset player position & re-attach camera to player
+	# 7. Resetear posición del jugador y re-enganchar cámara
 	body.global_position = respawn_position
 	if camera:
 		camera.top_level = false
@@ -88,13 +93,12 @@ func _on_body_entered(body: Node2D) -> void:
 
 	await get_tree().process_frame
 
-	# 9. Resume music and player physics
+	# 8. Despausar el juego y reanudar música ANTES del fade-in
+	get_tree().paused = false
 	if music_node:
 		music_node.stream_paused = false
-	if body is CharacterBody2D:
-		body.set_physics_process(true)
 
-	# 10. Fade back in from black over 1 second
+	# 9. Fade de regreso desde negro
 	if fade_rect:
 		var tween_in := create_tween()
 		tween_in.tween_property(fade_rect, "color:a", 0.0, 1.0)

@@ -37,6 +37,7 @@ var _double_jump_charged := false
 
 
 func _ready() -> void:
+	add_to_group("player")
 	coin_collected.connect(_on_coin_collected_internal)
 
 
@@ -70,6 +71,12 @@ func _physics_process(delta: float) -> void:
 
 	floor_stop_on_slope = not platform_detector.is_colliding()
 	move_and_slide()
+
+	# Morir al tocar cualquier enemigo
+	for i in get_slide_collision_count():
+		if get_slide_collision(i).get_collider() is Enemy:
+			die()
+			return
 
 	var is_shooting := false
 	if Input.is_action_just_pressed("special_attack" + action_suffix) or Input.is_action_just_pressed("special_attack"):
@@ -105,6 +112,14 @@ func get_new_animation(is_shooting := false) -> String:
 	if is_shooting:
 		animation_new += "_weapon"
 	return animation_new
+
+
+func die() -> void:
+	var pits := get_tree().get_nodes_in_group("pit_hazard")
+	if pits.size() > 0:
+		(pits[0] as PitHazard).trigger(self)
+	else:
+		get_tree().reload_current_scene()
 
 
 func try_jump() -> void:

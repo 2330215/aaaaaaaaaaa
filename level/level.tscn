@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://c6v2n8m7x1402" path="res://level/pit_hazard.tscn" id="6_ivpvi"]
 [ext_resource type="PackedScene" uid="uid://6mtip3ruyn" path="res://enemy/enemy.tscn" id="9_6gtgk"]
 [ext_resource type="PackedScene" uid="uid://df6kw4n78yq21" path="res://enemy/dialogue_enemy.tscn" id="9_cw150"]
+[ext_resource type="PackedScene" uid="uid://d3enemyjefe1x" path="res://enemy/enemy_jefe.tscn" id="10_jefe"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw150"]
 texture = ExtResource("2_0v1st")
@@ -779,3 +780,6 @@ dialogue_lines = ["Has llegado a las profundidades oscuras de la cueva...", "La 
 
 [node name="Enemy" parent="." unique_id=91234316 instance=ExtResource("9_6gtgk")]
 position = Vector2(562, 433)
+
+[node name="EnemyJefe" parent="." instance=ExtResource("10_jefe")]
+position = Vector2(680, 433)
