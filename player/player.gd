@@ -13,11 +13,15 @@ enum CharacterSkin { ROBOT, AGUACATE }
 var current_skin: CharacterSkin = CharacterSkin.ROBOT
 
 const MAX_SPECIAL_CHARGE = 5
-const WALK_SPEED = 300.0
-const ACCELERATION_SPEED = WALK_SPEED * 6.0
-const JUMP_VELOCITY = -725.0
+## Valores base de movimiento
+const BASE_WALK_SPEED: float = 300.0
+const BASE_JUMP_VELOCITY: float = -725.0
 ## Maximum speed at which the player can fall.
 const TERMINAL_VELOCITY = 700
+
+## Multiplicadores de trucos (modificados desde el menú de trucos)
+var speed_mult: float = 1.0
+var jump_mult: float = 1.0
 
 ## The player listens for input actions appended with this suffix.[br]
 ## Used to separate controls for multiple players in splitscreen.
@@ -60,8 +64,9 @@ func _physics_process(delta: float) -> void:
 	# Fall.
 	velocity.y = minf(TERMINAL_VELOCITY, velocity.y + gravity * delta)
 
-	var direction := Input.get_axis("move_left" + action_suffix, "move_right" + action_suffix) * WALK_SPEED
-	velocity.x = move_toward(velocity.x, direction, ACCELERATION_SPEED * delta)
+	var walk_speed := BASE_WALK_SPEED * speed_mult
+	var direction := Input.get_axis("move_left" + action_suffix, "move_right" + action_suffix) * walk_speed
+	velocity.x = move_toward(velocity.x, direction, walk_speed * 6.0 * delta)
 
 	if not is_zero_approx(velocity.x):
 		if velocity.x > 0.0:
@@ -131,7 +136,7 @@ func try_jump() -> void:
 		jump_sound.pitch_scale = 1.5
 	else:
 		return
-	velocity.y = JUMP_VELOCITY
+	velocity.y = BASE_JUMP_VELOCITY * jump_mult
 	jump_sound.play()
 
 

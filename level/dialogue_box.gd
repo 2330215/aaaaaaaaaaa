@@ -17,6 +17,8 @@ var _type_tween: Tween
 
 
 func _ready() -> void:
+	# Seguir procesando input aunque el juego esté pausado
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	if panel:
 		panel.visible = false
 

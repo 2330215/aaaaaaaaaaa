@@ -1,5 +1,6 @@
 class_name SpecialCoin extends Area2D
-## Special coin that fades screen to black over 1s, pauses 1s, and teleports player.
+## Special coin / portal que teletransporta al jugador a otro escenario.
+## Es una PUERTA PERMANENTE: nunca desaparece, siempre es reutilizable.
 
 @export var target_position: Vector2 = Vector2.ZERO
 @export var target_stage_index: int = 0
@@ -55,7 +56,7 @@ func _on_body_entered(body: Node2D) -> void:
 
 	# 4. Teleport player while screen is black
 	body.global_position = target_position
-	
+
 	if body.get_parent():
 		for sibling in body.get_parent().get_children():
 			if sibling is Player and sibling != body:
@@ -70,4 +71,7 @@ func _on_body_entered(body: Node2D) -> void:
 		await tween_in.finished
 		fade_rect.visible = false
 
-	queue_free()
+	# 6. Rearmar la puerta: vuelve a activar la detección de cuerpos
+	#    La puerta NUNCA desaparece, siempre puede usarse de nuevo.
+	set_deferred("monitoring", true)
+	_triggered = false

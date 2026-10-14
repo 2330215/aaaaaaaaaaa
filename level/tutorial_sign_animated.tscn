@@ -1,0 +1,47 @@
+[gd_scene format=4 uid="uid://tutorial_sign_static"]
+
+[ext_resource type="Script" uid="uid://tutorial_sign_gd" path="res://level/tutorial_sign.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://gpx2rj50u0tf" path="res://gui/static_sheet.png" id="2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTex_0"]
+atlas = ExtResource("2")
+region = Rect2(0, 0, 498, 371)
+
+[sub_resource type="AtlasTexture" id="AtlasTex_1"]
+atlas = ExtResource("2")
+region = Rect2(498, 0, 498, 371)
+
+[sub_resource type="AtlasTexture" id="AtlasTex_2"]
+atlas = ExtResource("2")
+region = Rect2(996, 0, 498, 371)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_static"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTex_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTex_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTex_2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="TutorialSign" type="Node2D"]
+script = ExtResource("1")
+sign_text = "Las monedas especiales son portales.\nTocalas para ir al siguiente escenario."
+sign_width = 380.0
+sign_height = 270.0
+font_size = 15
+anim_area_height = 110.0
+
+[node name="Anim" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.22, 0.22)
+sprite_frames = SubResource("SpriteFrames_static")
+animation = &"default"
+autoplay = "default"

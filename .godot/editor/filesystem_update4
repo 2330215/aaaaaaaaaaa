@@ -1,0 +1,12 @@
+res://level/level.tscn
+res://level/tileset.tres
+res://gui/theme.tres
+res://enemy/enemy_jefe.gd
+res://level/special_coin.gd
+res://gui/touch_controls.gd
+res://level/background/parallax_background.tscn
+res://enemy/enemy_jefe.tscn
+res://player/player.gd
+res://level/tutorial_sign.gd
+res://enemy/dialogue_enemy.gd
+res://enemy/dialogue_enemy.tscn
