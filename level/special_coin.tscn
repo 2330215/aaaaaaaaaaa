@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cj2absxg54f75" path="res://level/coin.webp" id="1"]
 [ext_resource type="AudioStream" uid="uid://w4j7xs5uhoer" path="res://player/coin_pickup.wav" id="2"]
-[ext_resource type="Script" path="res://level/special_coin.gd" id="3"]
+[ext_resource type="Script" uid="uid://cqxvygqbw5gb3" path="res://level/special_coin.gd" id="3"]
 
 [sub_resource type="Animation" id="Animation_4kkvr"]
 length = 0.001
@@ -23,6 +23,7 @@ tracks/0/keys = {
 resource_name = "spinning"
 loop_mode = 1
 step = 0.25
+capture_included = true
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -50,41 +51,39 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_i7oeb"]
 _data = {
-"RESET": SubResource("Animation_4kkvr"),
-"spinning": SubResource("2")
+&"RESET": SubResource("Animation_4kkvr"),
+&"spinning": SubResource("2")
 }
 
 [sub_resource type="CircleShape2D" id="3"]
 radius = 12.0
 
-[node name="SpecialCoin" type="Area2D"]
+[node name="SpecialCoin" type="Area2D" unique_id=1913898328]
 collision_layer = 0
 monitorable = false
 script = ExtResource("3")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1712170089]
 self_modulate = Color(0.2, 0.8, 1, 1)
 scale = Vector2(0.6, 0.6)
 texture = ExtResource("1")
 hframes = 8
 vframes = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_i7oeb")
-}
-autoplay = "spinning"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1037231983]
+libraries/ = SubResource("AnimationLibrary_i7oeb")
+autoplay = &"spinning"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1781705336]
 shape = SubResource("3")
 
-[node name="Pickup" type="AudioStreamPlayer2D" parent="."]
+[node name="Pickup" type="AudioStreamPlayer2D" parent="." unique_id=2028274714]
 stream = ExtResource("2")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1366983755]
 layer = 120
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer" unique_id=268129599]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
