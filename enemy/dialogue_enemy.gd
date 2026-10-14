@@ -38,6 +38,8 @@ func _on_body_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -
 		and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT \
 		and (event as InputEventMouseButton).pressed
 	if is_tap or is_click:
+		if _player_in_range == null:
+			return
 		_open_dialogue()
 
 

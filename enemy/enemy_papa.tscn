@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b6mi6l3tkae6h"]
 
 [ext_resource type="Script" uid="uid://btmm3bq7d2ge1" path="res://enemy/enemy_papa.gd" id="1_dfoyh"]
-[ext_resource type="Texture2D" uid="uid://d28b334tca4sa" path="res://enemy/papas.png" id="2_dfoyh"]
+[ext_resource type="Texture2D" uid="uid://deovbng166f6j" path="res://enemy/papa_completo.png" id="2_dfoyh"]
 [ext_resource type="Texture2D" uid="uid://coj0d33vyyqx1" path="res://player/bullet.webp" id="3_opqih"]
 [ext_resource type="AudioStream" uid="uid://dm7wsawmylc7b" path="res://enemy/hit.wav" id="4_1tfpt"]
 [ext_resource type="AudioStream" uid="uid://duwm7i44o75o2" path="res://enemy/explode.wav" id="5_835tt"]
@@ -69,6 +69,36 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [7]
+}
+
+[sub_resource type="Animation" id="Animation_5dlo2"]
+resource_name = "ataque"
+length = 0.46666667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.099999994, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [7, 8, 9, 10, 11]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.46666667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"lanzar_papa"
+}]
 }
 
 [sub_resource type="Animation" id="2"]
@@ -241,6 +271,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id="4"]
+length = 0.76666665
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -249,15 +280,16 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.06666667, 0.13333333, 0.16666667, 0.23333333, 0.312375, 0.37485, 0.46666667, 0.4998, 0.562275, 0.6, 0.62475, 0.7497, 0.812175, 0.87465, 0.937125),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.099999994, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 11, 3, 4, 5, 6, 7, 8, 9, 2, 10, 12, 13, 14, 15]
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0kjfc"]
 _data = {
 &"RESET": SubResource("8"),
+&"ataque": SubResource("Animation_5dlo2"),
 &"destroy": SubResource("2"),
 &"idle": SubResource("3"),
 &"rebote": SubResource("Animation_pmsee"),
@@ -265,7 +297,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cw150"]
-size = Vector2(26.857141, 22.28571)
+size = Vector2(21.714272, 20.57143)
 
 [sub_resource type="CanvasItemMaterial" id="6"]
 blend_mode = 1
@@ -291,18 +323,25 @@ collision_mask = 24
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=113791239]
 material = SubResource("1")
-position = Vector2(4.000002, -7.6293945e-06)
-scale = Vector2(0.8, 0.8)
+position = Vector2(26.000004, 8.000001)
+scale = Vector2(0.23730174, 0.23730174)
 texture = ExtResource("2_dfoyh")
 flip_h = true
 hframes = 7
-vframes = 8
+vframes = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1500713053]
 libraries/ = SubResource("AnimationLibrary_0kjfc")
 
+[node name="LanzamientoPapa" type="Marker2D" parent="." unique_id=1427923324]
+position = Vector2(26, 10.000001)
+rotation = -1.5708
+scale = Vector2(3.5, 3.5)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1031691809]
-position = Vector2(17.000002, 9.999998)
+light_mask = 3
+visibility_layer = 3
+position = Vector2(26, 10.000001)
 rotation = -1.5708
 scale = Vector2(3.5, 3.5)
 shape = SubResource("RectangleShape2D_cw150")

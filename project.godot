@@ -31,7 +31,6 @@ config/icon="res://icon.webp"
 
 Music="*res://music.tscn"
 
-
 [display]
 
 window/size/viewport_width=800
