@@ -1,0 +1,10 @@
+[gd_scene format=4 uid="uid://tutorial_sign_01"]
+
+[ext_resource type="Script" uid="uid://tutorial_sign_gd" path="res://level/tutorial_sign.gd" id="1"]
+
+[node name="TutorialSign" type="Node2D"]
+script = ExtResource("1")
+sign_text = "Texto del cartel"
+sign_width = 320.0
+sign_height = 120.0
+font_size = 14

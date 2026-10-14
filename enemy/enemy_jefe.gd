@@ -1,6 +1,7 @@
 class_name EnemyJefe extends Enemy
 
 ## Enemigo Jefe que persigue al jugador, salta constantemente y lanza proyectiles buscadores.
+## Solo se activa cuando el jugador llega al escenario 4 (Y > 4800).
 
 @export var move_speed: float = 150.0
 @export var min_distance: float = 120.0  # distancia mínima al jugador
@@ -9,10 +10,15 @@ class_name EnemyJefe extends Enemy
 @export var jump_interval_max: float = 2.2
 
 ## Disparo de proyectiles
-@export var shoot_interval_min: float = 0.8
-@export var shoot_interval_max: float = 1.6
+@export var shoot_interval_min: float = 2
+@export var shoot_interval_max: float = 2
+
+## Umbral Y (en coordenadas globales) a partir del cual el jefe se activa.
+## El jugador debe estar más abajo que este valor para que el jefe aparezca.
+@export var activation_y_threshold: float = 4800.0
 
 const SEEKER_SCENE := preload("res://enemy/jefe_seeker.tscn")
+const JAGUAR_TEX   := preload("res://enemy/jaguar_frente_64x64.png")
 
 var _jump_timer: float = 1.5
 var _shoot_timer: float = 2.5
@@ -22,12 +28,19 @@ var _was_ascending := false
 
 var _health: int = 2
 var _is_hurt: bool = false  # invencibilidad temporal entre golpes
+var _activated: bool = false  # true cuando el jefe ha sido activado
 
 
 func _ready() -> void:
 	_reset_jump_timer()
 	_reset_shoot_timer()
 	_player = _find_player()
+	# Comenzar invisible e inactivo hasta que el jugador llegue al escenario
+	sprite.modulate.a = 0.0
+	set_process(true)         # _process vigila cuándo activar al jefe
+	set_physics_process(false)
+	collision_layer = 0
+	collision_mask = 0
 
 
 func _find_player() -> Node2D:
@@ -43,6 +56,50 @@ func _reset_jump_timer() -> void:
 
 func _reset_shoot_timer() -> void:
 	_shoot_timer = randf_range(shoot_interval_min, shoot_interval_max)
+
+
+func _process(_delta: float) -> void:
+	# Verificar si el jugador ya entró al escenario del jefe
+	if _activated:
+		return
+	if not is_instance_valid(_player):
+		_player = _find_player()
+		return
+	if _player.global_position.y >= activation_y_threshold:
+		_activate()
+
+
+func _activate() -> void:
+	_activated = true
+	set_process(false)        # ya no necesitamos vigilar la posición del jugador
+	set_physics_process(true)
+	# Restaurar capas de colisión (valores originales del .tscn)
+	collision_layer = 2
+	collision_mask = 24
+	# Fade-in del jefe; al terminar mostrar el diálogo introductorio
+	var tween := create_tween()
+	tween.tween_property(sprite, "modulate:a", 1.0, 0.6)
+	tween.tween_callback(_show_boss_dialogue)
+
+
+func _show_boss_dialogue() -> void:
+	var scene = load("res://level/dialogue_box.tscn")
+	if not scene:
+		return
+	var dlg = scene.instantiate()
+	get_tree().current_scene.add_child(dlg)
+
+	get_tree().paused = true
+
+	if dlg.has_signal("dialogue_finished"):
+		dlg.dialogue_finished.connect(func() -> void:
+			get_tree().paused = false
+			await get_tree().process_frame
+			dlg.queue_free()
+		)
+
+	if dlg.has_method("start_dialogue"):
+		dlg.start_dialogue("JEFE FINAL", JAGUAR_TEX, ["texto de prueba"])
 
 
 func _physics_process(delta: float) -> void:
