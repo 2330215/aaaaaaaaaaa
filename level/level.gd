@@ -61,6 +61,3 @@ func _spawn_single_coin(cell: Vector2i) -> void:
 	var coin := COIN_SCENE.instantiate() as Area2D
 	coin.global_position = spawn_pos
 	add_child(coin)
-
-
-

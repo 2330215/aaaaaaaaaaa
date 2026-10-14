@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d28b334tca4sa"
-path="res://.godot/imported/papas.png-7bb2c119f9b80b1f9f38e58e74e89896.ctex"
+uid="uid://ete1vie187ep"
+path="res://.godot/imported/papa_ataque.png-0290cf8a66a6cb81a6dcd53fd791411c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://enemy/papas.png"
-dest_files=["res://.godot/imported/papas.png-7bb2c119f9b80b1f9f38e58e74e89896.ctex"]
+source_file="res://enemy/papa_ataque.png"
+dest_files=["res://.godot/imported/papa_ataque.png-0290cf8a66a6cb81a6dcd53fd791411c.ctex"]
 
 [params]
 
