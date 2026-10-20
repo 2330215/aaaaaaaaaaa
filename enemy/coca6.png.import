@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dipv1gyguac1e"
-path="res://.godot/imported/papa_movimiento.png-633e152cca4fb16c8a4cc7d9eb034e9a.ctex"
+uid="uid://qbpjengb1qn1"
+path="res://.godot/imported/coca6.png-8bded28cee0a25cb33b73675cc6ecdfa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://enemy/papa_movimiento.png"
-dest_files=["res://.godot/imported/papa_movimiento.png-633e152cca4fb16c8a4cc7d9eb034e9a.ctex"]
+source_file="res://enemy/coca6.png"
+dest_files=["res://.godot/imported/coca6.png-8bded28cee0a25cb33b73675cc6ecdfa.ctex"]
 
 [params]
 
