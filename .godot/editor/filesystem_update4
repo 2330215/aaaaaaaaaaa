@@ -1,9 +1,7 @@
-res://level/level.gd
-res://enemy/dialogue_enemy.gd
 res://enemy/enemy_papa.tscn
+res://enemy/enemy_coca.tscn
 res://level/tileset.tres
 res://gui/theme.tres
+res://enemy/enemy_coca.gd
+res://enemy/coca_projectile.tscn
 res://level/level.tscn
-res://enemy/enemy_papa.gd
-res://enemy/papa_projectile.tscn
-res://enemy/papa_projectile.gd

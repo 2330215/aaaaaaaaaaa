@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" path="res://level/tutorial_sign.tscn" id="11_sign"]
 [ext_resource type="PackedScene" path="res://level/tutorial_sign_animated.tscn" id="12_sign_anim"]
 [ext_resource type="PackedScene" uid="uid://b6mi6l3tkae6h" path="res://enemy/enemy_papa.tscn" id="15_fm1jd"]
+[ext_resource type="PackedScene" uid="uid://dfm8821ubqi5q" path="res://enemy/enemy_coca.tscn" id="16_7jqyl"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw150"]
 texture = ExtResource("2_0v1st")
@@ -1380,3 +1381,6 @@ position = Vector2(3414, 5380)
 
 [node name="Enemy2" parent="." unique_id=46466502 instance=ExtResource("15_fm1jd")]
 position = Vector2(1999, 2167)
+
+[node name="Enemy3" parent="." unique_id=277550276 instance=ExtResource("16_7jqyl")]
+position = Vector2(1818, 339)
