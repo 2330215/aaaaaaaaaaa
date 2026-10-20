@@ -27,7 +27,7 @@ var jump_mult: float = 1.0
 ## Used to separate controls for multiple players in splitscreen.
 @export var action_suffix := ""
 
-var gravity: int = ProjectSettings.get("physics/2d/default_gravity")
+var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 var special_charge := 0
 
 @onready var platform_detector := $PlatformDetector as RayCast2D
@@ -102,20 +102,20 @@ func _physics_process(delta: float) -> void:
 
 
 
-func get_new_animation(is_shooting := false) -> String:
-	var animation_new: String
+func get_new_animation(is_shooting := false) -> StringName:
+	var animation_new: StringName
 	if is_on_floor():
 		if absf(velocity.x) > 0.1:
-			animation_new = "run"
+			animation_new = &"run"
 		else:
-			animation_new = "idle"
+			animation_new = &"idle"
 	else:
 		if velocity.y > 0.0:
-			animation_new = "falling"
+			animation_new = &"falling"
 		else:
-			animation_new = "jumping"
+			animation_new = &"jumping"
 	if is_shooting:
-		animation_new += "_weapon"
+		animation_new = animation_new + &"_weapon"
 	return animation_new
 
 

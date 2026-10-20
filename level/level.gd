@@ -58,6 +58,6 @@ func _spawn_predefined_coins() -> void:
 func _spawn_single_coin(cell: Vector2i) -> void:
 	# Vector2(0, -96) places the coins higher up above the platform
 	var spawn_pos: Vector2 = tile_map_layer.map_to_local(cell) + Vector2(0, -96)
-	var coin := COIN_SCENE.instantiate() as Area2D
+	var coin := COIN_SCENE.instantiate() as Coin
 	coin.global_position = spawn_pos
 	add_child(coin)

@@ -7,13 +7,15 @@ class_name DialogueEnemy extends CharacterBody2D
 @export var dialogue_lines: Array = ["¡Hola! Bienvenid@ a este nivel."]
 @export var portrait_texture: Texture2D
 
+const DIALOGUE_BOX_SCENE := preload("res://level/dialogue_box.tscn")
+
 @onready var prompt_label: Label       = $PromptLabel
 @onready var sprite: Sprite2D          = $Sprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var interaction_area: Area2D  = $InteractionArea
 
 var _player_in_range: CharacterBody2D = null
-var _dialogue_box: Node               = null
+var _dialogue_box: DialogueBox         = null
 var _first_time: bool                 = true   # controla el auto-trigger inicial
 
 
@@ -23,8 +25,6 @@ func _ready() -> void:
 	if interaction_area:
 		interaction_area.body_entered.connect(_on_interaction_body_entered)
 		interaction_area.body_exited.connect(_on_interaction_body_exited)
-	if animation_player and animation_player.has_animation("idle"):
-		animation_player.play("idle")
 
 	# Habilitar detección de tap / click sobre el sprite del NPC
 	input_pickable = true
@@ -64,27 +64,24 @@ func _on_interaction_body_exited(body: Node2D) -> void:
 
 func _open_dialogue() -> void:
 	# No abrir si ya hay un diálogo activo
-	if _dialogue_box and _dialogue_box.get("_active") == true:
+	if _dialogue_box and _dialogue_box._active:
 		return
 
 	# Crear el DialogueBox si no existe
 	if _dialogue_box == null:
-		var scene = load("res://level/dialogue_box.tscn")
-		if scene:
-			_dialogue_box = scene.instantiate()
-			get_tree().current_scene.add_child(_dialogue_box)
+		_dialogue_box = DIALOGUE_BOX_SCENE.instantiate()
+		get_tree().current_scene.add_child(_dialogue_box)
 
-	if not (_dialogue_box and _dialogue_box.has_method("start_dialogue")):
+	if _dialogue_box == null:
 		return
 
 	# Pausar el juego
 	get_tree().paused = true
 
 	# Reconectar señal (desconectar primero para no duplicar)
-	if _dialogue_box.has_signal("dialogue_finished"):
-		if _dialogue_box.dialogue_finished.is_connected(_on_dialogue_finished):
-			_dialogue_box.dialogue_finished.disconnect(_on_dialogue_finished)
-		_dialogue_box.dialogue_finished.connect(_on_dialogue_finished)
+	if _dialogue_box.dialogue_finished.is_connected(_on_dialogue_finished):
+		_dialogue_box.dialogue_finished.disconnect(_on_dialogue_finished)
+	_dialogue_box.dialogue_finished.connect(_on_dialogue_finished)
 
 	var port_tex := portrait_texture
 	if port_tex == null and sprite:

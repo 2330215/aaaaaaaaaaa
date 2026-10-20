@@ -40,13 +40,13 @@ func _physics_process(delta: float) -> void:
 			velocity.x = signf(distancia_x) * move_speed
 			sprite.flip_h = velocity.x < 0.0
 
-			if animation_player.current_animation != &"movimiento":
-				animation_player.play("walk")
+			if animation_player.current_animation != &"walk":
+				animation_player.play(&"walk")
 		else:
 			velocity.x = 0.0
 
 			if animation_player.current_animation != &"idle":
-				animation_player.play("idle")
+				animation_player.play(&"idle")
 
 		if attack_timer <= 0.0 and obtener_jugador_cercano() != null:
 			atacar()
@@ -56,7 +56,7 @@ func _physics_process(delta: float) -> void:
 		velocity.x = 0.0
 
 		if animation_player.current_animation != &"idle":
-			animation_player.play("idle")
+			animation_player.play(&"idle")
 
 	move_and_slide()
 
@@ -88,7 +88,7 @@ func obtener_jugador_cercano() -> Player:
 
 func atacar() -> void:
 	if obtener_jugador_cercano() != null:
-		animation_player.play("ataque")
+		animation_player.play(&"ataque")
 
 
 func lanzar_papa() -> void:
@@ -116,13 +116,13 @@ func destroy() -> void:
 	velocity = Vector2.ZERO
 
 	if animation_player.has_animation(&"destroy"):
-		animation_player.play("destroy")
+		animation_player.play(&"destroy")
 	else:
 		queue_free()
 
 
 func _on_animation_finished(animation_name: StringName) -> void:
 	if animation_name == &"ataque":
-		animation_player.play("idle")
+		animation_player.play(&"idle")
 	elif animation_name == &"destroy":
 		queue_free()
