@@ -17,9 +17,8 @@ func shoot(direction: float = 1.0) -> bool:
 	var bullet := BULLET_SCENE.instantiate() as Bullet
 	bullet.global_position = global_position
 	bullet.linear_velocity = Vector2(direction * BULLET_VELOCITY, 0.0)
-
-	bullet.set_as_top_level(true)
 	add_child(bullet)
+	bullet.top_level = true
 	sound_shoot.play()
 	timer.start()
 	return true
@@ -32,8 +31,8 @@ func shoot_special(direction: float = 1.0, count: int = 5) -> bool:
 		var bullet := BULLET_SCENE.instantiate() as Bullet
 		bullet.global_position = global_position + Vector2(0, randf_range(-4, 4))
 		bullet.linear_velocity = Vector2(direction * (BULLET_VELOCITY + randf_range(-30, 50)), randf_range(-25, 25))
-		bullet.set_as_top_level(true)
 		add_child(bullet)
+		bullet.top_level = true
 		sound_shoot.play()
 		await get_tree().create_timer(0.06).timeout
 	return true

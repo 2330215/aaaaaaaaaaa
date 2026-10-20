@@ -12,10 +12,10 @@ const JUMP_VELOCITY = -500.0   # Fuerza del salto
 var _state := State.WALKING
 var facing_direction: float = 1.0
 
-@onready var gravity: int = ProjectSettings.get("physics/2d/default_gravity")
-@onready var platform_detector := $PlatformDetector as RayCast2D
-@onready var floor_detector_left := $FloorDetectorLeft as RayCast2D
-@onready var floor_detector_right := $FloorDetectorRight as RayCast2D
+var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
+@onready var platform_detector: RayCast2D = get_node_or_null(^"PlatformDetector")
+@onready var floor_detector_left: RayCast2D = get_node_or_null(^"FloorDetectorLeft")
+@onready var floor_detector_right: RayCast2D = get_node_or_null(^"FloorDetectorRight")
 @onready var sprite := $Sprite2D as Sprite2D
 @onready var animation_player := $AnimationPlayer as AnimationPlayer
 
@@ -31,10 +31,10 @@ func _physics_process(delta: float) -> void:
 			velocity.x = WALK_SPEED * facing_direction
 		else:
 			# En el aire cambia de dirección si detecta bordes o límites
-			if not floor_detector_left.is_colliding():
+			if floor_detector_left and not floor_detector_left.is_colliding():
 				facing_direction = 1.0
 				velocity.x = WALK_SPEED
-			elif not floor_detector_right.is_colliding():
+			elif floor_detector_right and not floor_detector_right.is_colliding():
 				facing_direction = -1.0
 				velocity.x = -WALK_SPEED
 

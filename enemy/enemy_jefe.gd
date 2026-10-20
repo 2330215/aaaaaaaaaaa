@@ -19,6 +19,7 @@ class_name EnemyJefe extends Enemy
 
 const SEEKER_SCENE := preload("res://enemy/jefe_seeker.tscn")
 const JAGUAR_TEX   := preload("res://enemy/jaguar_frente_64x64.png")
+const DIALOGUE_BOX_SCENE := preload("res://level/dialogue_box.tscn")
 
 var _jump_timer: float = 1.5
 var _shoot_timer: float = 2.5
@@ -83,23 +84,18 @@ func _activate() -> void:
 
 
 func _show_boss_dialogue() -> void:
-	var scene = load("res://level/dialogue_box.tscn")
-	if not scene:
-		return
-	var dlg = scene.instantiate()
+	var dlg := DIALOGUE_BOX_SCENE.instantiate() as DialogueBox
 	get_tree().current_scene.add_child(dlg)
 
 	get_tree().paused = true
 
-	if dlg.has_signal("dialogue_finished"):
-		dlg.dialogue_finished.connect(func() -> void:
-			get_tree().paused = false
-			await get_tree().process_frame
-			dlg.queue_free()
-		)
+	dlg.dialogue_finished.connect(func() -> void:
+		get_tree().paused = false
+		await get_tree().process_frame
+		dlg.queue_free()
+	)
 
-	if dlg.has_method("start_dialogue"):
-		dlg.start_dialogue("JEFE FINAL", JAGUAR_TEX, ["texto de prueba"])
+	dlg.start_dialogue("JEFE FINAL", JAGUAR_TEX, ["texto de prueba"])
 
 
 func _physics_process(delta: float) -> void:

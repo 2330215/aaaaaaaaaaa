@@ -1,10 +1,10 @@
 class_name LevelBackground extends ParallaxBackground
 
-@onready var sky_sprite1: Sprite2D = $Sky/Sprite2D
-@onready var sky_sprite2: Sprite2D = $Sky/Sprite2
-@onready var sky_sprite3: Sprite2D = $Sky/Sprite3
-@onready var mountains1: ParallaxLayer = $Mountains1
-@onready var mountains2: ParallaxLayer = $Mountains2
+@onready var sky_sprite1: Sprite2D = get_node_or_null(^"Sky/Sprite2D")
+@onready var sky_sprite2: Sprite2D = get_node_or_null(^"Sky/Sprite2")
+@onready var sky_sprite3: Sprite2D = get_node_or_null(^"Sky/Sprite3")
+@onready var mountains1: ParallaxLayer = get_node_or_null(^"Mountains1")
+@onready var mountains2: ParallaxLayer = get_node_or_null(^"Mountains2")
 
 const SKY_TEXTURE = preload("res://level/background/Sky.webp")
 const CAVE_TEXTURE = preload("res://level/background/cueva_1.webp")
