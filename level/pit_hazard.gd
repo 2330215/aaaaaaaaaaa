@@ -30,6 +30,7 @@ func trigger(body: Node2D) -> void:
 	if _triggered:
 		return
 	_triggered = true
+	GameState.record_death()
 
 	# Pausar TODO el juego inmediatamente
 	get_tree().paused = true

@@ -30,6 +30,7 @@ var _was_ascending := false
 var _health: int = 2
 var _is_hurt: bool = false  # invencibilidad temporal entre golpes
 var _activated: bool = false  # true cuando el jefe ha sido activado
+var _defeated: bool = false  # evita avisar más de una vez de la victoria
 
 
 func _ready() -> void:
@@ -173,12 +174,14 @@ func _physics_process(delta: float) -> void:
 
 
 func destroy() -> void:
-	if _is_hurt:
+	if _is_hurt or _defeated:
 		return
 	_health -= 1
 	if _health <= 0:
-		# Muerte real: delegar al padre
+		# Muerte real: delegar al padre y avisar al juego.
+		_defeated = true
 		super.destroy()
+		GameState.notify_boss_defeated()
 		return
 	_apply_hit_reaction()
 

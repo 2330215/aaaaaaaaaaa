@@ -9,11 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://ghkxb0mp0nyb" path="res://level/background/sky1.webp" id="3_rhqlf"]
 [ext_resource type="Texture2D" uid="uid://sk8j7o4wr2ar" path="res://level/background/Sky.webp" id="5_l5lfc"]
 [ext_resource type="PackedScene" uid="uid://c6v2n8m7x1402" path="res://level/pit_hazard.tscn" id="6_ivpvi"]
-[ext_resource type="PackedScene" uid="uid://6mtip3ruyn" path="res://enemy/enemy.tscn" id="9_6gtgk"]
 [ext_resource type="PackedScene" uid="uid://df6kw4n78yq21" path="res://enemy/dialogue_enemy.tscn" id="9_cw150"]
 [ext_resource type="PackedScene" uid="uid://d3enemyjefe1x" path="res://enemy/enemy_jefe.tscn" id="10_jefe"]
 [ext_resource type="PackedScene" path="res://level/tutorial_sign.tscn" id="11_sign"]
-[ext_resource type="PackedScene" path="res://level/tutorial_sign_animated.tscn" id="12_sign_anim"]
 [ext_resource type="PackedScene" uid="uid://b6mi6l3tkae6h" path="res://enemy/enemy_papa.tscn" id="15_fm1jd"]
 [ext_resource type="PackedScene" uid="uid://dfm8821ubqi5q" path="res://enemy/enemy_coca.tscn" id="16_7jqyl"]
 
@@ -1306,7 +1304,7 @@ sources/2 = SubResource("TileSetAtlasSource_xii2b")
 sources/1 = SubResource("TileSetAtlasSource_m3nah")
 sources/3 = SubResource("TileSetAtlasSource_fm1jd")
 
-[node name="Level" type="Node2D" unique_id=1340857866]
+[node name="Level2" type="Node2D" unique_id=1340857866]
 process_mode = 1
 script = ExtResource("1_script")
 
@@ -1344,37 +1342,55 @@ switch_to_sky = true
 position = Vector2(1728, 2304)
 respawn_position = Vector2(128, 416)
 
-[node name="DialogueEnemy1" parent="." unique_id=959384139 instance=ExtResource("9_cw150")]
-position = Vector2(700, 320)
-speaker_name = "GUARDIÁN DEL NIVEL 1"
-dialogue_lines = ["¡Hola viajero! Bienvenido al primer nivel.", "Camina hacia el extremo derecho para encontrar la moneda brillante...", "Te llevará a los niveles inferiores si te atreves a descender."]
-
 [node name="DialogueEnemy2" parent="." unique_id=126628178 instance=ExtResource("9_cw150")]
 position = Vector2(700, 2112)
-speaker_name = "VIGILANTE DEL POZO"
-dialogue_lines = ["¡Cuidado! Más adelante hay un pozo oscuro sin fondo.", "Si te descuidas y caes, perderás y regresarás al inicio del juego.", "¡Salte con fuerza para cruzarlo al otro lado!"]
+speaker_name = "si"
+dialogue_lines = ["texto de ejemplo", "texto de ejemplo", "texto de ejemplo"]
 
 [node name="DialogueEnemy3" parent="." unique_id=1487875739 instance=ExtResource("9_cw150")]
 position = Vector2(700, 3840)
-speaker_name = "ESPECTRO DE LA CUEVA"
-dialogue_lines = ["Has llegado a las profundidades oscuras de la cueva...", "La última moneda especial te aguarda al final del camino.", "Tócala para regresar victorioso a la superficie."]
+speaker_name = "si"
+dialogue_lines = ["texto de ejemplo", "texto de ejemplo", "texto de ejemplo"]
 
-[node name="Enemy" parent="." unique_id=91234316 instance=ExtResource("9_6gtgk")]
-position = Vector2(562, 433)
-
-[node name="SignSaltoDoble" parent="." unique_id=2001000001 instance=ExtResource("11_sign")]
+[node name="SignFinal" parent="." unique_id=1819018411 instance=ExtResource("11_sign")]
 z_index = -2
-position = Vector2(550, 310)
-sign_text = "Para poder llegar ahi arriba
-debes presionar SALTO 2 veces.
-El segundo salto te da mas altura."
-sign_width = 380.0
+position = Vector2(2993, 372)
+sign_text = "A lo largo de tu aventura podras recoger items como el platano que te permitira usar un ataque especial que se encendera cuando recojas los necesarios."
+sign_width = 500.0
+sign_height = 160.0
+font_size = 20
+
+[node name="SignEnemigo" parent="." unique_id=1285671838 instance=ExtResource("11_sign")]
+z_index = -2
+position = Vector2(1949, 268)
+sign_text = "Cuidado!!, mas adelante hay un enemigo, para vencerlo presiona el boton de ataque que esta iluminado"
+sign_width = 340.0
 sign_height = 150.0
-font_size = 15
+font_size = 20
 
-[node name="SignPortal" parent="." unique_id=2001000002 instance=ExtResource("12_sign_anim")]
+[node name="SignSalto2" parent="." unique_id=784031598 instance=ExtResource("11_sign")]
 z_index = -2
-position = Vector2(3400, 250)
+position = Vector2(1411, 409)
+sign_text = "Para hacer un salto doble, presiona el boton de salto 2 veces seguidas"
+sign_width = 340.0
+sign_height = 150.0
+font_size = 20
+
+[node name="SignSalto" parent="." unique_id=1204455462 instance=ExtResource("11_sign")]
+z_index = -2
+position = Vector2(793, 324)
+sign_text = "Para  saltar, presiona el boton de flecha hacia arriba ubicado en la parte inferior derecha de la pantalla"
+sign_width = 340.0
+sign_height = 150.0
+font_size = 20
+
+[node name="SignControles" parent="." unique_id=2001000004 instance=ExtResource("11_sign")]
+z_index = -2
+position = Vector2(281, 324)
+sign_text = "Para  moverte presiona los botones de flecha en la parte inferior izquierda de la pantalla"
+sign_width = 340.0
+sign_height = 150.0
+font_size = 20
 
 [node name="EnemyJefe" parent="." unique_id=1566113503 instance=ExtResource("10_jefe")]
 position = Vector2(3414, 5380)
@@ -1383,4 +1399,4 @@ position = Vector2(3414, 5380)
 position = Vector2(1999, 2167)
 
 [node name="Enemy3" parent="." unique_id=277550276 instance=ExtResource("16_7jqyl")]
-position = Vector2(1818, 339)
+position = Vector2(2523, 323)

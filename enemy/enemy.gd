@@ -9,6 +9,10 @@ enum State {
 const WALK_SPEED = 100.0      # Velocidad horizontal durante el salto
 const JUMP_VELOCITY = -500.0   # Fuerza del salto
 
+## Si es verdadero, el enemigo no camina ni salta: queda quieto en su sitio
+## y sirve como blanco de práctica para el tutorial.
+@export var stationary: bool = false
+
 var _state := State.WALKING
 var facing_direction: float = 1.0
 
@@ -25,7 +29,9 @@ func _physics_process(delta: float) -> void:
 	velocity.y += gravity * delta
 
 	if _state == State.WALKING:
-		if is_on_floor():
+		if stationary:
+			velocity.x = 0.0
+		elif is_on_floor():
 			# Al tocar el suelo salta inmediatamente y avanza
 			velocity.y = JUMP_VELOCITY
 			velocity.x = WALK_SPEED * facing_direction
@@ -38,7 +44,7 @@ func _physics_process(delta: float) -> void:
 				facing_direction = -1.0
 				velocity.x = -WALK_SPEED
 
-	if is_on_wall():
+	if not stationary and is_on_wall():
 		facing_direction = -facing_direction
 		velocity.x = WALK_SPEED * facing_direction
 
@@ -57,7 +63,10 @@ func _physics_process(delta: float) -> void:
 
 
 func destroy() -> void:
+	if _state == State.DEAD:
+		return
 	_state = State.DEAD
+	GameState.record_enemy_defeated()
 	velocity = Vector2.ZERO
 
 

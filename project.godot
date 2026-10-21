@@ -29,6 +29,7 @@ config/icon="res://icon.webp"
 
 [autoload]
 
+GameState="*res://game_state.gd"
 Music="*res://music.tscn"
 
 [display]

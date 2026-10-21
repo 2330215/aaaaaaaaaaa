@@ -1,0 +1,110 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://gui/victory_screen.gd" id="1_script"]
+[ext_resource type="Theme" uid="uid://da4noqsij73it" path="res://gui/theme.tres" id="2_theme"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+font_size = 52
+font_color = Color(0.32, 1, 0.45, 1)
+outline_size = 10
+outline_color = Color(0.01, 0.16, 0.04, 1)
+shadow_size = 6
+shadow_color = Color(0, 0, 0, 0.75)
+
+[sub_resource type="LabelSettings" id="LabelSettings_subtitle"]
+font_size = 22
+font_color = Color(0.72, 0.95, 0.76, 1)
+outline_size = 6
+outline_color = Color(0, 0, 0, 0.85)
+
+[node name="VictoryScreen" type="CanvasLayer"]
+process_mode = 3
+layer = 130
+script = ExtResource("1_script")
+
+[node name="VictoryPanel" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_theme")
+
+[node name="Background" type="ColorRect" parent="VictoryPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.015, 0.07, 0.025, 0.84)
+
+[node name="CenterContainer" type="CenterContainer" parent="VictoryPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VictoryPanel/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="VictoryPanel/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "GANASTE"
+label_settings = SubResource("LabelSettings_title")
+horizontal_alignment = 1
+
+[node name="SubtitleLabel" type="Label" parent="VictoryPanel/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "NIVEL 1 COMPLETADO"
+label_settings = SubResource("LabelSettings_subtitle")
+horizontal_alignment = 1
+
+[node name="Separator" type="ColorRect" parent="VictoryPanel/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(420, 2)
+layout_mode = 2
+size_flags_horizontal = 4
+color = Color(0.25, 0.85, 0.35, 0.55)
+
+[node name="StatsGrid" type="GridContainer" parent="VictoryPanel/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 48
+theme_override_constants/v_separation = 6
+columns = 2
+
+[node name="Spacer" type="Control" parent="VictoryPanel/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="VictoryPanel/CenterContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 24
+
+[node name="ExitButton" type="Button" parent="VictoryPanel/CenterContainer/VBoxContainer/Buttons"]
+custom_minimum_size = Vector2(170, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "SALIR"
+
+[node name="AdvanceButton" type="Button" parent="VictoryPanel/CenterContainer/VBoxContainer/Buttons"]
+custom_minimum_size = Vector2(240, 42)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "AVANZAR"
+
+[node name="BlackOverlay" type="ColorRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)

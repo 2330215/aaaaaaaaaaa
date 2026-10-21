@@ -1,4 +1,2 @@
-res://enemy/dialogue_enemy.tscn
+res://level/level.tscn
 res://level/tileset.tres
-res://gui/theme.tres
-res://enemy/dialogue_enemy.gd
