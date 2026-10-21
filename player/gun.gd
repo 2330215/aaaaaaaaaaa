@@ -19,6 +19,7 @@ func shoot(direction: float = 1.0) -> bool:
 	bullet.linear_velocity = Vector2(direction * BULLET_VELOCITY, 0.0)
 	add_child(bullet)
 	bullet.top_level = true
+	GameState.record_shot()
 	sound_shoot.play()
 	timer.start()
 	return true
@@ -33,6 +34,7 @@ func shoot_special(direction: float = 1.0, count: int = 5) -> bool:
 		bullet.linear_velocity = Vector2(direction * (BULLET_VELOCITY + randf_range(-30, 50)), randf_range(-25, 25))
 		add_child(bullet)
 		bullet.top_level = true
+		GameState.record_shot()
 		sound_shoot.play()
 		await get_tree().create_timer(0.06).timeout
 	return true

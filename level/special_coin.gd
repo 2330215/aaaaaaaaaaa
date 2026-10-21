@@ -26,6 +26,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if not (body is Player):
 		return
 	_triggered = true
+	GameState.record_special_coin()
 	set_deferred("monitoring", false)
 
 	if pickup_sound and pickup_sound.stream:

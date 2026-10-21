@@ -9,6 +9,8 @@
 [node name="Game" type="Node" unique_id=371941293]
 process_mode = 3
 script = ExtResource("2")
+level_number = 1
+next_level_scene = "res://game_singleplayer_level2.tscn"
 
 [node name="Level" parent="." unique_id=1522939191 instance=ExtResource("3")]
 

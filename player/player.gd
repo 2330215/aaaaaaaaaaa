@@ -53,6 +53,13 @@ func _on_coin_collected_internal() -> void:
 			special_attack_ready.emit(true)
 
 
+## Llena la carga del ataque especial de golpe (monedas de recarga).
+func recharge_special_attack() -> void:
+	special_charge = MAX_SPECIAL_CHARGE
+	special_charge_changed.emit(special_charge, MAX_SPECIAL_CHARGE)
+	special_attack_ready.emit(true)
+
+
 func _physics_process(delta: float) -> void:
 	if is_on_floor():
 		_double_jump_charged = true
@@ -124,6 +131,7 @@ func die() -> void:
 	if pits.size() > 0:
 		(pits[0] as PitHazard).trigger(self)
 	else:
+		GameState.record_death()
 		get_tree().reload_current_scene()
 
 

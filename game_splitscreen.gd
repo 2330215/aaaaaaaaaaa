@@ -2,6 +2,8 @@ extends Game
 
 
 func _ready() -> void:
+	super._ready()
+
 	var player_2 := %Player2 as Player
 	var viewport_1 := %Viewport1 as SubViewport
 	var viewport_2 := %Viewport2 as SubViewport

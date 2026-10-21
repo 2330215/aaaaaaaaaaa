@@ -112,8 +112,7 @@ func destroy() -> void:
 	if _state == State.DEAD:
 		return
 
-	_state = State.DEAD
-	velocity = Vector2.ZERO
+	super.destroy()
 
 	if animation_player.has_animation(&"destroy"):
 		animation_player.play(&"destroy")
