@@ -1,7 +1,6 @@
 9cad1ddce9e5a63143ba340c9520626b
-::res://::1792613549
+::res://::1792648700
 default_bus_layout.tres::AudioBusLayout::6419567431398995635::1791788471::0::1::::<><><>0<>0<><>::
-export_presets.cfg::TextFile::-1::1791788471::0::1::::<><><>0<>0<><>::
 game.gd::GDScript::1948710170256859825::1792524044::0::1::::Game<>Node<><>0<>0<><>::
 game_singleplayer.tscn::PackedScene::2796527636363398270::1792524137::0::1::::<><><>0<>0<><>::uid://2078bnnk7lw0::::res://game.gd<>uid://ctgumjaytuoch::::res://level/level.tscn<>uid://vh7pmputa7r3::::res://player/player.tscn<>uid://dh3uwqsjr7t6s::::res://touch_controls.tscn<>uid://c7ai4bigaryci::::res://gui/pause_menu_singleplayer.tscn
 game_singleplayer_level2.tscn::PackedScene::-1::1792524127::0::1::::<><><>0<>0<><>::uid://2078bnnk7lw0::::res://game.gd<>res://level/level_2.tscn<>uid://vh7pmputa7r3::::res://player/player.tscn<>uid://dh3uwqsjr7t6s::::res://touch_controls.tscn<>uid://c7ai4bigaryci::::res://gui/pause_menu_singleplayer.tscn
@@ -62,7 +61,7 @@ touch_button_right.png::CompressedTexture2D::2372723059915764642::1791788471::17
 touch_controls.gd::GDScript::5031145147641160591::1791963040::0::1::::<>CanvasLayer<><>0<>0<><>::
 victory_screen.gd::GDScript::6773666034670801910::1792524103::0::1::::VictoryScreen<>CanvasLayer<><>0<>0<><>::
 victory_screen.tscn::PackedScene::-1::1792524108::0::1::::<><><>0<>0<><>::res://gui/victory_screen.gd<>uid://da4noqsij73it::::res://gui/theme.tres
-::res://level/::1792613375
+::res://level/::1792613926
 cloud_1.webp::CompressedTexture2D::3247957770214960041::1791788471::1791788471::1::::<><><>0<>0<>f77ca38d8b597869375a010265d15b9f<>res://.godot/imported/cloud_1.webp-d4440f8a56714fd63d83c7074d20ace3.ctex::
 cloud_2.webp::CompressedTexture2D::3193662280955427859::1791788471::1791788471::1::::<><><>0<>0<>c3545188515a902d3760079a242533e1<>res://.godot/imported/cloud_2.webp-6870de4e2ed6536e37af4c22aa731ad1.ctex::
 cloud_3.webp::CompressedTexture2D::815474407667414139::1791788471::1791788471::1::::<><><>0<>0<>58660040f16c70df0a46b8cba8c745eb<>res://.godot/imported/cloud_3.webp-a303ee6af47d3df137be263a98a9fa7d.ctex::
@@ -74,7 +73,7 @@ desierto3.png::CompressedTexture2D::2905985028597382813::1791788471::1791788491:
 dialogue_box.gd::GDScript::3242090455170448761::1791964949::0::1::::DialogueBox<>CanvasLayer<><>0<>0<><>::
 dialogue_box.tscn::PackedScene::7158408269787708550::1791788471::0::1::::<><><>0<>0<><>::res://level/dialogue_box.gd
 level.gd::GDScript::5418006400233490121::1792606449::0::1::::<>Node2D<><>0<>0<><>::
-level.tscn::PackedScene::6120051906242158291::1792613508::0::1::::<><><>0<>0<><>::uid://cjgr1kswq38mn::::res://level/level.gd<>uid://08mkofgbxx70::::res://level/tileset.tres<>uid://bq1s62op2r461::::res://level/cueva.png<>uid://cw6nldo3rjyyq::::res://level/background/parallax_background.tscn<>uid://b6bbw7ccfpneu::::res://level/tiles2.png<>uid://b8y4570xnm321::::res://level/special_coin.tscn<>uid://ghkxb0mp0nyb::::res://level/background/sky1.webp<>uid://sk8j7o4wr2ar::::res://level/background/Sky.webp<>uid://c6v2n8m7x1402::::res://level/pit_hazard.tscn<>uid://df6kw4n78yq21::::res://enemy/dialogue_enemy.tscn<>uid://d3enemyjefe1x::::res://enemy/enemy_jefe.tscn<>res://level/tutorial_sign.tscn<>res://level/tutorial_sign_animated.tscn<>uid://b6mi6l3tkae6h::::res://enemy/enemy_papa.tscn<>uid://dfm8821ubqi5q::::res://enemy/enemy_coca.tscn
+level.tscn::PackedScene::6120051906242158291::1792613926::0::1::::<><><>0<>0<><>::uid://cjgr1kswq38mn::::res://level/level.gd<>uid://08mkofgbxx70::::res://level/tileset.tres<>uid://bq1s62op2r461::::res://level/cueva.png<>uid://cw6nldo3rjyyq::::res://level/background/parallax_background.tscn<>uid://b6bbw7ccfpneu::::res://level/tiles2.png<>uid://b8y4570xnm321::::res://level/special_coin.tscn<>uid://ghkxb0mp0nyb::::res://level/background/sky1.webp<>uid://sk8j7o4wr2ar::::res://level/background/Sky.webp<>uid://c6v2n8m7x1402::::res://level/pit_hazard.tscn<>uid://df6kw4n78yq21::::res://enemy/dialogue_enemy.tscn<>uid://d3enemyjefe1x::::res://enemy/enemy_jefe.tscn<>res://level/tutorial_sign.tscn<>uid://b6mi6l3tkae6h::::res://enemy/enemy_papa.tscn<>uid://dfm8821ubqi5q::::res://enemy/enemy_coca.tscn
 level_2.tscn::PackedScene::2238785797922192579::1792611148::0::1::::<><><>0<>0<><>::uid://cjgr1kswq38mn::::res://level/level.gd<>uid://08mkofgbxx70::::res://level/tileset.tres<>uid://bq1s62op2r461::::res://level/cueva.png<>uid://cw6nldo3rjyyq::::res://level/background/parallax_background.tscn<>uid://b6bbw7ccfpneu::::res://level/tiles2.png<>uid://b8y4570xnm321::::res://level/special_coin.tscn<>uid://ghkxb0mp0nyb::::res://level/background/sky1.webp<>uid://sk8j7o4wr2ar::::res://level/background/Sky.webp<>uid://c6v2n8m7x1402::::res://level/pit_hazard.tscn<>uid://df6kw4n78yq21::::res://enemy/dialogue_enemy.tscn<>uid://d3enemyjefe1x::::res://enemy/enemy_jefe.tscn<>res://level/tutorial_sign.tscn<>uid://b6mi6l3tkae6h::::res://enemy/enemy_papa.tscn<>uid://dfm8821ubqi5q::::res://enemy/enemy_coca.tscn
 pit_hazard.gd::GDScript::4981412214509498526::1792524092::0::1::::PitHazard<>Area2D<><>0<>0<><>::
 pit_hazard.tscn::PackedScene::6993711780419852833::1791788471::0::1::::<><><>0<>0<><>::res://level/pit_hazard.gd
@@ -83,7 +82,7 @@ special_coin.gd::GDScript::5944661809772900806::1792524089::0::1::::SpecialCoin<
 special_coin.tscn::PackedScene::4754013676883185776::1791924683::0::1::::<><><>0<>0<><>::uid://cj2absxg54f75::::res://level/coin.webp<>uid://w4j7xs5uhoer::::res://player/coin_pickup.wav<>uid://cqxvygqbw5gb3::::res://level/special_coin.gd
 tiles2.png::CompressedTexture2D::4564440902619809624::1791788471::1791788494::1::::<><><>0<>0<>a25e6e83aadeadd871b1fae913b9cbc5<>res://.godot/imported/tiles2.png-f2e1194a614faa67ffa9022d0ad7fc48.ctex::
 tiles.webp::CompressedTexture2D::8943829051513271016::1791788471::1791788471::1::::<><><>0<>0<>f4d4ddc68af8163f64f1c614f6c563af<>res://.godot/imported/tiles.webp-4f56cd8ea452f8ba920d65a0b9099010.ctex::
-tileset.tres::TileSet::1823592762012833405::1792609858::0::1::::<><><>0<>0<><>::uid://d0ops71sk562g::::res://level/tiles.webp<>uid://bq1s62op2r461::::res://level/cueva.png<>uid://bhnxfccpkxox6::::res://level/desierto3.png<>uid://b6bbw7ccfpneu::::res://level/tiles2.png
+tileset.tres::TileSet::1823592762012833405::1792613802::0::1::::<><><>0<>0<><>::uid://d0ops71sk562g::::res://level/tiles.webp<>uid://bq1s62op2r461::::res://level/cueva.png<>uid://bhnxfccpkxox6::::res://level/desierto3.png<>uid://b6bbw7ccfpneu::::res://level/tiles2.png
 tutorial_sign.gd::GDScript::-1::1791964579::0::1::::<>Node2D<><>0<>1<><>::
 tutorial_sign.tscn::PackedScene::-1::1791964146::0::1::::<><><>0<>0<><>::res://level/tutorial_sign.gd
 tutorial_sign_animated.tscn::PackedScene::-1::1791964786::0::1::::<><><>0<>0<><>::res://level/tutorial_sign.gd<>uid://gpx2rj50u0tf::::res://gui/static_sheet.png
