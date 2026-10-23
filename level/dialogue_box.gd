@@ -52,21 +52,30 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not _active:
 		return
 
-	if event.is_action_pressed(&"shoot") or event.is_action_pressed(&"jump") or event.is_action_pressed(&"ui_accept"):
-		get_viewport().set_input_as_handled()
-		if _is_typing:
-			# Skip typewriter animation, reveal full line
-			if _type_tween:
-				_type_tween.kill()
-			_is_typing = false
-			text_label.visible_characters = -1
+	# Solo avanza con click izquierdo (escritorio) o tap (móvil)
+	var is_click := event is InputEventMouseButton \
+		and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT \
+		and (event as InputEventMouseButton).pressed
+	var is_tap := event is InputEventScreenTouch \
+		and (event as InputEventScreenTouch).pressed
+
+	if not (is_click or is_tap):
+		return
+
+	get_viewport().set_input_as_handled()
+	if _is_typing:
+		# Skip typewriter animation, reveal full line
+		if _type_tween:
+			_type_tween.kill()
+		_is_typing = false
+		text_label.visible_characters = -1
+	else:
+		# Advance to next line or finish
+		_current_line_index += 1
+		if _current_line_index < _lines.size():
+			_show_current_line()
 		else:
-			# Advance to next line or finish
-			_current_line_index += 1
-			if _current_line_index < _lines.size():
-				_show_current_line()
-			else:
-				_finish_dialogue()
+			_finish_dialogue()
 
 
 func _show_current_line() -> void:

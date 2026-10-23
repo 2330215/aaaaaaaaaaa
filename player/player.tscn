@@ -196,6 +196,10 @@ script = ExtResource("3")
 wait_time = 0.2
 one_shot = true
 
+[node name="InvincibilityTimer" type="Timer" parent="." unique_id=3847291056]
+wait_time = 2.0
+one_shot = true
+
 [node name="PlatformDetector" type="RayCast2D" parent="." unique_id=1842004283]
 target_position = Vector2(0, 6)
 collision_mask = 8

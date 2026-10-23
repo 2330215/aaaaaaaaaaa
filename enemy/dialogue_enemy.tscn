@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://df6kw4n78yq21"]
 
 [ext_resource type="Script" uid="uid://bp52s1pssxli2" path="res://enemy/dialogue_enemy.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://dnymheytu4k1b" path="res://enemy/jaguar_frente_64x64.png" id="2_rotvu"]
+[ext_resource type="Texture2D" uid="uid://cusotloarrlt6" path="res://enemy/nopalio.png" id="2_rotvu"]
 
 [sub_resource type="Animation" id="Animation_idle"]
-length = 3.0
+length = 1.2
 loop_mode = 1
-step = 0.25
+step = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -14,10 +14,10 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.333, 0.666, 0.999, 1.332, 1.665, 1.998, 2.331, 2.664, 2.997),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1.0),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [5, 6, 5, 6, 5, 6, 7, 6, 7, 5]
+"values": [0, 1, 2, 3, 4, 5]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_enemy"]
@@ -44,12 +44,14 @@ collision_mask = 24
 script = ExtResource("1_script")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=859685666]
-scale = Vector2(1.5, 1.5)
+scale = Vector2(0.25, 0.25)
 texture = ExtResource("2_rotvu")
-flip_h = true
+hframes = 6
+vframes = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1375266841]
 libraries/ = SubResource("AnimationLibrary_enemy")
+autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1771770181]
 rotation = -1.5708

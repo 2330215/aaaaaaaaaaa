@@ -3,9 +3,15 @@ extends Node
 ## Almacena qué special coins ya fueron activadas y las estadísticas del nivel.
 
 signal boss_defeated()
+signal life_lost(lives_remaining: int)
+signal game_over()
 
 ## Conjunto de nombres de special coins que ya han sido usadas.
 var used_special_coins: Dictionary = {}
+
+## Vidas del jugador
+const MAX_LIVES: int = 3
+var lives: int = MAX_LIVES
 
 ## Nivel actual, usado para las estadísticas y la pantalla de victoria.
 var current_level: int = 1
@@ -37,6 +43,7 @@ func begin_level(level_number: int) -> void:
 	_special_coins_used = 0
 	_deaths = 0
 	_boss_defeated = false
+	lives = MAX_LIVES
 
 
 func record_shot(count: int = 1) -> void:
@@ -57,6 +64,17 @@ func record_special_coin() -> void:
 
 func record_death() -> void:
 	_deaths += 1
+
+
+## Descuenta una vida. Retorna true si quedan vidas, false si es Game Over.
+func lose_life() -> bool:
+	record_death()
+	lives = max(0, lives - 1)
+	life_lost.emit(lives)
+	if lives <= 0:
+		game_over.emit()
+		return false
+	return true
 
 
 ## El jefe avisa una sola vez y detiene el cronómetro del nivel.
