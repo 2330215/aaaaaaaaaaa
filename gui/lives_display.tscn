@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://lives_display01"]
+
+[ext_resource type="Script" path="res://gui/lives_display.gd" id="1_script"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_heart"]
+font_size = 28
+font_color = Color(1, 0.25, 0.35, 1)
+outline_size = 3
+outline_color = Color(0.1, 0.0, 0.05, 1)
+
+[node name="LivesDisplay" type="CanvasLayer"]
+layer = 105
+script = ExtResource("1_script")
+
+[node name="Container" type="HBoxContainer" parent="."]
+anchors_preset = -1
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 16.0
+offset_top = 56.0
+offset_right = 130.0
+offset_bottom = 96.0
+grow_horizontal = 1
+grow_vertical = 1
+theme_override_constants/separation = 4
+
+[node name="Heart1" type="Label" parent="Container"]
+layout_mode = 2
+text = "❤"
+label_settings = SubResource("LabelSettings_heart")
+vertical_alignment = 1
+
+[node name="Heart2" type="Label" parent="Container"]
+layout_mode = 2
+text = "❤"
+label_settings = SubResource("LabelSettings_heart")
+vertical_alignment = 1
+
+[node name="Heart3" type="Label" parent="Container"]
+layout_mode = 2
+text = "❤"
+label_settings = SubResource("LabelSettings_heart")
+vertical_alignment = 1

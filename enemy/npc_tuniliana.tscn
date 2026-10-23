@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://npc_tuniliana01"]
+
+[ext_resource type="Script" uid="uid://bp52s1pssxli2" path="res://enemy/dialogue_enemy.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://enemy/tuniliana.png" id="2_tex"]
+
+[sub_resource type="Animation" id="Animation_idle"]
+length = 1.2
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1.0),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tuni"]
+_data = {
+&"idle": SubResource("Animation_idle")
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tuni"]
+radius = 18.0
+height = 50.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
+radius = 75.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_prompt"]
+font_size = 14
+font_color = Color(1, 0.9, 0.3, 1)
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+
+[node name="DialogueEnemy" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 24
+script = ExtResource("1_script")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_tex")
+hframes = 6
+vframes = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries/ = SubResource("AnimationLibrary_tuni")
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = -1.5708
+shape = SubResource("CapsuleShape2D_tuni")
+
+[node name="InteractionArea" type="Area2D" parent="."]
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea"]
+shape = SubResource("CircleShape2D_interact")
+
+[node name="PromptLabel" type="Label" parent="."]
+visible = false
+offset_left = -60.0
+offset_top = -45.0
+offset_right = 60.0
+offset_bottom = -22.0
+text = "Toca para hablar"
+label_settings = SubResource("LabelSettings_prompt")
+horizontal_alignment = 1

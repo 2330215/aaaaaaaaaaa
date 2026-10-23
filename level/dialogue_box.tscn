@@ -96,6 +96,6 @@ autowrap_mode = 3
 
 [node name="PromptLabel" type="Label" parent="Panel/HBox/VBox"]
 layout_mode = 2
-text = "[ ESPACIO / Z ] ▶"
+text = "Toca para continuar ▶"
 label_settings = SubResource("LabelSettings_prompt")
 horizontal_alignment = 2

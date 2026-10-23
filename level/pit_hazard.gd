@@ -30,22 +30,28 @@ func trigger(body: Node2D) -> void:
 	if _triggered:
 		return
 	_triggered = true
-	GameState.record_death()
 
-	# Pausar TODO el juego inmediatamente
+	# Usar el nuevo sistema de vidas (respawn en posición del hazard)
+	var player := body as Player
+	if player:
+		player.die_from_pit(respawn_position)
+	_triggered = false
+
+
+## Muestra el panel PERDISTE, fundido y recarga el nivel (Game Over total).
+func show_game_over_and_reload() -> void:
+	if _triggered:
+		return
+	_triggered = true
+
 	get_tree().paused = true
 
-	# 1. Detach camera so it stays fixed while screen shows PERDISTE
-	var camera: Camera2D = body.get_node_or_null("Camera")
-	if camera:
-		camera.top_level = true
-
-	# 2. Pause background music
+	# Pausa música
 	var music_node = get_node_or_null("/root/Music")
 	if music_node and music_node.has_method("stop"):
 		music_node.stream_paused = true
 
-	# 3. Show "PERDISTE" UI overlay
+	# Mostrar panel PERDISTE
 	if game_over_panel:
 		game_over_panel.modulate.a = 0.0
 		game_over_panel.visible = true
@@ -53,57 +59,23 @@ func trigger(body: Node2D) -> void:
 		tween_ui.tween_property(game_over_panel, "modulate:a", 1.0, 0.4)
 		await tween_ui.finished
 
-	# 4. Esperar con timer que corre aunque el árbol esté pausado
 	await get_tree().create_timer(1.8, true).timeout
 
-	# 5. Fade screen to black
+	# Fade to black
 	if fade_rect:
 		fade_rect.visible = true
 		var tween_fade := create_tween()
 		tween_fade.tween_property(fade_rect, "color:a", 1.0, 1.0)
 		await tween_fade.finished
 
-	# 6. Restore background y reset position mientras la pantalla está negra
-	var current_scene = get_tree().current_scene
-	if current_scene:
-		var bg = current_scene.find_child("ParallaxBackground", true, false)
-		if bg:
-			if bg.has_method("set_cave_mode"):
-				bg.set_cave_mode(false)
-			if bg.has_method("align_to_stage"):
-				bg.align_to_stage(0)
-
-	# Ocultar panel mientras pantalla es negra
+	# Ocultar panel
 	if game_over_panel:
 		game_over_panel.visible = false
 
-	# 7. Resetear posición del jugador y re-enganchar cámara
-	body.global_position = respawn_position
-	if camera:
-		camera.top_level = false
-		camera.position = Vector2(0, -28)
-
-	if body.get_parent():
-		for sibling in body.get_parent().get_children():
-			if sibling is Player and sibling != body:
-				sibling.global_position = respawn_position + Vector2(30, 0)
-				var sib_cam: Camera2D = sibling.get_node_or_null("Camera")
-				if sib_cam:
-					sib_cam.top_level = false
-					sib_cam.position = Vector2(0, -28)
-
-	await get_tree().process_frame
-
-	# 8. Despausar el juego y reanudar música ANTES del fade-in
+	# Reanudar árbol antes de recargar
 	get_tree().paused = false
 	if music_node:
 		music_node.stream_paused = false
 
-	# 9. Fade de regreso desde negro
-	if fade_rect:
-		var tween_in := create_tween()
-		tween_in.tween_property(fade_rect, "color:a", 0.0, 1.0)
-		await tween_in.finished
-		fade_rect.visible = false
-
+	get_tree().reload_current_scene()
 	_triggered = false
