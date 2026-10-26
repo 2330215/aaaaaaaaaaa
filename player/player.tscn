@@ -196,7 +196,7 @@ script = ExtResource("3")
 wait_time = 0.2
 one_shot = true
 
-[node name="InvincibilityTimer" type="Timer" parent="." unique_id=3847291056]
+[node name="InvincibilityTimer" type="Timer" parent="." unique_id=-447676240]
 wait_time = 2.0
 one_shot = true
 
@@ -209,6 +209,7 @@ position = Vector2(0, -14)
 texture = ExtResource("2_qjkh3")
 hframes = 8
 vframes = 8
+frame = 8
 
 [node name="Gun" type="Marker2D" parent="Sprite2D" unique_id=1579385694]
 position = Vector2(14, 1)
