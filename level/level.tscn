@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://dfm8821ubqi5q" path="res://enemy/enemy_coca.tscn" id="16_7jqyl"]
 [ext_resource type="PackedScene" uid="uid://npc_tuniliana01" path="res://enemy/npc_tuniliana.tscn" id="17_tuni"]
 [ext_resource type="PackedScene" uid="uid://lives_display01" path="res://gui/lives_display.tscn" id="18_lives"]
+[ext_resource type="PackedScene" uid="uid://npc_maizano01" path="res://enemy/npc_maizano.tscn" id="19_maizano"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw150"]
 texture = ExtResource("2_0v1st")
@@ -1354,6 +1355,11 @@ dialogue_lines = ["¡Hola! Bienvenid@ a esta aventura.", "¡Buena suerte, viajer
 [node name="Tuniliana" parent="." unique_id=584930217 instance=ExtResource("17_tuni")]
 position = Vector2(620, 324)
 speaker_name = "Tuniliana"
+dialogue_lines = ["¡Hola!"]
+
+[node name="Maizano" parent="." instance=ExtResource("19_maizano")]
+position = Vector2(740, 324)
+speaker_name = "Maizano"
 dialogue_lines = ["¡Hola!"]
 
 [node name="DialogueEnemy2" parent="." unique_id=126628178 instance=ExtResource("9_cw150")]
