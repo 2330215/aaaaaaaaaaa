@@ -1,32 +1,31 @@
 [gd_scene format=3 uid="uid://bnlnuojvfy1ii"]
 
-[ext_resource type="Texture2D" uid="uid://coj0d33vyyqx1" path="res://player/bullet.webp" id="1_tex"]
-[ext_resource type="Script" path="res://enemy/jefe_seeker.gd" id="2_script"]
+[ext_resource type="Texture2D" uid="uid://5750gjnwtlts" path="res://player/bola_chocolate.png" id="2_83gl2"]
+[ext_resource type="Script" uid="uid://dp6vu0hmhkipv" path="res://enemy/jefe_seeker.gd" id="2_script"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_seeker"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_tex")
+"texture": ExtResource("2_83gl2")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_seeker"]
-radius = 10.0
 
-[node name="JefeSeeker" type="Area2D"]
+[node name="JefeSeeker" type="Area2D" unique_id=1789341361]
 collision_layer = 16
-collision_mask = 1
 script = ExtResource("2_script")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(1.5, 1.5)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=456084232]
+position = Vector2(0.28126633, -0.28126743)
+scale = Vector2(0.019587347, 0.019587347)
 sprite_frames = SubResource("SpriteFrames_seeker")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1444867304]
 shape = SubResource("CircleShape2D_seeker")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

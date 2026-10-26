@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://coj0d33vyyqx1" path="res://player/bullet.webp" id="1_bullet"]
 [ext_resource type="AudioStream" uid="uid://duwm7i44o75o2" path="res://enemy/explode.wav" id="2_explode"]
-[ext_resource type="Texture2D" uid="uid://cbp7ent0721fh" path="res://enemy/jefe1.png" id="2_jefe"]
+[ext_resource type="Texture2D" uid="uid://clxy0ykt3uqle" path="res://enemy/chocolate_nuevo.png" id="2_lq565"]
 [ext_resource type="AudioStream" uid="uid://dm7wsawmylc7b" path="res://enemy/hit.wav" id="3_hit"]
 [ext_resource type="Script" uid="uid://dbbi8fjxx77dk" path="res://enemy/enemy_jefe.gd" id="4_script"]
 
@@ -260,7 +260,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jefe"]
-size = Vector2(42.5, 54.5)
+size = Vector2(127.50002, 161.87503)
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_add"]
 blend_mode = 1
@@ -276,31 +276,33 @@ collision_mask = 24
 script = ExtResource("4_script")
 
 [node name="PlatformDetector" type="RayCast2D" parent="." unique_id=1759221405]
-position = Vector2(0, 12)
-target_position = Vector2(0, 20)
+position = Vector2(2.5000007, 119.499985)
+target_position = Vector2(-1.2499999, 27.999996)
 collision_mask = 8
 
 [node name="FloorDetectorLeft" type="RayCast2D" parent="." unique_id=814441284]
-position = Vector2(-22, 12)
-target_position = Vector2(0, 30)
+position = Vector2(-56.25, 117.5)
+target_position = Vector2(0, 28.749996)
 collision_mask = 24
 
 [node name="FloorDetectorRight" type="RayCast2D" parent="." unique_id=252391614]
-position = Vector2(22, 12)
+position = Vector2(55, 116.24999)
 target_position = Vector2(0, 30)
 collision_mask = 24
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1255075968]
 position = Vector2(0, -14)
-texture = ExtResource("2_jefe")
-hframes = 8
-vframes = 8
+scale = Vector2(0.6923077, 0.68399996)
+texture = ExtResource("2_lq565")
+hframes = 9
+vframes = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=656313995]
 libraries/ = SubResource("AnimationLibrary_jefe")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1346309361]
-position = Vector2(0, -14)
+position = Vector2(6.249999, 15.312507)
+scale = Vector2(0.99999946, 0.99999946)
 shape = SubResource("RectangleShape2D_jefe")
 
 [node name="Explosion" type="CPUParticles2D" parent="." unique_id=1816923463]

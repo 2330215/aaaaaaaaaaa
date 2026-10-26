@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dfm8821ubqi5q"]
 
 [ext_resource type="Script" uid="uid://b5iqiedkokml" path="res://enemy/enemy_coca.gd" id="1_kus5p"]
-[ext_resource type="Texture2D" uid="uid://qbpjengb1qn1" path="res://enemy/coca6.png" id="2_kus5p"]
+[ext_resource type="Texture2D" uid="uid://bq4l2ykoq3kuj" path="res://enemy/refresco_sprite_godot_576x128.png" id="2_kus5p"]
 [ext_resource type="Texture2D" uid="uid://coj0d33vyyqx1" path="res://player/bullet.webp" id="3_gp2i7"]
 [ext_resource type="AudioStream" uid="uid://dm7wsawmylc7b" path="res://enemy/hit.wav" id="4_f7rxy"]
 [ext_resource type="AudioStream" uid="uid://duwm7i44o75o2" path="res://enemy/explode.wav" id="5_rbmr2"]
@@ -273,7 +273,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cw150"]
-size = Vector2(21.714272, 20.57143)
+size = Vector2(16.571426, 10.285716)
 
 [sub_resource type="CanvasItemMaterial" id="6"]
 blend_mode = 1
@@ -288,18 +288,19 @@ collision_mask = 24
 script = ExtResource("1_kus5p")
 
 [node name="PlatformDetector" type="RayCast2D" parent="." unique_id=655177854]
-position = Vector2(20, 62)
+position = Vector2(1, 38)
 target_position = Vector2(0, 23)
 collision_mask = 8
 
 [node name="FloorDetectorLeft" type="RayCast2D" parent="." unique_id=1166409533]
-position = Vector2(-31, -13)
+position = Vector2(-36, -12)
 target_position = Vector2(0, 35)
 collision_mask = 24
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=113791239]
 material = SubResource("1")
-scale = Vector2(0.23730174, 0.23730174)
+position = Vector2(4, -10)
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_kus5p")
 flip_h = true
 hframes = 9
@@ -309,15 +310,14 @@ vframes = 2
 libraries/ = SubResource("AnimationLibrary_0kjfc")
 
 [node name="LanzamientoPapa" type="Marker2D" parent="." unique_id=1427923324]
-position = Vector2(26, 10.000001)
+position = Vector2(3.6237684e-12, -30)
 rotation = -1.5708
 scale = Vector2(3.5, 3.5)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1031691809]
-visible = false
 light_mask = 3
 visibility_layer = 3
-position = Vector2(26, 10.000001)
+position = Vector2(2.000007, 6.99999)
 rotation = -1.5708
 scale = Vector2(3.5, 3.5)
 shape = SubResource("RectangleShape2D_cw150")
