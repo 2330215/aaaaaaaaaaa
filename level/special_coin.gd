@@ -43,17 +43,14 @@ func _on_body_entered(body: Node2D) -> void:
 	await get_tree().create_timer(1.0).timeout
 
 	# 3. Switch background texture & align background to target stage while screen is 100% black
-	var current_scene = get_tree().current_scene
-	if current_scene:
-		var bg = current_scene.find_child("ParallaxBackground", true, false)
-		if bg:
-			if bg.has_method("set_cave_mode"):
-				if switch_to_cave:
-					bg.set_cave_mode(true)
-				elif switch_to_sky:
-					bg.set_cave_mode(false)
-			if bg.has_method("align_to_stage"):
-				bg.align_to_stage(target_stage_index)
+	var backgrounds := get_tree().get_nodes_in_group("level_background")
+
+	for bg in backgrounds:
+		if bg.has_method("set_stage"):
+			bg.set_stage(target_stage_index)
+
+		if bg.has_method("align_to_stage"):
+			bg.align_to_stage(target_stage_index)
 
 	# 4. Teleport player while screen is black
 	body.global_position = target_position
