@@ -6,11 +6,14 @@ class_name Game extends Node
 @export_file("*.tscn") var next_level_scene: String = ""
 
 const VICTORY_SCREEN_SCENE := preload("res://gui/victory_screen.tscn")
+const GAME_OVER_SCREEN_SCENE := preload("res://gui/game_over_screen.tscn")
 
 @onready var _pause_menu := $InterfaceLayer/PauseMenu as PauseMenu
 
 var _victory_screen: VictoryScreen
+var _game_over_screen: GameOverScreen
 var _victory_active := false
+var _game_over_active := false
 var _music: AudioStreamPlayer
 
 
@@ -24,6 +27,10 @@ func _ready() -> void:
 	_victory_screen.exit_requested.connect(_on_victory_exit_requested)
 	_victory_screen.advance_requested.connect(_on_victory_advance_requested)
 	GameState.boss_defeated.connect(_on_boss_defeated)
+	GameState.game_over.connect(_on_game_over)
+
+	_game_over_screen = GAME_OVER_SCREEN_SCENE.instantiate() as GameOverScreen
+	add_child(_game_over_screen)
 
 	_play_fade_in()
 
@@ -39,8 +46,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_tree().root.set_input_as_handled()
 
 	elif event.is_action_pressed(&"toggle_pause"):
-		# No permitir reanudar el juego por detrás de la pantalla de victoria.
-		if _victory_active:
+		# No permitir reanudar el juego por detrás de la pantalla de victoria o de game over.
+		if _victory_active or _game_over_active:
 			return
 		var tree := get_tree()
 		tree.paused = not tree.paused
@@ -85,6 +92,14 @@ func _on_victory_advance_requested() -> void:
 	var error := get_tree().change_scene_to_file(next_level_scene)
 	if error != OK:
 		push_error("No se pudo cargar el siguiente nivel: %s" % next_level_scene)
+
+
+func _on_game_over() -> void:
+	if _game_over_active:
+		return
+	_game_over_active = true
+	_set_music_paused(true)
+	_game_over_screen.show_game_over()
 
 
 func _set_music_paused(paused: bool) -> void:

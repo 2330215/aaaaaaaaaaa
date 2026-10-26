@@ -152,9 +152,8 @@ func take_damage() -> void:
 	_is_dead = true
 	_respawn_position = global_position
 
-	# Desactivar colisión para que no siga chocando
-	if collision_shape:
-		collision_shape.set_deferred("disabled", true)
+	# La colisión se mantiene activa para que el cuerpo descanse en el suelo.
+	# _is_dead=true ya impide que se reciba daño de enemigos en _physics_process.
 
 	# Lanzar hacia arriba (efecto Metal Slug)
 	velocity = Vector2(0, -500)
@@ -188,10 +187,6 @@ func _do_respawn() -> void:
 	global_position = _respawn_position
 	velocity = Vector2.ZERO
 
-	# Reactivar colisión
-	if collision_shape:
-		collision_shape.set_deferred("disabled", false)
-
 	_is_dead = false
 
 	# Parpadeo de invencibilidad (estilo Metal Slug)
@@ -216,15 +211,10 @@ func _on_invincibility_timeout() -> void:
 
 
 func _do_game_over() -> void:
-	# Mostrar pantalla de Game Over a través del pit_hazard si existe,
-	# o recargar el nivel directamente
-	var pits := get_tree().get_nodes_in_group("pit_hazard")
-	if pits.size() > 0:
-		var pit := pits[0] as PitHazard
-		pit.show_game_over_and_reload()
-	else:
-		get_tree().reload_current_scene()
-
+	# La señal GameState.game_over ya fue emitida en lose_life().
+	# game.gd se encarga de mostrar la pantalla y congelar el juego.
+	# Aquí no hacemos nada para evitar que el juego continúe o se recargue.
+	pass
 
 ## Llamado por PitHazard cuando el jugador cae al vacío (pasa la posición de respawn).
 func die_from_pit(respawn_pos: Vector2) -> void:
