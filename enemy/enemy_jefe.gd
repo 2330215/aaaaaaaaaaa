@@ -116,7 +116,7 @@ func _physics_process(delta: float) -> void:
 	# Aplicar gravedad
 	velocity.y += gravity * delta
 
-	if _state == State.PATROL:
+	if _state == State.WALKING:
 		# Caminar hacia el jugador solo si está suficientemente lejos
 		var too_close := false
 		if is_instance_valid(_player):
@@ -228,7 +228,7 @@ func _shoot_seeker() -> void:
 
 func get_new_animation() -> StringName:
 	var animation_new: StringName
-	if _state == State.PATROL:
+	if _state == State.WALKING:
 		if not is_on_floor():
 			if velocity.y < 0.0:
 				animation_new = &"jump"
