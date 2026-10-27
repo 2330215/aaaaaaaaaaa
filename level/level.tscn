@@ -14,10 +14,10 @@
 [ext_resource type="PackedScene" path="res://level/tutorial_sign.tscn" id="11_sign"]
 [ext_resource type="PackedScene" uid="uid://b6mi6l3tkae6h" path="res://enemy/enemy_papa.tscn" id="15_fm1jd"]
 [ext_resource type="PackedScene" uid="uid://dfm8821ubqi5q" path="res://enemy/enemy_coca.tscn" id="16_7jqyl"]
-[ext_resource type="PackedScene" path="res://enemy/npc_tuniliana.tscn" id="17_tuni"]
+[ext_resource type="PackedScene" uid="uid://3edhhacjduu1" path="res://enemy/npc_tuniliana.tscn" id="17_tuni"]
 [ext_resource type="PackedScene" path="res://gui/lives_display.tscn" id="18_lives"]
 [ext_resource type="PackedScene" uid="uid://6mtip3ruyn" path="res://enemy/enemy.tscn" id="18_sui6v"]
-[ext_resource type="PackedScene" path="res://enemy/npc_maizano.tscn" id="19_maizano"]
+[ext_resource type="PackedScene" uid="uid://cqrg4jje8y0sl" path="res://enemy/npc_maizano.tscn" id="19_maizano"]
 [ext_resource type="PackedScene" uid="uid://c3dh7xb6ef76q" path="res://level/coin.tscn" id="19_tv7ir"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw150"]
@@ -1309,7 +1309,7 @@ sources/2 = SubResource("TileSetAtlasSource_xii2b")
 sources/1 = SubResource("TileSetAtlasSource_m3nah")
 sources/3 = SubResource("TileSetAtlasSource_fm1jd")
 
-[node name="Level2" type="Node2D" unique_id=1340857866]
+[node name="ss" type="Node2D" unique_id=1340857866]
 process_mode = 1
 script = ExtResource("1_script")
 
@@ -1360,7 +1360,8 @@ speaker_name = "Tuniliana"
 dialogue_lines = ["¡Hola!"]
 
 [node name="Maizano" parent="." unique_id=1265064969 instance=ExtResource("19_maizano")]
-position = Vector2(92, 2243)
+position = Vector2(472, 2233)
+collision_layer = 1
 speaker_name = "Maizano"
 dialogue_lines = ["¡Hola!"]
 
@@ -1434,5 +1435,95 @@ position = Vector2(2589, 5382)
 [node name="Enemy" parent="." unique_id=1563624652 instance=ExtResource("18_sui6v")]
 position = Vector2(2888, 4098)
 
-[node name="Coin" parent="." unique_id=2049719167 instance=ExtResource("19_tv7ir")]
-position = Vector2(1735, 332)
+[node name="Coin2" parent="." unique_id=2049719167 instance=ExtResource("19_tv7ir")]
+position = Vector2(3161, 487)
+
+[node name="Coin3" parent="." unique_id=1298693585 instance=ExtResource("19_tv7ir")]
+position = Vector2(3545, 487)
+
+[node name="Coin4" parent="." unique_id=1252785248 instance=ExtResource("19_tv7ir")]
+position = Vector2(942, 2249)
+
+[node name="Coin5" parent="." unique_id=1882073670 instance=ExtResource("19_tv7ir")]
+position = Vector2(1011, 2249)
+
+[node name="Coin6" parent="." unique_id=1876810366 instance=ExtResource("19_tv7ir")]
+position = Vector2(1085, 2249)
+
+[node name="Coin7" parent="." unique_id=984339266 instance=ExtResource("19_tv7ir")]
+position = Vector2(1611, 2067)
+
+[node name="Coin8" parent="." unique_id=115063785 instance=ExtResource("19_tv7ir")]
+position = Vector2(1707, 2069)
+
+[node name="Coin9" parent="." unique_id=250522550 instance=ExtResource("19_tv7ir")]
+position = Vector2(2230, 1930)
+
+[node name="Coin10" parent="." unique_id=19385519 instance=ExtResource("19_tv7ir")]
+position = Vector2(2380, 1930)
+
+[node name="Coin11" parent="." unique_id=1381988649 instance=ExtResource("19_tv7ir")]
+position = Vector2(2639, 1921)
+
+[node name="Coin12" parent="." unique_id=1729328289 instance=ExtResource("19_tv7ir")]
+position = Vector2(3764, 2253)
+
+[node name="Coin15" parent="." unique_id=1965682968 instance=ExtResource("19_tv7ir")]
+position = Vector2(3738, 1968)
+
+[node name="Coin16" parent="." unique_id=1631010886 instance=ExtResource("19_tv7ir")]
+position = Vector2(2004, 3924)
+
+[node name="Coin17" parent="." unique_id=448585287 instance=ExtResource("19_tv7ir")]
+position = Vector2(2427, 3919)
+
+[node name="Coin18" parent="." unique_id=703988865 instance=ExtResource("19_tv7ir")]
+position = Vector2(1640, 4056)
+
+[node name="Coin19" parent="." unique_id=952060418 instance=ExtResource("19_tv7ir")]
+position = Vector2(676, 3862)
+
+[node name="Coin20" parent="." unique_id=300949057 instance=ExtResource("19_tv7ir")]
+position = Vector2(3316, 4055)
+
+[node name="Coin21" parent="." unique_id=1059794477 instance=ExtResource("19_tv7ir")]
+position = Vector2(2720, 4135)
+
+[node name="Coin22" parent="." unique_id=782974174 instance=ExtResource("19_tv7ir")]
+position = Vector2(1147, 5082)
+
+[node name="Coin23" parent="." unique_id=1258870860 instance=ExtResource("19_tv7ir")]
+position = Vector2(1230, 5087)
+
+[node name="Coin24" parent="." unique_id=231936775 instance=ExtResource("19_tv7ir")]
+position = Vector2(1653, 5138)
+
+[node name="Coin25" parent="." unique_id=1134341653 instance=ExtResource("19_tv7ir")]
+position = Vector2(2298, 5200)
+
+[node name="Coin26" parent="." unique_id=1989057631 instance=ExtResource("19_tv7ir")]
+position = Vector2(2388, 5202)
+
+[node name="Coin27" parent="." unique_id=704925915 instance=ExtResource("19_tv7ir")]
+position = Vector2(684, 5198)
+
+[node name="Coin28" parent="." unique_id=1497380318 instance=ExtResource("19_tv7ir")]
+position = Vector2(781, 5202)
+
+[node name="Coin29" parent="." unique_id=1818283189 instance=ExtResource("19_tv7ir")]
+position = Vector2(2899, 5149)
+
+[node name="Coin30" parent="." unique_id=1610948837 instance=ExtResource("19_tv7ir")]
+position = Vector2(2807, 5147)
+
+[node name="Coin31" parent="." unique_id=355886663 instance=ExtResource("19_tv7ir")]
+position = Vector2(1754, 5143)
+
+[node name="Coin13" parent="." unique_id=1873731337 instance=ExtResource("19_tv7ir")]
+position = Vector2(2939, 2253)
+
+[node name="Coin14" parent="." unique_id=514301765 instance=ExtResource("19_tv7ir")]
+position = Vector2(3204, 2256)
+
+[node name="Coin" parent="." unique_id=606447037 instance=ExtResource("19_tv7ir")]
+position = Vector2(3242, 487)
