@@ -16,9 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://dfm8821ubqi5q" path="res://enemy/enemy_coca.tscn" id="16_7jqyl"]
 [ext_resource type="PackedScene" path="res://enemy/npc_tuniliana.tscn" id="17_tuni"]
 [ext_resource type="PackedScene" path="res://gui/lives_display.tscn" id="18_lives"]
-[ext_resource type="PackedScene" uid="uid://6mtip3ruyn" path="res://enemy/enemy.tscn" id="18_sui6v"]
 [ext_resource type="PackedScene" path="res://enemy/npc_maizano.tscn" id="19_maizano"]
-[ext_resource type="PackedScene" uid="uid://c3dh7xb6ef76q" path="res://level/coin.tscn" id="19_tv7ir"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw150"]
 texture = ExtResource("2_0v1st")
@@ -1309,7 +1307,7 @@ sources/2 = SubResource("TileSetAtlasSource_xii2b")
 sources/1 = SubResource("TileSetAtlasSource_m3nah")
 sources/3 = SubResource("TileSetAtlasSource_fm1jd")
 
-[node name="Level2" type="Node2D" unique_id=1340857866]
+[node name="Level" type="Node2D" unique_id=1340857866]
 process_mode = 1
 script = ExtResource("1_script")
 
@@ -1350,19 +1348,29 @@ position = Vector2(1728, 2304)
 respawn_position = Vector2(128, 416)
 
 [node name="Nopalio" parent="." unique_id=392847561 instance=ExtResource("9_cw150")]
-position = Vector2(3403, 453)
+position = Vector2(500, 324)
 speaker_name = "Nopalio"
 dialogue_lines = ["¡Hola! Bienvenid@ a esta aventura.", "¡Buena suerte, viajero!"]
 
 [node name="Tuniliana" parent="." unique_id=584930217 instance=ExtResource("17_tuni")]
-position = Vector2(3216, 1729)
+position = Vector2(620, 324)
 speaker_name = "Tuniliana"
 dialogue_lines = ["¡Hola!"]
 
-[node name="Maizano" parent="." unique_id=1265064969 instance=ExtResource("19_maizano")]
-position = Vector2(92, 2243)
+[node name="Maizano" parent="." unique_id=1554485352 instance=ExtResource("19_maizano")]
+position = Vector2(740, 324)
 speaker_name = "Maizano"
 dialogue_lines = ["¡Hola!"]
+
+[node name="DialogueEnemy2" parent="." unique_id=126628178 instance=ExtResource("9_cw150")]
+position = Vector2(700, 2112)
+speaker_name = "si"
+dialogue_lines = ["texto de ejemplo", "texto de ejemplo", "texto de ejemplo"]
+
+[node name="DialogueEnemy3" parent="." unique_id=1487875739 instance=ExtResource("9_cw150")]
+position = Vector2(700, 3840)
+speaker_name = "si"
+dialogue_lines = ["texto de ejemplo", "texto de ejemplo", "texto de ejemplo"]
 
 [node name="SignFinal" parent="." unique_id=1819018411 instance=ExtResource("11_sign")]
 z_index = -2
@@ -1383,8 +1391,8 @@ font_size = 20
 [node name="SignSalto2" parent="." unique_id=784031598 instance=ExtResource("11_sign")]
 z_index = -2
 position = Vector2(1411, 409)
-sign_text = "Para hacer un salto doble, presiona el boton de salto 2 veces, manteniendolo presionado para saltar mas alto"
-sign_width = 370.0
+sign_text = "Para hacer un salto doble, presiona el boton de salto 2 veces seguidas"
+sign_width = 340.0
 sign_height = 150.0
 font_size = 20
 
@@ -1405,34 +1413,10 @@ sign_height = 150.0
 font_size = 20
 
 [node name="EnemyJefe" parent="." unique_id=1566113503 instance=ExtResource("10_jefe")]
-position = Vector2(3414, 5380)
+position = Vector2(3409, 5360)
 
 [node name="Enemy2" parent="." unique_id=46466502 instance=ExtResource("15_fm1jd")]
-position = Vector2(2152, 3916)
-
-[node name="Enemy8" parent="." unique_id=91234316 instance=ExtResource("15_fm1jd")]
-position = Vector2(823, 3849)
-
-[node name="Enemy9" parent="." unique_id=456361584 instance=ExtResource("15_fm1jd")]
-position = Vector2(2483, 1924)
+position = Vector2(1999, 2167)
 
 [node name="Enemy3" parent="." unique_id=277550276 instance=ExtResource("16_7jqyl")]
-position = Vector2(2615, 475)
-
-[node name="Enemy4" parent="." unique_id=586971144 instance=ExtResource("16_7jqyl")]
-position = Vector2(3327, 2251)
-
-[node name="Enemy5" parent="." unique_id=1192645827 instance=ExtResource("18_sui6v")]
-position = Vector2(1384, 4030)
-
-[node name="Enemy6" parent="." unique_id=1358687191 instance=ExtResource("18_sui6v")]
-position = Vector2(1274, 5400)
-
-[node name="Enemy7" parent="." unique_id=91274356 instance=ExtResource("18_sui6v")]
-position = Vector2(2589, 5382)
-
-[node name="Enemy" parent="." unique_id=1563624652 instance=ExtResource("18_sui6v")]
-position = Vector2(2888, 4098)
-
-[node name="Coin" parent="." unique_id=2049719167 instance=ExtResource("19_tv7ir")]
-position = Vector2(1735, 332)
+position = Vector2(2523, 323)

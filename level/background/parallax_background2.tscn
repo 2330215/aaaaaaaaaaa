@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://vek6i7nhbn1j"]
 
-[ext_resource type="Script" uid="uid://dtgeleqjsr0j6" path="res://level/background/parallax_background.gd" id="1_mmav3"]
+[ext_resource type="Script" uid="uid://doepo8nfwcmsn" path="res://level/background/parallax_background_level2.gd" id="1_mmav3"]
 [ext_resource type="Texture2D" uid="uid://8ln4dx1hlamf" path="res://level/background/level2_parte1.png" id="2_mmav3"]
 [ext_resource type="Texture2D" uid="uid://duov7ot8sxn1a" path="res://level/background/level2_parte2.png" id="3_otb26"]
 [ext_resource type="Texture2D" uid="uid://bmawb5wnacy4d" path="res://level/background/level2_parte3.png" id="4_mmeuo"]
@@ -19,13 +19,11 @@ texture = ExtResource("2_mmav3")
 centered = false
 
 [node name="Sprite2" type="Sprite2D" parent="Sky" unique_id=812567949]
-visible = false
 position = Vector2(0, -100)
 texture = ExtResource("3_otb26")
 centered = false
 
 [node name="Sprite3" type="Sprite2D" parent="Sky" unique_id=2126795542]
-visible = false
-position = Vector2(1024, -100)
+position = Vector2(6, -242)
 texture = ExtResource("4_mmeuo")
 centered = false

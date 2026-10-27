@@ -231,9 +231,13 @@ position = Vector2(0, -28)
 offset = Vector2(0, 50)
 zoom = Vector2(0.7, 0.7)
 limit_left = -715
-limit_top = -250
+limit_top = -264
 limit_right = 1425
 limit_bottom = 690
+rotation_smoothing_enabled = true
+rotation_smoothing_speed = 10.0
+drag_top_margin = 1.0
+editor_draw_drag_margin = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1344710521]
 position = Vector2(0, -14)
