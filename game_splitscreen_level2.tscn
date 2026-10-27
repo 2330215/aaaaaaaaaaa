@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dggactv0aho4p" path="res://gui/pause_menu_splitscreen.tscn" id="2_xkexm"]
 [ext_resource type="PackedScene" path="res://level/level_2.tscn" id="3_e0nyr"]
 [ext_resource type="PackedScene" uid="uid://vh7pmputa7r3" path="res://player/player.tscn" id="4_8j0va"]
-[ext_resource type="PackedScene" uid="uid://cw6nldo3rjyyq" path="res://level/background/parallax_background.tscn" id="5_47vt4"]
+[ext_resource type="PackedScene" uid="uid://vek6i7nhbn1j" path="res://level/background/parallax_background2.tscn" id="5_47vt4"]
 
 [sub_resource type="Gradient" id="Gradient_77njx"]
 
