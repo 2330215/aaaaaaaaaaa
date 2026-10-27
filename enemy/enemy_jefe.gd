@@ -4,10 +4,12 @@ class_name EnemyJefe extends Enemy
 ## Solo se activa cuando el jugador llega al escenario 4 (Y > 4800).
 
 @export var move_speed: float = 150.0
-@export var min_distance: float = 120.0  # distancia mínima al jugador
+@export var min_distance: float = 220.0
 @export var jump_force: float = -520.0
 @export var jump_interval_min: float = 1.2
 @export var jump_interval_max: float = 2.2
+
+@export var attack_distance: float = 800.0
 
 ## Disparo de proyectiles
 @export var shoot_interval_min: float = 2
@@ -27,7 +29,7 @@ var _player: Node2D = null
 var _double_jump_charged := false
 var _was_ascending := false
 
-var _health: int = 2
+var _health: int = 6
 var _is_hurt: bool = false  # invencibilidad temporal entre golpes
 var _activated: bool = false  # true cuando el jefe ha sido activado
 var _defeated: bool = false  # evita avisar más de una vez de la victoria
@@ -114,7 +116,7 @@ func _physics_process(delta: float) -> void:
 	# Aplicar gravedad
 	velocity.y += gravity * delta
 
-	if _state == State.WALKING:
+	if _state == State.PATROL:
 		# Caminar hacia el jugador solo si está suficientemente lejos
 		var too_close := false
 		if is_instance_valid(_player):
@@ -148,16 +150,26 @@ func _physics_process(delta: float) -> void:
 				_was_ascending = false
 				velocity.y = jump_force * 0.85
 
-		# Cambiar de dirección al chocar con una pared
+				# Cambiar de dirección al chocar con una pared
 		if is_on_wall():
 			facing_direction = -facing_direction
 			velocity.x = move_speed * facing_direction
 
-		# Contador de disparo
-		_shoot_timer -= delta
-		if _shoot_timer <= 0.0:
-			_shoot_seeker()
-			_reset_shoot_timer()
+		# Disparar únicamente cuando el jugador esté cerca
+		if is_instance_valid(_player):
+			var distance_to_player: float = absf(
+	_player.global_position.x - global_position.x
+)
+
+			if distance_to_player <= attack_distance:
+				_shoot_timer -= delta
+
+				if _shoot_timer <= 0.0:
+					_shoot_seeker()
+					_reset_shoot_timer()
+			else:
+				# Reiniciar el temporizador mientras esté lejos
+				_reset_shoot_timer()
 
 	move_and_slide()
 
@@ -216,7 +228,7 @@ func _shoot_seeker() -> void:
 
 func get_new_animation() -> StringName:
 	var animation_new: StringName
-	if _state == State.WALKING:
+	if _state == State.PATROL:
 		if not is_on_floor():
 			if velocity.y < 0.0:
 				animation_new = &"jump"

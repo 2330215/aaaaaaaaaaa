@@ -162,7 +162,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7jqyl"]
-size = Vector2(32, 38)
+size = Vector2(43, 54)
 
 [node name="Coin" type="Area2D" unique_id=2049719167]
 collision_layer = 0
@@ -170,13 +170,13 @@ monitorable = false
 script = ExtResource("4")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1780857480]
-position = Vector2(-5, -6)
-scale = Vector2(0.17712176, 0.14640883)
+position = Vector2(0.9999995, 0.7499995)
+scale = Vector2(0.2214022, 0.18370165)
 texture = ExtResource("1")
 hframes = 8
 vframes = 2
 
-[node name="RechargeLabel" type="Label" parent="."]
+[node name="RechargeLabel" type="Label" parent="." unique_id=1631216017]
 visible = false
 z_index = 2
 offset_left = -75.0
@@ -195,7 +195,7 @@ libraries/ = SubResource("AnimationLibrary_i7oeb")
 autoplay = &"spinning"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=303250058]
-position = Vector2(-1, -1)
+position = Vector2(5, 8)
 shape = SubResource("RectangleShape2D_7jqyl")
 
 [node name="Pickup" type="AudioStreamPlayer2D" parent="." unique_id=641997113]

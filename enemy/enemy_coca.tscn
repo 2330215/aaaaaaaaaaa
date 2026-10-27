@@ -297,6 +297,11 @@ position = Vector2(-36, -12)
 target_position = Vector2(0, 35)
 collision_mask = 24
 
+[node name="FloorDetectorRight" type="RayCast2D" parent="." unique_id=1166409534]
+position = Vector2(36, -12)
+target_position = Vector2(0, 35)
+collision_mask = 24
+
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=113791239]
 material = SubResource("1")
 position = Vector2(4, -10)
