@@ -6,15 +6,20 @@ enum State {
 	DEAD,
 }
 
-const WALK_SPEED = 100.0      # Velocidad horizontal durante el salto
-const JUMP_VELOCITY = -500.0   # Fuerza del salto
-
-## Si es verdadero, el enemigo no camina ni salta: queda quieto en su sitio
-## y sirve como blanco de práctica para el tutorial.
+## Los enemigos del tutorial pueden seguir quietos.
 @export var stationary: bool = false
+@export var patrol_speed: float = 100.0
+@export var chase_speed: float = 160.0
+## Distancia que recorre a cada lado de su posicion inicial.
+@export var patrol_distance: float = 150.0
+@export var detection_radius: float = 350.0
+## Evita perseguir jugadores que estan en otro piso.
+@export var detection_height: float = 100.0
+@export var chase_stop_distance: float = 30.0
 
 var _state := State.WALKING
-var facing_direction: float = 1.0
+var facing_direction: float = -1.0
+var _patrol_origin_x: float
 
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var platform_detector: RayCast2D = get_node_or_null(^"PlatformDetector")
@@ -24,42 +29,76 @@ var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var animation_player := $AnimationPlayer as AnimationPlayer
 
 
+func _ready() -> void:
+	_patrol_origin_x = global_position.x
+	# Colocar los detectores fuera del cuerpo, incluso si se escala la colision.
+	var collider := get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if collider and collider.shape:
+		var bounds: Rect2 = collider.transform * collider.shape.get_rect()
+		if floor_detector_left:
+			floor_detector_left.position = Vector2(bounds.position.x - 8.0, bounds.get_center().y)
+			floor_detector_left.target_position = Vector2(0.0, bounds.size.y * 0.5 + 24.0)
+		if floor_detector_right:
+			floor_detector_right.position = Vector2(bounds.end.x + 8.0, bounds.get_center().y)
+			floor_detector_right.target_position = Vector2(0.0, bounds.size.y * 0.5 + 24.0)
+
+
 func _physics_process(delta: float) -> void:
-	# Aplicar gravedad
 	velocity.y += gravity * delta
+	velocity.x = 0.0
 
-	if _state == State.WALKING:
-		if stationary:
-			velocity.x = 0.0
-		elif is_on_floor():
-			# Al tocar el suelo salta inmediatamente y avanza
-			velocity.y = JUMP_VELOCITY
-			velocity.x = WALK_SPEED * facing_direction
+	if _state == State.WALKING and not stationary:
+		var target := _find_nearby_player()
+		var speed := patrol_speed
+		var should_move := true
+		if target:
+			var distance_x := target.global_position.x - global_position.x
+			speed = chase_speed
+			should_move = absf(distance_x) > chase_stop_distance
+			if should_move:
+				facing_direction = signf(distance_x)
 		else:
-			# En el aire cambia de dirección si detecta bordes o límites
-			if floor_detector_left and not floor_detector_left.is_colliding():
+			if global_position.x <= _patrol_origin_x - patrol_distance:
 				facing_direction = 1.0
-				velocity.x = WALK_SPEED
-			elif floor_detector_right and not floor_detector_right.is_colliding():
+			elif global_position.x >= _patrol_origin_x + patrol_distance:
 				facing_direction = -1.0
-				velocity.x = -WALK_SPEED
 
-	if not stationary and is_on_wall():
-		facing_direction = -facing_direction
-		velocity.x = WALK_SPEED * facing_direction
+		if should_move and is_on_floor():
+			var detector := floor_detector_right if facing_direction > 0.0 else floor_detector_left
+			if detector:
+				detector.force_raycast_update()
+			var at_edge := detector != null and not detector.is_colliding()
+			var against_wall := is_on_wall() and get_wall_normal().x * facing_direction < 0.0
+			if at_edge or against_wall:
+				should_move = false
+				if not target:
+					facing_direction = -facing_direction
+
+		if should_move:
+			velocity.x = speed * facing_direction
 
 	move_and_slide()
 
-	# Orientación del Sprite
-	if velocity.x > 0.0:
-		sprite.scale.x = 0.8
-	elif velocity.x < 0.0:
-		sprite.scale.x = -0.8
+	if not is_zero_approx(velocity.x):
+		sprite.scale.x = absf(sprite.scale.x) * facing_direction
 
-	# Reproducción limpia de animaciones
 	var animation := get_new_animation()
 	if animation != animation_player.current_animation:
 		animation_player.play(animation)
+
+
+func _find_nearby_player() -> Player:
+	var nearest: Player = null
+	var nearest_distance := detection_radius
+	for node in get_tree().get_nodes_in_group("player"):
+		if node is Player:
+			if absf(node.global_position.y - global_position.y) > detection_height:
+				continue
+			var distance := global_position.distance_to(node.global_position)
+			if distance <= nearest_distance:
+				nearest = node
+				nearest_distance = distance
+	return nearest
 
 
 func destroy() -> void:
@@ -71,17 +110,10 @@ func destroy() -> void:
 
 
 func get_new_animation() -> StringName:
-	var animation_new: StringName
-	if _state == State.WALKING:
-		if is_on_floor():
-			animation_new = &"idle"
-		else:
-			# Si tienes una animación "jump" en tu AnimationPlayer usa &"jump", 
-			# si no, usará &"idle" de forma fluida.
-			if animation_player.has_animation(&"jump"):
-				animation_new = &"jump"
-			else:
-				animation_new = &"idle"
-	else:
-		animation_new = &"destroy"
-	return animation_new
+	if _state == State.DEAD:
+		return &"destroy"
+	if not is_on_floor() and animation_player.has_animation(&"jump"):
+		return &"jump"
+	if not is_zero_approx(velocity.x) and animation_player.has_animation(&"walk"):
+		return &"walk"
+	return &"idle"

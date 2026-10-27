@@ -56,7 +56,7 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="3"]
-radius = 12.0
+radius = 53.740116
 
 [node name="SpecialCoin" type="Area2D" unique_id=1913898328]
 collision_layer = 0
@@ -75,6 +75,7 @@ libraries/ = SubResource("AnimationLibrary_i7oeb")
 autoplay = &"spinning"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1781705336]
+position = Vector2(19, 18)
 shape = SubResource("3")
 
 [node name="Pickup" type="AudioStreamPlayer2D" parent="." unique_id=2028274714]
