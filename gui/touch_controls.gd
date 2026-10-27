@@ -27,6 +27,7 @@ var _jump_cheat:  bool = false
 var _panel_open: bool  = false
 var _panel:      PanelContainer
 var _skin_btn:   Button
+var _limon_btn:  Button
 var _stage_btn:  Button
 var _speed_btn:  Button
 var _jump_btn:   Button
@@ -100,6 +101,10 @@ func _build_cheat_panel() -> void:
 	_skin_btn  = _make_btn("Personaje: Robot")
 	_skin_btn.pressed.connect(_on_skin_pressed)
 	vbox.add_child(_skin_btn)
+
+	_limon_btn = _make_btn("Personaje: Limón")
+	_limon_btn.pressed.connect(_on_limon_pressed)
+	vbox.add_child(_limon_btn)
 
 	_stage_btn = _make_btn("Ir a: Inicio")
 	_stage_btn.pressed.connect(_on_stage_pressed)
@@ -194,9 +199,30 @@ func _on_skin_pressed() -> void:
 		_player.toggle_skin()
 
 
+func _on_limon_pressed() -> void:
+	if _player and _player.has_method("toggle_limon_skin"):
+		_player.toggle_limon_skin()
+
+
 func _update_skin_label(skin_name: String) -> void:
 	if _skin_btn:
-		_skin_btn.text = "Personaje: " + skin_name
+		# El botón de Robot/Aguacate solo muestra esas skins
+		if skin_name in ["Robot", "Aguacate"]:
+			_skin_btn.text = "Personaje: " + skin_name
+			_skin_btn.remove_theme_color_override("font_color")
+		else:
+			_skin_btn.text = "Personaje: Robot"
+			_skin_btn.remove_theme_color_override("font_color")
+	if _limon_btn:
+		if skin_name == "Limón":
+			_limon_btn.text = "Personaje: Limón"
+			_limon_btn.remove_theme_color_override("font_color")
+		elif skin_name == "Globo 🎈":
+			_limon_btn.text = "Personaje: Limón  [GLOBO 🎈]"
+			_limon_btn.add_theme_color_override("font_color", Color(0.4, 0.85, 1.0))
+		else:
+			_limon_btn.text = "Personaje: Limón"
+			_limon_btn.remove_theme_color_override("font_color")
 
 
 func _update_stage_label() -> void:

@@ -6,11 +6,16 @@ signal special_charge_changed(current: int, max_charge: int)
 signal special_attack_ready(is_ready: bool)
 signal skin_changed(skin_name: String)
 
-const TEXTURE_ROBOT = preload("res://player/robot.png")
+const TEXTURE_ROBOT    = preload("res://player/robot.png")
 const TEXTURE_AGUACATE = preload("res://player/aguacate.png")
+const TEXTURE_LIMONES  = preload("res://player/limones.png")
+const TEXTURE_GLOBO    = preload("res://player/globo.png")
 
-enum CharacterSkin { ROBOT, AGUACATE }
+enum CharacterSkin { ROBOT, AGUACATE, LIMONES, GLOBO }
 var current_skin: CharacterSkin = CharacterSkin.ROBOT
+
+## Modo globo: movimiento libre sin gravedad
+var _balloon_mode: bool = false
 
 const MAX_SPECIAL_CHARGE = 5
 ## Valores base de movimiento
@@ -78,6 +83,42 @@ func _physics_process(delta: float) -> void:
 		velocity.y = minf(TERMINAL_VELOCITY, velocity.y + gravity * delta)
 		move_and_slide()
 		return
+
+	# ── Modo globo: subir con Jump, bajar con move_down, horizontal normal ────
+	if _balloon_mode:
+		var bspeed := BASE_WALK_SPEED * speed_mult
+		var dir_x  := Input.get_axis("move_left" + action_suffix, "move_right" + action_suffix)
+		# Subir: botón de salto (hold). Bajar: move_down
+		var going_up   := Input.is_action_pressed("jump"       + action_suffix)
+		var going_down := Input.is_action_pressed("move_down"  + action_suffix)
+		var dir_y: float = 0.0
+		if going_up:
+			dir_y = -1.0
+		elif going_down:
+			dir_y = 1.0
+		velocity.x = move_toward(velocity.x, dir_x * bspeed, bspeed * 6.0 * delta)
+		velocity.y = move_toward(velocity.y, dir_y * bspeed * 0.75, bspeed * 4.0 * delta)
+		if not is_zero_approx(velocity.x):
+			sprite.scale.x = sign(velocity.x)
+		move_and_slide()
+		# Daño por contacto (igual que modo normal)
+		if not _invincible:
+			for i in get_slide_collision_count():
+				if get_slide_collision(i).get_collider() is Enemy:
+					take_damage()
+					return
+		# Animación del globo según dirección vertical
+		var anim: StringName
+		if going_up:
+			anim = &"balloon_rise"
+		elif going_down:
+			anim = &"balloon_fall"
+		else:
+			anim = &"balloon_idle"
+		if anim != animation_player.current_animation:
+			animation_player.play(anim)
+		return
+	# ─────────────────────────────────────────────────────────────────────────
 
 	if is_on_floor():
 		_double_jump_charged = true
@@ -249,15 +290,119 @@ func toggle_skin() -> void:
 		set_skin(CharacterSkin.ROBOT)
 
 
+## Cicla entre Limón y Globo.
+func toggle_limon_skin() -> void:
+	if current_skin == CharacterSkin.LIMONES:
+		set_skin(CharacterSkin.GLOBO)
+	else:
+		set_skin(CharacterSkin.LIMONES)
+
+
 func set_skin(new_skin: CharacterSkin) -> void:
 	current_skin = new_skin
+	# Activar / desactivar modo globo
+	_balloon_mode = (current_skin == CharacterSkin.GLOBO)
+	if _balloon_mode:
+		velocity = Vector2.ZERO   # Detener caída al entrar en modo globo
 	if sprite:
 		match current_skin:
 			CharacterSkin.ROBOT:
 				sprite.texture = TEXTURE_ROBOT
+				sprite.hframes  = 8
+				sprite.vframes  = 8
 			CharacterSkin.AGUACATE:
 				sprite.texture = TEXTURE_AGUACATE
+				sprite.hframes  = 8
+				sprite.vframes  = 8
+			CharacterSkin.LIMONES:
+				sprite.texture = TEXTURE_LIMONES
+				sprite.hframes  = 6
+				sprite.vframes  = 6
+				# Limón: usar animaciones de la librería reconfigurando frames
+				_setup_limon_animations()
+			CharacterSkin.GLOBO:
+				sprite.texture = TEXTURE_GLOBO
+				sprite.hframes  = 6
+				sprite.vframes  = 4
+				_setup_globo_animations()
 	skin_changed.emit(get_skin_name())
+
+
+## Reconfigura las animaciones existentes para que usen los frames del Limón.
+## Limón 6×6 (36 frames total):
+##   idle  → fila 0: frames 0-3 (4 frames de idle)
+##   run   → fila 1: frames 6-11 (6 frames de carrera)
+##   jumping → fila 4: frame 24
+##   falling → fila 5: frame 30
+func _setup_limon_animations() -> void:
+	var lib := animation_player.get_animation_library(&"")
+	if not lib:
+		return
+	_set_anim_frames(lib, &"idle",    [0, 1, 2, 3],           0.25, true)
+	_set_anim_frames(lib, &"run",     [6, 7, 8, 9, 10, 11],   0.08, true)
+	_set_anim_frames(lib, &"jumping", [24],                   0.25, false)
+	_set_anim_frames(lib, &"falling", [30],                   0.25, false)
+	_set_anim_frames(lib, &"idle_weapon",    [0, 1, 2, 3],           0.25, true)
+	_set_anim_frames(lib, &"run_weapon",     [6, 7, 8, 9, 10, 11],   0.08, true)
+	_set_anim_frames(lib, &"jumping_weapon", [24],                   0.25, false)
+	_set_anim_frames(lib, &"falling_weapon", [30],                   0.25, false)
+
+
+## Reconfigura las animaciones para el Globo aerostático.
+## Globo 6×4 (24 frames total):
+##   balloon_idle → fila 0: frames 0-5 (flotando)
+##   balloon_rise → fila 1: frames 6-11 (subiendo con propulsor)
+##   balloon_fall → fila 3: frames 18-23 (bajando)
+##   idle / run   → alias de balloon_idle
+func _setup_globo_animations() -> void:
+	var lib := animation_player.get_animation_library(&"")
+	if not lib:
+		return
+	# Asegurarse que existen las animaciones de globo
+	_ensure_anim(lib, &"balloon_idle", [0, 1, 2, 3, 4, 5],     0.10, true)
+	_ensure_anim(lib, &"balloon_rise", [6, 7, 8, 9, 10, 11],   0.08, true)
+	_ensure_anim(lib, &"balloon_fall", [18, 19, 20, 21, 22, 23], 0.10, true)
+	# Redirigir idle/run al idle del globo
+	_set_anim_frames(lib, &"idle",    [0, 1, 2, 3, 4, 5],     0.10, true)
+	_set_anim_frames(lib, &"run",     [0, 1, 2, 3, 4, 5],     0.10, true)
+	_set_anim_frames(lib, &"jumping", [6, 7, 8, 9, 10, 11],   0.08, true)
+	_set_anim_frames(lib, &"falling", [18, 19, 20, 21, 22, 23], 0.10, true)
+
+
+## Sobrescribe los frames de una animación existente.
+func _set_anim_frames(lib: AnimationLibrary, anim_name: StringName,
+		frames: Array, fps_step: float, loop: bool) -> void:
+	if not lib.has_animation(anim_name):
+		return
+	var anim := lib.get_animation(anim_name)
+	# Buscar la pista de frame del Sprite2D
+	var track := -1
+	for i in anim.get_track_count():
+		if anim.track_get_path(i) == NodePath("Sprite2D:frame"):
+			track = i
+			break
+	if track == -1:
+		return
+	# Limpiar keyframes existentes
+	while anim.track_get_key_count(track) > 0:
+		anim.track_remove_key(track, 0)
+	# Insertar nuevos keyframes
+	for idx in frames.size():
+		anim.track_insert_key(track, idx * fps_step, frames[idx])
+	anim.length = frames.size() * fps_step
+	anim.loop_mode = Animation.LOOP_LINEAR if loop else Animation.LOOP_NONE
+
+
+## Crea una animación nueva si no existe, o la sobreescribe.
+func _ensure_anim(lib: AnimationLibrary, anim_name: StringName,
+		frames: Array, fps_step: float, loop: bool) -> void:
+	if not lib.has_animation(anim_name):
+		var new_anim := Animation.new()
+		new_anim.add_track(Animation.TYPE_VALUE)
+		new_anim.track_set_path(0, NodePath("Sprite2D:frame"))
+		new_anim.value_track_set_update_mode(0, Animation.UPDATE_DISCRETE)
+		lib.add_animation(anim_name, new_anim)
+	_set_anim_frames(lib, anim_name, frames, fps_step, loop)
 
 
 func get_skin_name() -> String:
@@ -266,6 +411,10 @@ func get_skin_name() -> String:
 			return "Robot"
 		CharacterSkin.AGUACATE:
 			return "Aguacate"
+		CharacterSkin.LIMONES:
+			return "Limón"
+		CharacterSkin.GLOBO:
+			return "Globo 🎈"
 		_:
 			return "Robot"
 
