@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://6mtip3ruyn" path="res://enemy/enemy.tscn" id="18_sui6v"]
 [ext_resource type="PackedScene" uid="uid://cqrg4jje8y0sl" path="res://enemy/npc_maizano.tscn" id="19_maizano"]
 [ext_resource type="PackedScene" uid="uid://c3dh7xb6ef76q" path="res://level/coin.tscn" id="19_tv7ir"]
+[ext_resource type="PackedScene" path="res://level/apple.tscn" id="20_apple"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw150"]
 texture = ExtResource("2_0v1st")
@@ -1527,3 +1528,6 @@ position = Vector2(3204, 2256)
 
 [node name="Coin" parent="." unique_id=606447037 instance=ExtResource("19_tv7ir")]
 position = Vector2(3242, 487)
+
+[node name="Apple1" parent="." instance=ExtResource("20_apple")]
+position = Vector2(300, 320)

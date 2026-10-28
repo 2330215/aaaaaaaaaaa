@@ -1,5 +1,5 @@
 9cad1ddce9e5a63143ba340c9520626b
-::res://::1793114592
+::res://::1793216061
 default_bus_layout.tres::AudioBusLayout::6419567431398995635::1791788471::0::1::::<><><>0<>0<><>::
 game.gd::GDScript::1948710170256859825::1793030219::0::1::::Game<>Node<><>0<>0<><>::
 game_singleplayer.tscn::PackedScene::2796527636363398270::1793111167::0::1::::<><><>0<>0<><>::uid://2078bnnk7lw0::::res://game.gd<>uid://ctgumjaytuoch::::res://level/level.tscn<>uid://vh7pmputa7r3::::res://player/player.tscn<>uid://dh3uwqsjr7t6s::::res://touch_controls.tscn<>uid://c7ai4bigaryci::::res://gui/pause_menu_singleplayer.tscn
@@ -71,7 +71,7 @@ touch_button_right.png::CompressedTexture2D::2372723059915764642::1791788471::17
 touch_controls.gd::GDScript::5031145147641160591::1793130567::0::1::::<>CanvasLayer<><>0<>0<><>::
 victory_screen.gd::GDScript::6773666034670801910::1792524103::0::1::::VictoryScreen<>CanvasLayer<><>0<>0<><>::
 victory_screen.tscn::PackedScene::-1::1792524108::0::1::::<><><>0<>0<><>::res://gui/victory_screen.gd<>uid://da4noqsij73it::::res://gui/theme.tres
-::res://level/::1793131643
+::res://level/::1793216030
 cloud_1.webp::CompressedTexture2D::3247957770214960041::1791788471::1791788471::1::::<><><>0<>0<>f77ca38d8b597869375a010265d15b9f<>res://.godot/imported/cloud_1.webp-d4440f8a56714fd63d83c7074d20ace3.ctex::
 cloud_2.webp::CompressedTexture2D::3193662280955427859::1791788471::1791788471::1::::<><><>0<>0<>c3545188515a902d3760079a242533e1<>res://.godot/imported/cloud_2.webp-6870de4e2ed6536e37af4c22aa731ad1.ctex::
 cloud_3.webp::CompressedTexture2D::815474407667414139::1791788471::1791788471::1::::<><><>0<>0<>58660040f16c70df0a46b8cba8c745eb<>res://.godot/imported/cloud_3.webp-a303ee6af47d3df137be263a98a9fa7d.ctex::
@@ -86,6 +86,7 @@ level2parte3tile.png::CompressedTexture2D::3893719477531375352::1793131643::1793
 level.gd::GDScript::5418006400233490121::1792606449::0::1::::<>Node2D<><>0<>0<><>::
 level.tscn::PackedScene::6120051906242158291::1793114090::0::1::::<><><>0<>0<><>::uid://cjgr1kswq38mn::::res://level/level.gd<>uid://08mkofgbxx70::::res://level/tileset.tres<>uid://bq1s62op2r461::::res://level/cueva.png<>uid://cw6nldo3rjyyq::::res://level/background/parallax_background.tscn<>uid://b6bbw7ccfpneu::::res://level/tiles2.png<>uid://b8y4570xnm321::::res://level/special_coin.tscn<>uid://ghkxb0mp0nyb::::res://level/background/sky1.webp<>uid://sk8j7o4wr2ar::::res://level/background/Sky.webp<>uid://c6v2n8m7x1402::::res://level/pit_hazard.tscn<>uid://df6kw4n78yq21::::res://enemy/dialogue_enemy.tscn<>uid://d3enemyjefe1x::::res://enemy/enemy_jefe.tscn<>res://level/tutorial_sign.tscn<>uid://b6mi6l3tkae6h::::res://enemy/enemy_papa.tscn<>uid://dfm8821ubqi5q::::res://enemy/enemy_coca.tscn<>uid://3edhhacjduu1::::res://enemy/npc_tuniliana.tscn<>res://gui/lives_display.tscn<>uid://6mtip3ruyn::::res://enemy/enemy.tscn<>uid://cqrg4jje8y0sl::::res://enemy/npc_maizano.tscn<>uid://c3dh7xb6ef76q::::res://level/coin.tscn
 level_2.tscn::PackedScene::2238785797922192579::1793131643::0::1::::<><><>0<>0<><>::uid://cjgr1kswq38mn::::res://level/level.gd<>uid://08mkofgbxx70::::res://level/tileset.tres<>uid://bq1s62op2r461::::res://level/cueva.png<>uid://b6bbw7ccfpneu::::res://level/tiles2.png<>uid://b8y4570xnm321::::res://level/special_coin.tscn<>uid://ghkxb0mp0nyb::::res://level/background/sky1.webp<>uid://sk8j7o4wr2ar::::res://level/background/Sky.webp<>uid://c6v2n8m7x1402::::res://level/pit_hazard.tscn<>uid://vek6i7nhbn1j::::res://level/background/parallax_background2.tscn<>uid://df6kw4n78yq21::::res://enemy/dialogue_enemy.tscn<>uid://duov7ot8sxn1a::::res://level/background/level2_parte2.png<>uid://d3enemyjefe1x::::res://enemy/enemy_jefe.tscn<>res://level/tutorial_sign.tscn<>uid://b6mi6l3tkae6h::::res://enemy/enemy_papa.tscn<>uid://dfm8821ubqi5q::::res://enemy/enemy_coca.tscn<>uid://6mtip3ruyn::::res://enemy/enemy.tscn<>res://gui/lives_display.tscn
+manzanas.png::CompressedTexture2D::6248188361795499900::1793216030::1793216063::1::::<><><>0<>0<>e7b022b2ea55324ca65712be1e609ac2<>res://.godot/imported/manzanas.png-8b4e8194ccf16b50e8d859da2f0b6c3d.ctex::
 pit_hazard.gd::GDScript::4981412214509498526::1792739440::0::1::::PitHazard<>Area2D<><>0<>0<><>::
 pit_hazard.tscn::PackedScene::6993711780419852833::1791788471::0::1::::<><><>0<>0<><>::res://level/pit_hazard.gd
 platano.webp::CompressedTexture2D::3164270479334679045::1791788471::1791788471::1::::<><><>0<>0<>28ba212f7c0476433f75fc61c6065fa6<>res://.godot/imported/platano.webp-31c8da6ad1f8c15cd3b6d69961d0eb2c.ctex::
@@ -93,7 +94,7 @@ special_coin.gd::GDScript::5944661809772900806::1793030939::0::1::::SpecialCoin<
 special_coin.tscn::PackedScene::4754013676883185776::1793113986::0::1::::<><><>0<>0<><>::uid://cj2absxg54f75::::res://level/coin.webp<>uid://w4j7xs5uhoer::::res://player/coin_pickup.wav<>uid://cqxvygqbw5gb3::::res://level/special_coin.gd
 tiles2.png::CompressedTexture2D::4564440902619809624::1791788471::1791788494::1::::<><><>0<>0<>a25e6e83aadeadd871b1fae913b9cbc5<>res://.godot/imported/tiles2.png-f2e1194a614faa67ffa9022d0ad7fc48.ctex::
 tiles.webp::CompressedTexture2D::8943829051513271016::1791788471::1791788471::1::::<><><>0<>0<>f4d4ddc68af8163f64f1c614f6c563af<>res://.godot/imported/tiles.webp-4f56cd8ea452f8ba920d65a0b9099010.ctex::
-tileset.tres::TileSet::1823592762012833405::1793131643::0::1::::<><><>0<>0<><>::uid://d0ops71sk562g::::res://level/tiles.webp<>uid://bq1s62op2r461::::res://level/cueva.png<>uid://bhnxfccpkxox6::::res://level/desierto3.png<>uid://b6bbw7ccfpneu::::res://level/tiles2.png<>uid://dhh0x4kb712ju::::res://level/tiles_level2_tileset_64x64.png
+tileset.tres::TileSet::1823592762012833405::1793131643::0::1::::<><><>0<>0<><>::uid://d0ops71sk562g::::res://level/tiles.webp<>uid://bq1s62op2r461::::res://level/cueva.png<>uid://bhnxfccpkxox6::::res://level/desierto3.png<>uid://b6bbw7ccfpneu::::res://level/tiles2.png<>uid://dhh0x4kb712ju::::res://level/tiles_level2_tileset_64x64.png<>uid://bvqe8xq66v6s7::::res://level/level2parte3tile.png
 tiles_level2_tileset_64x64.png::CompressedTexture2D::7666595137617372450::1793030939::1793030959::1::::<><><>0<>0<>82e990ae284af0b90f80dc8b45f4b5b9<>res://.godot/imported/tiles_level2_tileset_64x64.png-9699082ed9975bff52d9e3f4ce3d9455.ctex::
 tutorial_sign.gd::GDScript::-1::1791964579::0::1::::<>Node2D<><>0<>1<><>::
 tutorial_sign.tscn::PackedScene::-1::1791964146::0::1::::<><><>0<>0<><>::res://level/tutorial_sign.gd
