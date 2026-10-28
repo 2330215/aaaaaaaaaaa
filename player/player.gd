@@ -52,6 +52,8 @@ var _is_dead := false
 var _invincible := false
 ## Posición guardada para respawn en el mismo lugar
 var _respawn_position: Vector2 = Vector2.ZERO
+## escudo 
+var shield_time_left: float = 0.0
 
 
 func _ready() -> void:
@@ -77,6 +79,7 @@ func recharge_special_attack() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	shield_time_left = maxf(0.0, shield_time_left - delta)
 	# Bloquear todo si está muerto
 	if _is_dead:
 		# Solo aplicar gravedad para que el cuerpo caiga durante la animación
@@ -187,7 +190,7 @@ func get_new_animation(is_shooting := false) -> StringName:
 
 ## Llamado al recibir daño (enemigo o pit). Inicia la animación de muerte y respawn.
 func take_damage() -> void:
-	if _is_dead or _invincible:
+	if _is_dead or _invincible or shield_time_left > 0.0:
 		return
 
 	_is_dead = true
@@ -262,6 +265,7 @@ func die_from_pit(respawn_pos: Vector2) -> void:
 	if _is_dead:
 		return
 	_respawn_position = respawn_pos
+	shield_time_left = 0.0
 	take_damage()
 
 
@@ -423,3 +427,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_V:
 			toggle_skin()
+
+## escudo 
+func activate_shield(duration: float = 5.0) -> void:
+	shield_time_left = duration

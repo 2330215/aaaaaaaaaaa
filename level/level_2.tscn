@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://dfm8821ubqi5q" path="res://enemy/enemy_coca.tscn" id="16_7jqyl"]
 [ext_resource type="PackedScene" uid="uid://6mtip3ruyn" path="res://enemy/enemy.tscn" id="17_drhu7"]
 [ext_resource type="PackedScene" path="res://gui/lives_display.tscn" id="18_lives"]
+[ext_resource type="PackedScene" uid="uid://d1jwvahwnb1h5" path="res://level/shield_pickup.tscn" id="18_qg0ee"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw150"]
 texture = ExtResource("2_0v1st")
@@ -1602,7 +1603,7 @@ target_stage_index = 2
 switch_to_sky = true
 
 [node name="DialogueEnemy1" parent="." unique_id=959384139 instance=ExtResource("9_cw150")]
-position = Vector2(700, 320)
+position = Vector2(492, 262)
 speaker_name = "GUARDIÁN DEL NIVEL 1"
 dialogue_lines = ["¡Hola viajero! Bienvenido al primer nivel.", "Camina hacia el extremo derecho para encontrar la moneda brillante...", "Te llevará a los niveles inferiores si te atreves a descender."]
 
@@ -1623,7 +1624,10 @@ position = Vector2(3471, 5239)
 position = Vector2(1969, 2295)
 
 [node name="Enemy3" parent="." unique_id=277550276 instance=ExtResource("16_7jqyl")]
-position = Vector2(1818, 339)
+position = Vector2(1519, 438)
 
 [node name="Enemy" parent="." unique_id=91234316 instance=ExtResource("17_drhu7")]
 position = Vector2(1093, 2421)
+
+[node name="Coin" parent="." unique_id=2049719167 instance=ExtResource("18_qg0ee")]
+position = Vector2(925, 427)
