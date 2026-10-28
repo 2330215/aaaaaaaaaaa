@@ -4,13 +4,18 @@ extends Node
 
 signal boss_defeated()
 signal life_lost(lives_remaining: int)
+signal life_gained(lives_remaining: int)
 signal game_over()
 
 ## Conjunto de nombres de special coins que ya han sido usadas.
 var used_special_coins: Dictionary = {}
 
-## Vidas del jugador
+## Vidas del jugador.
+## MAX_LIVES  → vidas con las que empieza cada nivel.
+## MAX_STORED_LIVES → tope máximo acumulable (p. ej. recogiendo manzanas).
+## Modifica estos valores para ajustar la dificultad.
 const MAX_LIVES: int = 3
+const MAX_STORED_LIVES: int = 9
 var lives: int = MAX_LIVES
 
 ## Nivel actual, usado para las estadísticas y la pantalla de victoria.
@@ -75,6 +80,12 @@ func lose_life() -> bool:
 		game_over.emit()
 		return false
 	return true
+
+
+## Añade una vida (hasta MAX_STORED_LIVES). Usada por las manzanas.
+func gain_life() -> void:
+	lives = min(MAX_STORED_LIVES, lives + 1)
+	life_gained.emit(lives)
 
 
 ## El jefe avisa una sola vez y detiene el cronómetro del nivel.
