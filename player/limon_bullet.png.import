@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://coj0d33vyyqx1"
-path="res://.godot/imported/bullet.webp-afcd8f50a20e81f25285b6f580e633e3.ctex"
+uid="uid://c2wqw80rpcjft"
+path="res://.godot/imported/limon_bullet.png-4f209f4cadd7d201d60d7d2f498b187a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://player/bullet.webp"
-dest_files=["res://.godot/imported/bullet.webp-afcd8f50a20e81f25285b6f580e633e3.ctex"]
+source_file="res://player/limon_bullet.png"
+dest_files=["res://.godot/imported/limon_bullet.png-4f209f4cadd7d201d60d7d2f498b187a.ctex"]
 
 [params]
 
