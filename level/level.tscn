@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cw6nldo3rjyyq" path="res://level/background/parallax_background.tscn" id="2_bg"]
 [ext_resource type="Texture2D" uid="uid://b6bbw7ccfpneu" path="res://level/tiles2.png" id="3_6gtgk"]
 [ext_resource type="PackedScene" uid="uid://b8y4570xnm321" path="res://level/special_coin.tscn" id="3_coin"]
+[ext_resource type="PackedScene" uid="uid://stagegw_scn01" path="res://level/stage_gateway.tscn" id="3_gateway"]
 [ext_resource type="Texture2D" uid="uid://ghkxb0mp0nyb" path="res://level/background/sky1.webp" id="3_rhqlf"]
 [ext_resource type="Texture2D" uid="uid://sk8j7o4wr2ar" path="res://level/background/Sky.webp" id="5_l5lfc"]
 [ext_resource type="PackedScene" uid="uid://c6v2n8m7x1402" path="res://level/pit_hazard.tscn" id="6_ivpvi"]
@@ -1329,18 +1330,18 @@ tile_set = ExtResource("1_tileset")
 scale = Vector2(1, 1.3)
 transform = Transform2D(1, 0, 0, 1.3, 0, 0)
 
-[node name="SpecialCoin1" parent="." unique_id=1121133372 instance=ExtResource("3_coin")]
+[node name="StageGateway1" parent="." unique_id=1121133372 instance=ExtResource("3_gateway")]
 position = Vector2(3648, 350)
 target_position = Vector2(128, 2208)
 target_stage_index = 1
 
-[node name="SpecialCoin2" parent="." unique_id=1025301933 instance=ExtResource("3_coin")]
+[node name="StageGateway2" parent="." unique_id=1025301933 instance=ExtResource("3_gateway")]
 position = Vector2(3709, 1625)
 target_position = Vector2(128, 3990)
 target_stage_index = 2
 switch_to_cave = true
 
-[node name="SpecialCoin3" parent="." unique_id=405188148 instance=ExtResource("3_coin")]
+[node name="StageGateway3" parent="." unique_id=405188148 instance=ExtResource("3_gateway")]
 position = Vector2(3630, 3957)
 target_position = Vector2(128, 5300)
 target_stage_index = 1

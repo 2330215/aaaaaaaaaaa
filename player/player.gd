@@ -11,6 +11,9 @@ const TEXTURE_AGUACATE = preload("res://player/aguacate.png")
 const TEXTURE_LIMONES  = preload("res://player/limones.png")
 const TEXTURE_GLOBO    = preload("res://player/globo.png")
 
+const LIMON_BULLET_SCENE = preload("res://player/limon_bullet.tscn")
+const BALLOON_BULLET_VELOCITY = 800.0
+
 enum CharacterSkin { ROBOT, AGUACATE, LIMONES, GLOBO }
 var current_skin: CharacterSkin = CharacterSkin.ROBOT
 
@@ -110,9 +113,17 @@ func _physics_process(delta: float) -> void:
 				if get_slide_collision(i).get_collider() is Enemy:
 					take_damage()
 					return
-		# Animación del globo según dirección vertical
+		# ── Disparo en modo globo ────────────────────────────────────────────
+		var balloon_shooting := false
+		if Input.is_action_just_pressed("shoot" + action_suffix):
+			if gun.timer.is_stopped():
+				balloon_shooting = true
+				_shoot_limon_bullet(sprite.scale.x)
+		# Animación del globo según estado
 		var anim: StringName
-		if going_up:
+		if balloon_shooting or (animation_player.current_animation == &"balloon_shoot" and animation_player.is_playing()):
+			anim = &"balloon_shoot"
+		elif going_up:
 			anim = &"balloon_rise"
 		elif going_down:
 			anim = &"balloon_fall"
@@ -314,10 +325,12 @@ func set_skin(new_skin: CharacterSkin) -> void:
 				sprite.texture = TEXTURE_ROBOT
 				sprite.hframes  = 8
 				sprite.vframes  = 8
+				_setup_robot_animations()
 			CharacterSkin.AGUACATE:
 				sprite.texture = TEXTURE_AGUACATE
 				sprite.hframes  = 8
 				sprite.vframes  = 8
+				_setup_robot_animations()
 			CharacterSkin.LIMONES:
 				sprite.texture = TEXTURE_LIMONES
 				sprite.hframes  = 8
@@ -330,6 +343,22 @@ func set_skin(new_skin: CharacterSkin) -> void:
 				sprite.vframes  = 6
 				_setup_globo_animations()
 	skin_changed.emit(get_skin_name())
+
+
+## Restaura los frames originales del Robot/Aguacate (8×8 spritesheet).
+## Estos valores coinciden con las animaciones definidas en player.tscn.
+func _setup_robot_animations() -> void:
+	var lib := animation_player.get_animation_library(&"")
+	if not lib:
+		return
+	_set_anim_frames(lib, &"idle",            [30, 31, 32, 33],                    0.25,   true)
+	_set_anim_frames(lib, &"run",             [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],     0.06,   true)
+	_set_anim_frames(lib, &"jumping",         [45],                                0.5,    false)
+	_set_anim_frames(lib, &"falling",         [48],                                0.01,   false)
+	_set_anim_frames(lib, &"idle_weapon",     [34, 35, 36, 37],                    0.25,   true)
+	_set_anim_frames(lib, &"run_weapon",      [10, 11, 12, 13, 14, 15, 16, 17, 18, 19], 0.06, true)
+	_set_anim_frames(lib, &"jumping_weapon",  [46],                                0.5,    false)
+	_set_anim_frames(lib, &"falling_weapon",  [26],                                0.5,    false)
 
 
 ## Reconfigura las animaciones existentes para que usen los frames del Limón.
@@ -363,13 +392,15 @@ func _setup_globo_animations() -> void:
 	if not lib:
 		return
 	# Asegurarse que existen las animaciones de globo
-	_ensure_anim(lib, &"balloon_idle", [0, 1, 2, 3, 4, 5],     0.10, true)
-	_ensure_anim(lib, &"balloon_rise", [6, 7, 8, 9, 10, 11],   0.08, true)
-	_ensure_anim(lib, &"balloon_fall", [18, 19, 20, 21, 22, 23], 0.10, true)
+	_ensure_anim(lib, &"balloon_idle",  [0, 1, 2, 3, 4, 5],       0.10, true)
+	_ensure_anim(lib, &"balloon_rise",  [6, 7, 8, 9, 10, 11],     0.08, true)
+	_ensure_anim(lib, &"balloon_fall",  [18, 19, 20, 21, 22, 23], 0.10, true)
+	# Fila 6 (última): frames 40-47 → animación de disparo del globo
+	_ensure_anim(lib, &"balloon_shoot", [40, 41, 42, 43, 44, 45, 46, 47], 0.07, false)
 	# Redirigir idle/run al idle del globo
-	_set_anim_frames(lib, &"idle",    [0, 1, 2, 3, 4, 5],     0.10, true)
-	_set_anim_frames(lib, &"run",     [0, 1, 2, 3, 4, 5],     0.10, true)
-	_set_anim_frames(lib, &"jumping", [6, 7, 8, 9, 10, 11],   0.08, true)
+	_set_anim_frames(lib, &"idle",    [0, 1, 2, 3, 4, 5],       0.10, true)
+	_set_anim_frames(lib, &"run",     [0, 1, 2, 3, 4, 5],       0.10, true)
+	_set_anim_frames(lib, &"jumping", [6, 7, 8, 9, 10, 11],     0.08, true)
 	_set_anim_frames(lib, &"falling", [18, 19, 20, 21, 22, 23], 0.10, true)
 
 
@@ -407,6 +438,17 @@ func _ensure_anim(lib: AnimationLibrary, anim_name: StringName,
 		new_anim.value_track_set_update_mode(0, Animation.UPDATE_DISCRETE)
 		lib.add_animation(anim_name, new_anim)
 	_set_anim_frames(lib, anim_name, frames, fps_step, loop)
+
+
+## Dispara una bala de limón desde la posición del gun (solo en modo globo).
+func _shoot_limon_bullet(direction: float = 1.0) -> void:
+	var bullet := LIMON_BULLET_SCENE.instantiate() as RigidBody2D
+	bullet.global_position = gun.global_position + Vector2(direction * 12.0, 10.0)
+	bullet.linear_velocity = Vector2(direction * BALLOON_BULLET_VELOCITY, 0.0)
+	get_parent().add_child(bullet)
+	GameState.record_shot()
+	gun.sound_shoot.play()
+	gun.timer.start()
 
 
 func get_skin_name() -> String:

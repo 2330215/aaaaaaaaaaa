@@ -1,0 +1,116 @@
+[gd_scene format=3 uid="uid://bml66343ljfdx"]
+
+[ext_resource type="Texture2D" uid="uid://c2wqw80rpcjft" path="res://player/limon_bullet.png" id="1_limon"]
+[ext_resource type="Script" uid="uid://blesb7j1mae2y" path="res://player/bullet.gd" id="2_limon"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_limon1"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_limon2"]
+blend_mode = 1
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_limon"]
+radius = 8.0
+
+[sub_resource type="Animation" id="Animation_limon_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_limon_destroy"]
+resource_name = "destroy"
+length = 0.3
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CPUParticles2D:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 0.2, 1), Color(1, 1, 0.2, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_limon"]
+_data = {
+&"RESET": SubResource("Animation_limon_reset"),
+&"destroy": SubResource("Animation_limon_destroy")
+}
+
+[node name="LimonBullet" type="RigidBody2D" unique_id=111111111]
+z_index = 5
+material = SubResource("CanvasItemMaterial_limon1")
+scale = Vector2(0.35, 0.35)
+collision_layer = 0
+collision_mask = 26
+mass = 0.0283333
+gravity_scale = 0.05
+continuous_cd = 2
+contact_monitor = true
+max_contacts_reported = 1
+script = ExtResource("2_limon")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="." unique_id=111111112]
+self_modulate = Color(1, 1, 0.2, 0)
+material = SubResource("CanvasItemMaterial_limon2")
+emitting = false
+lifetime = 0.15
+speed_scale = 3.0
+spread = 0.0
+gravity = Vector2(0, 0)
+color = Color(1, 1, 0.2, 0.7)
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=111111113]
+material = SubResource("CanvasItemMaterial_limon1")
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("1_limon")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=111111114]
+shape = SubResource("CircleShape2D_limon")
+
+[node name="Timer" type="Timer" parent="." unique_id=111111115]
+one_shot = true
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=111111116]
+libraries/ = SubResource("AnimationLibrary_limon")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="destroy"]

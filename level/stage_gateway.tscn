@@ -1,0 +1,97 @@
+[gd_scene format=4 uid="uid://stagegw_scn01"]
+
+[ext_resource type="Script" path="res://level/stage_gateway.gd" id="1_gw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gw"]
+size = Vector2(128, 220)
+
+[sub_resource type="LabelSettings" id="LabelSettings_arrow"]
+font_size = 36
+font_color = Color(1, 0.88, 0.25, 0.9)
+outline_size = 5
+outline_color = Color(0.1, 0.05, 0.0, 1)
+shadow_size = 4
+shadow_color = Color(0, 0, 0, 0.7)
+
+[node name="StageGateway" type="Area2D"]
+collision_layer = 0
+monitorable = false
+script = ExtResource("1_gw")
+
+[node name="Border" type="ColorRect" parent="."]
+offset_left = -104.0
+offset_top = -148.0
+offset_right = 104.0
+offset_bottom = 120.0
+color = Color(0.20, 0.14, 0.09, 1.0)
+
+[node name="Passage" type="ColorRect" parent="."]
+offset_left = -80.0
+offset_top = -132.0
+offset_right = 80.0
+offset_bottom = 104.0
+color = Color(0.03, 0.01, 0.04, 0.97)
+
+[node name="CeilingStrip" type="ColorRect" parent="."]
+offset_left = -104.0
+offset_top = -148.0
+offset_right = 104.0
+offset_bottom = -116.0
+color = Color(0.30, 0.22, 0.14, 1.0)
+
+[node name="LeftPillar" type="ColorRect" parent="."]
+offset_left = -104.0
+offset_top = -132.0
+offset_right = -80.0
+offset_bottom = 104.0
+color = Color(0.28, 0.20, 0.12, 1.0)
+
+[node name="RightPillar" type="ColorRect" parent="."]
+offset_left = 80.0
+offset_top = -132.0
+offset_right = 104.0
+offset_bottom = 104.0
+color = Color(0.28, 0.20, 0.12, 1.0)
+
+[node name="GroundStrip" type="ColorRect" parent="."]
+offset_left = -104.0
+offset_top = 104.0
+offset_right = 104.0
+offset_bottom = 120.0
+color = Color(0.30, 0.22, 0.14, 1.0)
+
+[node name="DepthGlow" type="ColorRect" parent="."]
+offset_left = -72.0
+offset_top = -124.0
+offset_right = -44.0
+offset_bottom = 96.0
+color = Color(0.9, 0.7, 0.15, 0.07)
+
+[node name="ArrowHint" type="Label" parent="."]
+offset_left = -30.0
+offset_top = -24.0
+offset_right = 50.0
+offset_bottom = 30.0
+text = "→"
+label_settings = SubResource("LabelSettings_arrow")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-16, -14)
+shape = SubResource("RectangleShape2D_gw")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 120
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
