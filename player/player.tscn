@@ -183,7 +183,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="11"]
-size = Vector2(42.5, 54.5)
+size = Vector2(83.75, 92.50003)
 
 [node name="Player" type="CharacterBody2D" unique_id=1467610487]
 scale = Vector2(0.8, 0.8)
@@ -209,7 +209,7 @@ position = Vector2(0, -14)
 texture = ExtResource("2_qjkh3")
 hframes = 8
 vframes = 8
-frame = 8
+frame = 42
 
 [node name="Gun" type="Marker2D" parent="Sprite2D" unique_id=1579385694]
 position = Vector2(14, 1)
@@ -240,7 +240,8 @@ drag_top_margin = 1.0
 editor_draw_drag_margin = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1344710521]
-position = Vector2(0, -14)
+position = Vector2(-0.62500346, -2.5000036)
+scale = Vector2(0.99999946, 0.99999946)
 shape = SubResource("11")
 
 [node name="AudioListener2D" type="AudioListener2D" parent="." unique_id=507652681]

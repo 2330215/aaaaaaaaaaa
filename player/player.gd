@@ -320,14 +320,14 @@ func set_skin(new_skin: CharacterSkin) -> void:
 				sprite.vframes  = 8
 			CharacterSkin.LIMONES:
 				sprite.texture = TEXTURE_LIMONES
-				sprite.hframes  = 6
-				sprite.vframes  = 6
+				sprite.hframes  = 8
+				sprite.vframes  = 8
 				# Limón: usar animaciones de la librería reconfigurando frames
 				_setup_limon_animations()
 			CharacterSkin.GLOBO:
 				sprite.texture = TEXTURE_GLOBO
-				sprite.hframes  = 6
-				sprite.vframes  = 4
+				sprite.hframes  = 8
+				sprite.vframes  = 6
 				_setup_globo_animations()
 	skin_changed.emit(get_skin_name())
 
