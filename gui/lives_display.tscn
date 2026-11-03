@@ -1,7 +1,11 @@
 [gd_scene format=3 uid="uid://lives_display01"]
 
 [ext_resource type="Script" path="res://gui/lives_display.gd" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://bi5cse7d4spxa" path="res://icon.webp" id="2_icon"]
+[ext_resource type="Texture2D" path="res://player/robot.png" id="2_icon"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_portrait"]
+atlas = ExtResource("2_icon")
+region = Rect2(0, 0, 128, 128)
 
 [sub_resource type="LabelSettings" id="LabelSettings_lives"]
 font_size = 28
@@ -26,9 +30,9 @@ grow_vertical = 1
 theme_override_constants/separation = 6
 
 [node name="IconTexture" type="TextureRect" parent="Container"]
-custom_minimum_size = Vector2(36, 36)
+custom_minimum_size = Vector2(44, 44)
 layout_mode = 2
-texture = ExtResource("2_icon")
+texture = SubResource("AtlasTexture_portrait")
 expand_mode = 1
 stretch_mode = 5
 
