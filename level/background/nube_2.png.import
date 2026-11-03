@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://de48yuhe4t10j"
-path="res://.godot/imported/cloud_1.webp-c65f6a46c6e6e73306ba4ed0326c749e.ctex"
+uid="uid://brwlmovi0jkp6"
+path="res://.godot/imported/nube_2.png-df7c7f012c643d7ea8eadd4478eef2cf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://level/background/cloud_1.webp"
-dest_files=["res://.godot/imported/cloud_1.webp-c65f6a46c6e6e73306ba4ed0326c749e.ctex"]
+source_file="res://level/background/nube_2.png"
+dest_files=["res://.godot/imported/nube_2.png-df7c7f012c643d7ea8eadd4478eef2cf.ctex"]
 
 [params]
 

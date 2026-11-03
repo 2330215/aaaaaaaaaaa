@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdtqk8deumkb1"
-path="res://.godot/imported/static_sheet.png-123f515a40305ee79621bb16ac8f3e57.ctex"
+uid="uid://booncpqf4b635"
+path="res://.godot/imported/Mazorquino.png-c00f8f564adb237c89a7ae65552ab62e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://gui/static_sheet.png"
-dest_files=["res://.godot/imported/static_sheet.png-123f515a40305ee79621bb16ac8f3e57.ctex"]
+source_file="res://enemy/Mazorquino.png"
+dest_files=["res://.godot/imported/Mazorquino.png-c00f8f564adb237c89a7ae65552ab62e.ctex"]
 
 [params]
 

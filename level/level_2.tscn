@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" path="res://gui/lives_display.tscn" id="18_lives"]
 [ext_resource type="PackedScene" uid="uid://d1jwvahwnb1h5" path="res://level/shield_pickup.tscn" id="18_qg0ee"]
 [ext_resource type="PackedScene" uid="uid://c3dh7xb6ef76q" path="res://level/coin.tscn" id="19_vpspb"]
+[ext_resource type="PackedScene" uid="uid://cibfgb83x8mih" path="res://enemy/enemy_redbull.tscn" id="20_algu2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw150"]
 texture = ExtResource("2_0v1st")
@@ -1749,3 +1750,6 @@ position = Vector2(3093, 5087)
 
 [node name="Coin30" parent="." unique_id=473916755 instance=ExtResource("19_vpspb")]
 position = Vector2(2917, 5085)
+
+[node name="Enemy12" parent="." unique_id=1470765767 instance=ExtResource("20_algu2")]
+position = Vector2(926, 384)
