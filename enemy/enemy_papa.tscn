@@ -2,9 +2,10 @@
 
 [ext_resource type="Script" uid="uid://btmm3bq7d2ge1" path="res://enemy/enemy_papa.gd" id="1_dfoyh"]
 [ext_resource type="Texture2D" uid="uid://deovbng166f6j" path="res://enemy/papa_completo.png" id="2_dfoyh"]
-[ext_resource type="Texture2D" uid="uid://coj0d33vyyqx1" path="res://player/bullet.webp" id="3_opqih"]
+[ext_resource type="Texture2D" uid="uid://dh5f4544n38df" path="res://player/bullet.webp" id="3_opqih"]
 [ext_resource type="AudioStream" uid="uid://dm7wsawmylc7b" path="res://enemy/hit.wav" id="4_1tfpt"]
 [ext_resource type="AudioStream" uid="uid://duwm7i44o75o2" path="res://enemy/explode.wav" id="5_835tt"]
+
 
 [sub_resource type="CanvasItemMaterial" id="1"]
 

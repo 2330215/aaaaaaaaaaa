@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d3enemyjefe1x"]
 
-[ext_resource type="Texture2D" uid="uid://coj0d33vyyqx1" path="res://player/bullet.webp" id="1_bullet"]
+[ext_resource type="Texture2D" uid="uid://dh5f4544n38df" path="res://player/bullet.webp" id="1_bullet"]
 [ext_resource type="AudioStream" uid="uid://duwm7i44o75o2" path="res://enemy/explode.wav" id="2_explode"]
 [ext_resource type="Texture2D" uid="uid://clxy0ykt3uqle" path="res://enemy/chocolate_nuevo.png" id="2_lq565"]
 [ext_resource type="AudioStream" uid="uid://dm7wsawmylc7b" path="res://enemy/hit.wav" id="3_hit"]

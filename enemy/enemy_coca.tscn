@@ -2,9 +2,10 @@
 
 [ext_resource type="Script" uid="uid://b5iqiedkokml" path="res://enemy/enemy_coca.gd" id="1_kus5p"]
 [ext_resource type="Texture2D" uid="uid://bq4l2ykoq3kuj" path="res://enemy/refresco_sprite_godot_576x128.png" id="2_kus5p"]
-[ext_resource type="Texture2D" uid="uid://coj0d33vyyqx1" path="res://player/bullet.webp" id="3_gp2i7"]
+[ext_resource type="Texture2D" uid="uid://dh5f4544n38df" path="res://player/bullet.webp" id="3_gp2i7"]
 [ext_resource type="AudioStream" uid="uid://dm7wsawmylc7b" path="res://enemy/hit.wav" id="4_f7rxy"]
 [ext_resource type="AudioStream" uid="uid://duwm7i44o75o2" path="res://enemy/explode.wav" id="5_rbmr2"]
+
 
 [sub_resource type="CanvasItemMaterial" id="1"]
 

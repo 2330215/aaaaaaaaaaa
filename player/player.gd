@@ -57,9 +57,13 @@ var _invincible := false
 var _respawn_position: Vector2 = Vector2.ZERO
 ## escudo 
 var shield_time_left: float = 0.0
+var _shield_effect: Node2D
+const SHIELD_EFFECT_SCRIPT = preload("res://player/shield_effect.gd")
 
 
 func _ready() -> void:
+	_shield_effect = SHIELD_EFFECT_SCRIPT.new()
+	add_child(_shield_effect)
 	add_to_group("player")
 	coin_collected.connect(_on_coin_collected_internal)
 	_respawn_position = global_position
@@ -472,4 +476,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 ## escudo 
 func activate_shield(duration: float = 5.0) -> void:
-	shield_time_left = duration
+	shield_time_left = maxf(0.0, duration)
+	if is_instance_valid(_shield_effect):
+		_shield_effect.refresh()
