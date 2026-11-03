@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://vek6i7nhbn1j" path="res://level/background/parallax_background2.tscn" id="8_qhnra"]
 [ext_resource type="PackedScene" uid="uid://df6kw4n78yq21" path="res://enemy/dialogue_enemy.tscn" id="9_cw150"]
 [ext_resource type="Texture2D" uid="uid://duov7ot8sxn1a" path="res://level/background/level2_parte2.png" id="10_drhu7"]
-[ext_resource type="PackedScene" uid="uid://d3enemyjefe1x" path="res://enemy/enemy_jefe.tscn" id="10_jefe"]
+[ext_resource type="PackedScene" uid="uid://95o53btpxvry" path="res://enemy/enemy_jefe2.tscn" id="10_jefe"]
 [ext_resource type="PackedScene" path="res://level/tutorial_sign.tscn" id="11_sign"]
 [ext_resource type="PackedScene" uid="uid://b6mi6l3tkae6h" path="res://enemy/enemy_papa.tscn" id="15_fm1jd"]
 [ext_resource type="PackedScene" uid="uid://dfm8821ubqi5q" path="res://enemy/enemy_coca.tscn" id="16_7jqyl"]

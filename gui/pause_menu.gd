@@ -8,6 +8,12 @@ class_name PauseMenu extends Control
 @onready var resume_button := center_cont.get_node(^"VBoxContainer/ResumeButton") as Button
 @onready var coins_counter := $ColorRect/CoinsCounter as CoinsCounter
 
+## Escenas de nivel 1 y nivel 2 (singleplayer y splitscreen)
+const SCENE_SP_L1 := "res://game_singleplayer.tscn"
+const SCENE_SP_L2 := "res://game_singleplayer_level2.tscn"
+const SCENE_SS_L1 := "res://game_splitscreen.tscn"
+const SCENE_SS_L2 := "res://game_splitscreen_level2.tscn"
+
 
 func _ready() -> void:
 	hide()
@@ -75,3 +81,21 @@ func _on_splitscreen_button_pressed() -> void:
 func _on_quit_button_pressed() -> void:
 	if visible:
 		get_tree().quit()
+
+
+func _on_goto_level1_pressed() -> void:
+	if not visible:
+		return
+	get_tree().paused = false
+	var scene := get_tree().current_scene
+	var is_split := scene != null and scene.name.to_lower().contains("splitscreen")
+	get_tree().change_scene_to_file(SCENE_SS_L1 if is_split else SCENE_SP_L1)
+
+
+func _on_goto_level2_pressed() -> void:
+	if not visible:
+		return
+	get_tree().paused = false
+	var scene := get_tree().current_scene
+	var is_split := scene != null and scene.name.to_lower().contains("splitscreen")
+	get_tree().change_scene_to_file(SCENE_SS_L2 if is_split else SCENE_SP_L2)
