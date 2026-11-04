@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bprlvl3n8x1at"]
+
+[ext_resource type="Script" path="res://level/background/parallax_background_level3.gd" id="1_lv3bg"]
+[ext_resource type="Texture2D" uid="uid://c675t24ir45dt" path="res://level/background/level3_parte2.png" id="2_lv3p2"]
+[ext_resource type="Texture2D" uid="uid://crfd80mj1mbv3" path="res://level/background/level3_parte3.png" id="3_lv3p3"]
+
+[node name="ParallaxBackground" type="ParallaxBackground" unique_id=91308734]
+scroll_base_scale = Vector2(0.1, 0)
+script = ExtResource("1_lv3bg")
+
+[node name="Sky" type="ParallaxLayer" parent="." unique_id=1690213655]
+motion_scale = Vector2(0.2, 1)
+motion_mirroring = Vector2(1024, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Sky" unique_id=498925166]
+position = Vector2(0, -240)
+texture = ExtResource("2_lv3p2")
+centered = false
+
+[node name="Sprite2" type="Sprite2D" parent="Sky" unique_id=812567950]
+position = Vector2(0, -100)
+texture = ExtResource("2_lv3p2")
+centered = false
+
+[node name="Sprite3" type="Sprite2D" parent="Sky" unique_id=2126795543]
+position = Vector2(6, -242)
+texture = ExtResource("3_lv3p3")
+centered = false

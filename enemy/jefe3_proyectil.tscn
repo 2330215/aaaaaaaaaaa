@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://depsyk8glc7uf"]
+
+[ext_resource type="Script" path="res://enemy/jefe3_proyectil.gd" id="1_wacur"]
+[ext_resource type="Texture2D" path="res://enemy/onda_rosa.png" id="2_v2cff"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_seeker"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_v2cff")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g4j88"]
+radius = 4.1230617
+height = 15.479856
+
+[node name="JefeSeeker" type="Area2D" unique_id=1789341361]
+collision_layer = 16
+script = ExtResource("1_wacur")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=456084232]
+position = Vector2(1, -0.9999999)
+scale = Vector2(0.02401101, 0.027495112)
+sprite_frames = SubResource("SpriteFrames_seeker")
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1444867304]
+rotation = 2.3125613
+shape = SubResource("CapsuleShape2D_g4j88")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

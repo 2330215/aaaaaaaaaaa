@@ -71,7 +71,7 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id="Animation_7yr8q"]
 resource_name = "attack"
-loop_mode = 1
+length = 0.36666667
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -277,7 +277,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jefe"]
-size = Vector2(116.250046, 160.00009)
+size = Vector2(196.25021, 271.25027)
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_add"]
 blend_mode = 1
@@ -309,7 +309,7 @@ collision_mask = 24
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1255075968]
 position = Vector2(0, -14)
-scale = Vector2(3.0539362, 3.0172887)
+scale = Vector2(5.7812495, 5.7118735)
 texture = ExtResource("2_vhgub")
 hframes = 9
 vframes = 2
@@ -318,14 +318,19 @@ vframes = 2
 libraries/ = SubResource("AnimationLibrary_jefe")
 autoplay = &"RESET"
 
+[node name="proyectil" type="Marker2D" parent="." unique_id=881190682]
+position = Vector2(-86.24997, 17.500004)
+scale = Vector2(0.99999976, 0.99999976)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1346309361]
-position = Vector2(1.25, -3.7499998)
-scale = Vector2(0.9999992, 0.9999992)
+position = Vector2(1.8750032, 8.1249895)
+scale = Vector2(0.9999988, 0.9999988)
 shape = SubResource("RectangleShape2D_jefe")
 
 [node name="Explosion" type="CPUParticles2D" parent="." unique_id=1816923463]
 self_modulate = Color(1, 1, 1, 0.12)
 material = SubResource("CanvasItemMaterial_add")
+position = Vector2(1.2500076, 1.2500038)
 emitting = false
 amount = 32
 texture = ExtResource("3_hhcgl")
@@ -340,7 +345,9 @@ gravity = Vector2(0, -250)
 color_ramp = SubResource("Gradient_exp")
 
 [node name="Hit" type="AudioStreamPlayer2D" parent="." unique_id=1966580274]
+position = Vector2(2.4999962, -2.500001)
 stream = ExtResource("4_jpku7")
 
 [node name="Explode" type="AudioStreamPlayer2D" parent="." unique_id=560553588]
+position = Vector2(3.8146973e-06, 7.1054274e-15)
 stream = ExtResource("5_v8a0x")
