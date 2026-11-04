@@ -1,15 +1,13 @@
 [gd_scene format=3 uid="uid://c88t65y1x0a11"]
 
-[ext_resource type="Script" path="res://level/dialogue_box.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://bmgq0ycueqq8x" path="res://level/dialogue_box.gd" id="1_script"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_name"]
 font_size = 18
-font_color = Color(0.2, 0.9, 1, 1)
 outline_size = 4
-outline_color = Color(0, 0.2, 0.4, 1)
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_text"]
-font_size = 16
 font_color = Color(0.95, 0.95, 0.95, 1)
 shadow_size = 2
 shadow_color = Color(0, 0, 0, 0.8)
@@ -18,11 +16,11 @@ shadow_color = Color(0, 0, 0, 0.8)
 font_size = 12
 font_color = Color(0.7, 0.7, 0.7, 1)
 
-[node name="DialogueBox" type="CanvasLayer"]
+[node name="DialogueBox" type="CanvasLayer" unique_id=528072498]
 layer = 110
 script = ExtResource("1_script")
 
-[node name="Panel" type="Control" parent="."]
+[node name="Panel" type="Control" parent="." unique_id=1833264554]
 visible = false
 layout_mode = 3
 anchors_preset = 12
@@ -36,16 +34,16 @@ offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="Border" type="ColorRect" parent="Panel"]
+[node name="Border" type="ColorRect" parent="Panel" unique_id=1442124534]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.2, 0.8, 1, 0.8)
+color = Color(0, 0, 0, 0.8)
 
-[node name="Background" type="ColorRect" parent="Panel"]
+[node name="Background" type="ColorRect" parent="Panel" unique_id=215693031]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -58,7 +56,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.05, 0.05, 0.12, 0.92)
 
-[node name="HBox" type="HBoxContainer" parent="Panel"]
+[node name="HBox" type="HBoxContainer" parent="Panel" unique_id=588457578]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -71,30 +69,30 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 15
 
-[node name="Portrait" type="TextureRect" parent="Panel/HBox"]
+[node name="Portrait" type="TextureRect" parent="Panel/HBox" unique_id=328164008]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VBox" type="VBoxContainer" parent="Panel/HBox"]
+[node name="VBox" type="VBoxContainer" parent="Panel/HBox" unique_id=175150758]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 4
 
-[node name="NameLabel" type="Label" parent="Panel/HBox/VBox"]
+[node name="NameLabel" type="Label" parent="Panel/HBox/VBox" unique_id=1089659449]
 layout_mode = 2
 text = "PERSONAJE"
 label_settings = SubResource("LabelSettings_name")
 
-[node name="TextLabel" type="Label" parent="Panel/HBox/VBox"]
+[node name="TextLabel" type="Label" parent="Panel/HBox/VBox" unique_id=260317971]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Texto de diálogo..."
 label_settings = SubResource("LabelSettings_text")
 autowrap_mode = 3
 
-[node name="PromptLabel" type="Label" parent="Panel/HBox/VBox"]
+[node name="PromptLabel" type="Label" parent="Panel/HBox/VBox" unique_id=2111023042]
 layout_mode = 2
 text = "Toca para continuar ▶"
 label_settings = SubResource("LabelSettings_prompt")

@@ -29,7 +29,7 @@ _data = {
 height = 24.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_interact"]
-radius = 75.0
+radius = 52.009613
 
 [sub_resource type="LabelSettings" id="LabelSettings_prompt"]
 font_size = 14
@@ -52,7 +52,8 @@ libraries/ = SubResource("AnimationLibrary_enemy")
 autoplay = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1771770181]
-position = Vector2(0, 77)
+visible = false
+position = Vector2(6, 79)
 rotation = -1.5708
 shape = SubResource("CapsuleShape2D_enemy")
 
@@ -61,6 +62,7 @@ collision_layer = 0
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=213006426]
+position = Vector2(3, 1)
 shape = SubResource("CircleShape2D_interact")
 
 [node name="PromptLabel" type="Label" parent="." unique_id=732347786]
