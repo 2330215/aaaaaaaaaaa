@@ -11,11 +11,15 @@ class_name StageGateway extends Area2D
 @export var switch_to_sky: bool = false
 
 @onready var fade_rect: ColorRect = $CanvasLayer/ColorRect
+@onready var _canvas_layer: CanvasLayer = $CanvasLayer
 
 var _triggered := false
 
 
 func _ready() -> void:
+	# El CanvasLayer del fade debe ser pausable: cuando el menú pausa
+	# el árbol el overlay negro se detiene y no bloquea la UI del menú.
+	_canvas_layer.process_mode = Node.PROCESS_MODE_PAUSABLE
 	if fade_rect:
 		fade_rect.color = Color(0, 0, 0, 0)
 		fade_rect.visible = false
@@ -26,19 +30,29 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	if not (body is Player):
 		return
+	# No iniciar la transición si el juego está pausado (menú abierto, etc.)
+	if get_tree().paused:
+		return
 	_triggered = true
 	GameState.record_special_coin()
 	set_deferred("monitoring", false)
 
-	# 1. Fade a negro
+	# 1. Fade a negro — el tween se congela si se pausa
 	if fade_rect:
 		fade_rect.visible = true
 		var tween := create_tween()
+		tween.set_pause_mode(Tween.TWEEN_PAUSE_STOP)
 		tween.tween_property(fade_rect, "color:a", 1.0, 1.0)
 		await tween.finished
+		if not is_inside_tree():
+			return
 
 	# 2. Pausa un segundo con pantalla negra
-	await get_tree().create_timer(1.0).timeout
+	# process=false → el timer no es afectado por get_tree().paused
+	# (ya hemos verificado que no estamos pausados al entrar)
+	await get_tree().create_timer(1.0, false).timeout
+	if not is_inside_tree():
+		return
 
 	# 3. Cambiar fondo mientras la pantalla está negra
 	var backgrounds := get_tree().get_nodes_in_group("level_background")
@@ -56,12 +70,17 @@ func _on_body_entered(body: Node2D) -> void:
 				sibling.global_position = target_position + Vector2(25, 0)
 
 	await get_tree().process_frame
+	if not is_inside_tree():
+		return
 
 	# 5. Fade de vuelta
 	if fade_rect:
 		var tween_in := create_tween()
+		tween_in.set_pause_mode(Tween.TWEEN_PAUSE_STOP)
 		tween_in.tween_property(fade_rect, "color:a", 0.0, 1.0)
 		await tween_in.finished
+		if not is_inside_tree():
+			return
 		fade_rect.visible = false
 
 	# 6. Rearmar: el pasillo siempre puede usarse de nuevo

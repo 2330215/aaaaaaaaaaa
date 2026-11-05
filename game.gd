@@ -111,7 +111,9 @@ func _set_music_paused(paused: bool) -> void:
 func _play_fade_in() -> void:
 	var fade_layer := CanvasLayer.new()
 	fade_layer.layer = 300
-	fade_layer.process_mode = Node.PROCESS_MODE_ALWAYS
+	# Pausable: si el menú se abre durante el fade, este se detiene
+	# y no se superpone sobre la UI del menú de pausa.
+	fade_layer.process_mode = Node.PROCESS_MODE_PAUSABLE
 	add_child(fade_layer)
 
 	var fade_rect := ColorRect.new()
@@ -123,6 +125,8 @@ func _play_fade_in() -> void:
 	await get_tree().process_frame
 
 	var tween := create_tween()
+	tween.set_pause_mode(Tween.TWEEN_PAUSE_STOP)
 	tween.tween_property(fade_rect, "color:a", 0.0, 0.8)
 	await tween.finished
 	fade_layer.queue_free()
+
