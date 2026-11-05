@@ -10,7 +10,8 @@ class_name EnemyJefe2 extends Enemy
 @export var jump_interval_max: float = 2.5
 
 ## Distancia a la que el jefe lanza el puñetazo
-@export var punch_distance: float = 260.0
+@export var punch_distance: float = 320.0
+@export var punch_speed: float = 680.0
 ## Tiempo entre puñetazos
 @export var punch_cooldown_min: float = 1.5
 @export var punch_cooldown_max: float = 2.5
@@ -21,6 +22,12 @@ class_name EnemyJefe2 extends Enemy
 const JAGUAR_TEX := preload("res://enemy/jaguar_frente_64x64.png")
 const DIALOGUE_BOX_SCENE := preload("res://level/dialogue_box.tscn")
 
+enum PunchPhase { NONE, WINDUP, LUNGE, RECOVERY }
+
+const WINDUP_TIME := 0.30
+const LUNGE_TIME := 0.34
+const RECOVERY_TIME := 0.28
+
 var _jump_timer: float = 1.5
 var _punch_timer: float = 2.0
 var _player: Node2D = null
@@ -30,6 +37,10 @@ var _was_ascending := false
 var _health: int = 8
 var _is_hurt: bool = false
 var _is_punching: bool = false   # true mientras dura la animación del puñetazo
+var _punch_phase := PunchPhase.NONE
+var _phase_time := 0.0
+var _attack_direction := 1.0
+var _sprite_rest_position := Vector2.ZERO
 var _punch_hit_delivered: bool = false  # evita golpear varias veces por puñetazo
 var _activated: bool = false
 var _defeated: bool = false
@@ -39,6 +50,8 @@ var _punch_hitbox: Area2D = null
 
 
 func _ready() -> void:
+	super._ready()
+	_sprite_rest_position = sprite.position
 	_reset_jump_timer()
 	_reset_punch_timer()
 	_player = _find_player()
@@ -63,13 +76,12 @@ func _build_punch_hitbox() -> void:
 
 	var shape := CollisionShape2D.new()
 	var rect := RectangleShape2D.new()
-	rect.size = Vector2(120, 80)
+	rect.size = Vector2(64, 72)
 	shape.shape = rect
-	shape.position = Vector2(100, 0)  # a la derecha del jefe; se voltea con flip_h
+	shape.position = Vector2(68, -4)  # a la derecha; el Area2D se orienta con facing_direction
 	_punch_hitbox.add_child(shape)
 	add_child(_punch_hitbox)
 
-	_punch_hitbox.area_entered.connect(_on_punch_hit_area)
 	_punch_hitbox.body_entered.connect(_on_punch_hit_body)
 
 
@@ -129,41 +141,31 @@ func _physics_process(delta: float) -> void:
 	if not is_instance_valid(_player):
 		_player = _find_player()
 
-	# Orientar hacia el jugador cuando está en el suelo
-	if is_on_floor() and is_instance_valid(_player):
+	if _state == State.WALKING and not _is_punching and not _is_hurt and is_instance_valid(_player):
 		var diff := _player.global_position.x - global_position.x
-		if abs(diff) > 8.0:
-			facing_direction = sign(diff)
+		if absf(diff) > 8.0:
+			facing_direction = signf(diff)
 
-	# Gravedad
 	velocity.y += gravity * delta
-
 	if _state == State.WALKING:
-		if not _is_punching:
-			_handle_movement(delta)
+		if _is_hurt:
+			velocity.x = move_toward(velocity.x, 0.0, 700.0 * delta)
+		elif _is_punching:
+			_update_punch(delta)
 		else:
-			# Durante el puñetazo el jefe se detiene horizontalmente
-			velocity.x = move_toward(velocity.x, 0.0, 800.0 * delta)
-
-		_handle_punch_logic(delta)
+			_handle_punch_logic(delta)
+			if not _is_punching:
+				_handle_movement(delta)
+	else:
+		velocity.x = 0.0
 
 	move_and_slide()
+	if _punch_phase == PunchPhase.LUNGE and is_on_wall():
+		_begin_recovery()
 
-	# Orientar sprite
-	if velocity.x > 0.0:
-		sprite.flip_h = false
-		if _punch_hitbox:
-			_punch_hitbox.scale.x = 1.0
-	elif velocity.x < 0.0:
-		sprite.flip_h = true
-		if _punch_hitbox:
-			_punch_hitbox.scale.x = -1.0
-	elif is_instance_valid(_player):
-		# Si está parado, orientar hacia el jugador
-		var dir: float = signf(_player.global_position.x - global_position.x)
-		sprite.flip_h = (dir < 0.0)
-		if _punch_hitbox:
-			_punch_hitbox.scale.x = dir if dir != 0.0 else 1.0
+	# La dirección queda fijada durante todo el golpe, incluso si el jugador lo esquiva.
+	sprite.flip_h = facing_direction < 0.0
+	_punch_hitbox.scale.x = facing_direction
 
 	# Animaciones
 	var animation := get_new_animation()
@@ -202,61 +204,81 @@ func _handle_movement(delta: float) -> void:
 			velocity.y = jump_force * 0.85
 
 		if is_on_wall():
-			facing_direction = -facing_direction
-			velocity.x = move_speed * facing_direction
+			velocity.x = 0.0
 
 
 func _handle_punch_logic(delta: float) -> void:
-	if _is_punching:
-		return
+	_punch_timer = maxf(0.0, _punch_timer - delta)
 	if not is_instance_valid(_player):
 		return
-	var dist := absf(_player.global_position.x - global_position.x)
-	if dist <= punch_distance and is_on_floor():
-		_punch_timer -= delta
-		if _punch_timer <= 0.0:
-			_do_punch()
-			_reset_punch_timer()
-	else:
-		_reset_punch_timer()
+	var offset := _player.global_position - global_position
+	if absf(offset.x) <= punch_distance and absf(offset.y) < 100.0 and is_on_floor() and _punch_timer <= 0.0:
+		_do_punch()
 
 
 func _do_punch() -> void:
 	_is_punching = true
 	_punch_hit_delivered = false
-
-	# Animación de preparación (fila 4: frames 36-44) → luego golpe (fila 5: frames 45-53)
+	_attack_direction = facing_direction
+	_punch_phase = PunchPhase.WINDUP
+	_phase_time = 0.0
+	velocity.x = 0.0
 	animation_player.play(&"punch_windup")
-	await animation_player.animation_finished
 
-	if not is_instance_valid(self):
-		return
 
-	# Activar hitbox en el frame del golpe
-	if _punch_hitbox:
-		_punch_hitbox.monitoring = true
+func _update_punch(delta: float) -> void:
+	_phase_time += delta
+	match _punch_phase:
+		PunchPhase.WINDUP:
+			velocity.x = move_toward(velocity.x, 0.0, 1800.0 * delta)
+			sprite.position.x = _sprite_rest_position.x - 8.0 * _attack_direction * minf(_phase_time / WINDUP_TIME, 1.0)
+			if _phase_time >= WINDUP_TIME:
+				_punch_phase = PunchPhase.LUNGE
+				_phase_time = 0.0
+				animation_player.play(&"punch_hit")
+		PunchPhase.LUNGE:
+			# El cuerpo avanza mediante la física; nunca se teletransporta a través de paredes.
+			var detector := floor_detector_right if _attack_direction > 0.0 else floor_detector_left
+			detector.force_raycast_update()
+			if not is_on_floor() or not detector.is_colliding():
+				_begin_recovery()
+				return
+			velocity.x = _attack_direction * punch_speed * lerpf(1.0, 0.55, minf(_phase_time / LUNGE_TIME, 1.0))
+			sprite.position.x = lerpf(sprite.position.x, _sprite_rest_position.x + 18.0 * _attack_direction, minf(delta * 28.0, 1.0))
+			sprite.rotation = -0.08 * _attack_direction
+			# El daño solo coincide con la extensión del puño, no con la preparación.
+			_punch_hitbox.set_deferred("monitoring", _phase_time >= 0.05 and _phase_time < 0.28)
+			if _phase_time >= LUNGE_TIME:
+				_begin_recovery()
+		PunchPhase.RECOVERY:
+			velocity.x = move_toward(velocity.x, 0.0, 2600.0 * delta)
+			sprite.position = sprite.position.lerp(_sprite_rest_position, minf(delta * 18.0, 1.0))
+			sprite.rotation = lerpf(sprite.rotation, 0.0, minf(delta * 18.0, 1.0))
+			if _phase_time >= RECOVERY_TIME:
+				_cancel_punch()
+				_reset_punch_timer()
 
-	animation_player.play(&"punch_hit")
-	await animation_player.animation_finished
 
-	if not is_instance_valid(self):
-		return
+func _begin_recovery() -> void:
+	_punch_phase = PunchPhase.RECOVERY
+	_phase_time = 0.0
+	velocity.x = 0.0
+	_punch_hitbox.set_deferred("monitoring", false)
+	animation_player.play(&"punch_recover")
 
-	# Desactivar hitbox
-	if _punch_hitbox:
-		_punch_hitbox.monitoring = false
 
+func _cancel_punch() -> void:
 	_is_punching = false
+	_punch_phase = PunchPhase.NONE
+	_punch_hitbox.set_deferred("monitoring", false)
+	sprite.position = _sprite_rest_position
+	sprite.rotation = 0.0
 
 
 # ── Callbacks de hitbox ──────────────────────────────────────────────────────
 
-func _on_punch_hit_area(_area: Area2D) -> void:
-	pass  # No se usa actualmente
-
-
 func _on_punch_hit_body(body: Node2D) -> void:
-	if _punch_hit_delivered:
+	if _punch_hit_delivered or _punch_phase != PunchPhase.LUNGE or _state != State.WALKING:
 		return
 	if body.is_in_group("player"):
 		_punch_hit_delivered = true
@@ -275,6 +297,7 @@ func destroy() -> void:
 	_health -= 1
 	if _health <= 0:
 		_defeated = true
+		_cancel_punch()
 		super.destroy()
 		GameState.notify_boss_defeated()
 		return
@@ -282,6 +305,8 @@ func destroy() -> void:
 
 
 func _apply_hit_reaction() -> void:
+	_cancel_punch()
+	_reset_punch_timer()
 	_is_hurt = true
 	var knockback_dir := -facing_direction
 	if is_instance_valid(_player):

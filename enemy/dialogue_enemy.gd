@@ -22,6 +22,7 @@ var _first_time: bool                 = true   # controla el auto-trigger inicia
 func _ready() -> void:
 	if prompt_label:
 		prompt_label.visible = false
+		prompt_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	if interaction_area:
 		interaction_area.body_entered.connect(_on_interaction_body_entered)
 		interaction_area.body_exited.connect(_on_interaction_body_exited)
@@ -29,6 +30,28 @@ func _ready() -> void:
 	# Habilitar detección de tap / click sobre el sprite del NPC
 	input_pickable = true
 	input_event.connect(_on_body_input_event)
+	_build_click_area()
+
+
+func _build_click_area() -> void:
+	# La colisión física está en los pies; el clic debe cubrir el sprite completo.
+	var click_area := Area2D.new()
+	click_area.name = "ClickArea"
+	click_area.collision_layer = 2
+	click_area.collision_mask = 0
+	click_area.monitoring = false
+	click_area.monitorable = false
+	click_area.input_pickable = true
+	click_area.transform = sprite.transform
+	var bounds := sprite.get_rect()
+	var rectangle := RectangleShape2D.new()
+	rectangle.size = bounds.size
+	var click_shape := CollisionShape2D.new()
+	click_shape.shape = rectangle
+	click_shape.position = bounds.get_center()
+	click_area.add_child(click_shape)
+	add_child(click_area)
+	click_area.input_event.connect(_on_body_input_event)
 
 
 func _on_body_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
@@ -38,8 +61,9 @@ func _on_body_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -
 		and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT \
 		and (event as InputEventMouseButton).pressed
 	if is_tap or is_click:
-		if _player_in_range == null:
+		if not is_instance_valid(_player_in_range) or get_tree().paused:
 			return
+		get_viewport().set_input_as_handled()
 		_open_dialogue()
 
 

@@ -251,34 +251,44 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_punch_windup"]
 resource_name = "punch_windup"
-length = 0.54
+length = 0.3
 tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.067, 0.133, 0.2, 0.267, 0.333, 0.4, 0.467, 0.533),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.07, 0.15, 0.22),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [36, 37, 38, 39, 40, 41, 42, 43, 44]
+"values": [36, 37, 38, 39]
 }
 
 [sub_resource type="Animation" id="Animation_punch_hit"]
 resource_name = "punch_hit"
-length = 0.54
+length = 0.34
 tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = false
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.067, 0.133, 0.2, 0.267, 0.333, 0.4, 0.467, 0.533),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.025, 0.05, 0.085, 0.12, 0.25, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [45, 46, 47, 48, 49, 50, 51, 52, 53]
+"values": [45, 46, 47, 48, 49, 50, 51]
+}
+
+[sub_resource type="Animation" id="Animation_punch_recover"]
+resource_name = "punch_recover"
+length = 0.28
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.08, 0.17, 0.24),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [52, 53, 37, 36]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jefe2"]
@@ -290,11 +300,12 @@ _data = {
 &"jump": SubResource("Animation_jump"),
 &"walk": SubResource("Animation_walk"),
 &"punch_windup": SubResource("Animation_punch_windup"),
-&"punch_hit": SubResource("Animation_punch_hit")
+&"punch_hit": SubResource("Animation_punch_hit"),
+&"punch_recover": SubResource("Animation_punch_recover")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jefe2"]
-size = Vector2(120.0, 155.0)
+size = Vector2(64, 92)
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_add"]
 blend_mode = 1
@@ -335,7 +346,7 @@ vframes = 6
 libraries/ = SubResource("AnimationLibrary_jefe2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1346309362]
-position = Vector2(6.25, 15.0)
+position = Vector2(0, -6)
 shape = SubResource("RectangleShape2D_jefe2")
 
 [node name="Explosion" type="CPUParticles2D" parent="." unique_id=1816923464]

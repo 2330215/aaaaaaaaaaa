@@ -129,4 +129,3 @@ func _play_fade_in() -> void:
 	tween.tween_property(fade_rect, "color:a", 0.0, 0.8)
 	await tween.finished
 	fade_layer.queue_free()
-
