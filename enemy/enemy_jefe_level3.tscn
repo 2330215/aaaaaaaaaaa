@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://bvirwji1syvl0"]
+[gd_scene format=3 uid="uid://ci5u6dclaw0bd"]
 
 [ext_resource type="Script" uid="uid://didg6ojuvssfc" path="res://enemy/enemy_jefe_level_3.gd" id="1_7yr8q"]
 [ext_resource type="Texture2D" uid="uid://blydadmeu5w7y" path="res://enemy/algodon_sprite.png" id="2_vhgub"]
