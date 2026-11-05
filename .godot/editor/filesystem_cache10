@@ -1,5 +1,5 @@
 9cad1ddce9e5a63143ba340c9520626b
-::res://::1793823982
+::res://::1793890182
 default_bus_layout.tres::AudioBusLayout::6419567431398995635::1792783507::0::1::::<><><>0<>0<><>::
 game.gd::GDScript::1948710170256859825::1793110536::0::1::::Game<>Node<><>0<>0<><>::
 game_singleplayer.tscn::PackedScene::2796527636363398270::1793115069::0::1::::<><><>0<>0<><>::uid://2078bnnk7lw0::::res://game.gd<>uid://ctgumjaytuoch::::res://level/level.tscn<>uid://vh7pmputa7r3::::res://player/player.tscn<>uid://dh3uwqsjr7t6s::::res://touch_controls.tscn<>uid://c7ai4bigaryci::::res://gui/pause_menu_singleplayer.tscn
@@ -13,7 +13,7 @@ icon.webp::CompressedTexture2D::3010016603397901962::1792681196::1792681268::1::
 music.gd::GDScript::7163267612775333003::1792783507::0::1::::<>AudioStreamPlayer<><>0<>0<><>::
 music.tscn::PackedScene::8208426152851302441::1793110536::0::1::::<><><>0<>0<><>::uid://dp0tta14mu7ux::::res://music.ogg
 touch_controls.tscn::PackedScene::7709641029593439660::1792783507::0::1::::<><><>0<>0<><>::uid://cdxehwx6mi3s2::::res://gui/touch_controls.gd<>uid://bwexvk7mhejjn::::res://gui/touch_button_left.png<>uid://82mnw4u87u87::::res://gui/touch_button_right.png<>uid://tgw4f8fu0btj::::res://gui/touch_button_fire.webp<>uid://bx5lprqgmkf1n::::res://gui/touch_button_jump.png<>uid://c5a1krlnxww5n::::res://player/touch_button.gd<>uid://da4noqsij73it::::res://gui/theme.tres
-::res://enemy/::1793823982
+::res://enemy/::1793890279
 algodon_sprite.png::CompressedTexture2D::3208225357104568800::1793735324::1793735444::1::::<><><>0<>0<>242304a9132f20f7aab353fc22473ad8<>res://.godot/imported/algodon_sprite.png-07873ca31133e1010c03c674603d2310.ctex::
 chocolate_nuevo.png::CompressedTexture2D::5593902465331893754::1792766108::1792785468::1::::<><><>0<>0<>06816c7f1fc65e3bab3fd3c9cd0945e4<>res://.godot/imported/chocolate_nuevo.png-c32f936824ea8a8203b4a3d68f771d19.ctex::
 chorro.png::CompressedTexture2D::685859779796259330::1792681196::1792681269::1::::<><><>0<>0<>52141500cd965e4e9063f58ffe69a283<>res://.godot/imported/chorro.png-6c8a278f53cbd21822dec28514f3b14d.ctex::
@@ -33,8 +33,8 @@ enemy_jefe2.gd::GDScript::108923664835451892::1793735313::0::1::::EnemyJefe2<>En
 enemy_jefe2.tscn::PackedScene::2449257101113627126::1793735444::0::1::::<><><>0<>0<><>::uid://dh5f4544n38df::::res://player/bullet.webp<>uid://duwm7i44o75o2::::res://enemy/explode.wav<>uid://ce1e474w0hcwk::::res://enemy/jefe2_sprites.png<>uid://dm7wsawmylc7b::::res://enemy/hit.wav<>uid://mrnckikkrx71::::res://enemy/enemy_jefe2.gd
 enemy_jefe.gd::GDScript::7232060217209424384::1793115069::0::1::::EnemyJefe<>Enemy<><>0<>0<><>::
 enemy_jefe.tscn::PackedScene::9133604315812006563::1793734193::0::1::::<><><>0<>0<><>::uid://dh5f4544n38df::::res://player/bullet.webp<>uid://duwm7i44o75o2::::res://enemy/explode.wav<>uid://clxy0ykt3uqle::::res://enemy/chocolate_nuevo.png<>uid://dm7wsawmylc7b::::res://enemy/hit.wav<>uid://dbbi8fjxx77dk::::res://enemy/enemy_jefe.gd
-enemy_jefe_level3.tscn::PackedScene::3877973384742126595::1793823760::0::1::::<><><>0<>0<><>::uid://didg6ojuvssfc::::res://enemy/enemy_jefe_level_3.gd<>uid://blydadmeu5w7y::::res://enemy/algodon_sprite.png<>uid://dh5f4544n38df::::res://player/bullet.webp<>uid://dm7wsawmylc7b::::res://enemy/hit.wav<>uid://duwm7i44o75o2::::res://enemy/explode.wav
-enemy_jefe_level_3.gd::GDScript::7727386345181033876::1793823760::0::1::::<>CharacterBody2D<><>0<>0<><>::
+enemy_jefe_level3.tscn::PackedScene::3877973384742126595::1793825620::0::1::::<><><>0<>0<><>::uid://didg6ojuvssfc::::res://enemy/enemy_jefe_level_3.gd<>uid://blydadmeu5w7y::::res://enemy/algodon_sprite.png<>uid://dh5f4544n38df::::res://player/bullet.webp<>uid://dm7wsawmylc7b::::res://enemy/hit.wav<>uid://duwm7i44o75o2::::res://enemy/explode.wav
+enemy_jefe_level_3.gd::GDScript::7727386345181033876::1793825631::0::1::::<>Enemy<><>0<>0<><>::
 enemy_papa.gd::GDScript::3745559930706200002::1793115069::0::1::::<>Enemy<><>0<>0<><>::
 enemy_papa.tscn::PackedScene::4587589086962023093::1793389308::0::1::::<><><>0<>0<><>::uid://btmm3bq7d2ge1::::res://enemy/enemy_papa.gd<>uid://deovbng166f6j::::res://enemy/papa_completo.png<>uid://dh5f4544n38df::::res://player/bullet.webp<>uid://dm7wsawmylc7b::::res://enemy/hit.wav<>uid://duwm7i44o75o2::::res://enemy/explode.wav
 enemy_redbull.gd::GDScript::3381905181943749782::1793735754::0::1::::<>Enemy<><>0<>0<><>::
@@ -45,12 +45,14 @@ hit.wav::AudioStreamWAV::8068956215560184993::1792681197::1792681270::1::::<><><
 jaguar_frente_64x64.png::CompressedTexture2D::8122003437001549221::1792681197::1792681268::1::::<><><>0<>0<>ea4d5532b07beb33d492c544a6581545<>res://.godot/imported/jaguar_frente_64x64.png-d94b806c450345a69c3b9ef654ecf49a.ctex::
 jefe1.png::CompressedTexture2D::4875946677613853137::1792681197::1792681269::1::::<><><>0<>0<>ce9024e4c61824de6c87f1719212fa42<>res://.godot/imported/jefe1.png-402578d236862cb4594573ea81261422.ctex::
 jefe2_sprites.png::CompressedTexture2D::5107566946117992262::1793735313::1793735445::1::::<><><>0<>0<>fdcc1fa2da02d0ae68e858fef021d64f<>res://.godot/imported/jefe2_sprites.png-d9f3e8e5ac1fd5fe1581372e9ad7e069.ctex::
+jefe3_proyectil.tscn::PackedScene::7472119433365318893::1793825185::0::1::::<><><>0<>0<><>::res://enemy/jefe3_proyectil.gd<>res://enemy/onda_rosa.png
 jefe_seeker.gd::GDScript::8277402513204202419::1792783507::0::1::::<>Area2D<><>0<>0<><>::
 jefe_seeker.tscn::PackedScene::3322409593258182512::1792785892::0::1::::<><><>0<>0<><>::uid://5750gjnwtlts::::res://player/bola_chocolate.png<>uid://dp6vu0hmhkipv::::res://enemy/jefe_seeker.gd
 Mazorquino.png::CompressedTexture2D::3398759488509294922::1793735313::1793735445::1::::<><><>0<>0<>07dc80e99393d632dc3eb9dadeef3285<>res://.godot/imported/Mazorquino.png-c00f8f564adb237c89a7ae65552ab62e.ctex::
 nopalio.png::CompressedTexture2D::6214661607110361961::1792783517::1792783540::1::::<><><>0<>0<>fc5e7c3aaa28a8cb805135105503949d<>res://.godot/imported/nopalio.png-8d4c2aa2d5c205e54ff913fb7d9d9f06.ctex::
 npc_maizano.tscn::PackedScene::5931373864233781859::1793115069::0::1::::<><><>0<>0<><>::uid://bp52s1pssxli2::::res://enemy/dialogue_enemy.gd<>uid://b8nfecety5gju::::res://enemy/maizano.png
 npc_tuniliana.tscn::PackedScene::1973740152183270138::1793115069::0::1::::<><><>0<>0<><>::uid://bp52s1pssxli2::::res://enemy/dialogue_enemy.gd<>uid://qh8j4j2d3ynm::::res://enemy/tuniliana.png
+onda_rosa.png::CompressedTexture2D::5455479604679893029::1793805515::1793890282::1::::<><><>0<>0<>64c9aebf762770a5a1cafcdd5cc4ab09<>res://.godot/imported/onda_rosa.png-795b1fc9714becc99890bedf2e8026b9.ctex::
 papa_completo.png::CompressedTexture2D::7470196250126621283::1792681197::1792681270::1::::<><><>0<>0<>17e62cc5383d075faadce910d2724ebd<>res://.godot/imported/papa_completo.png-27396eee0359d533c77a914defe1e613.ctex::
 papa_projectile.gd::GDScript::1354151893016224323::1792681197::0::1::::<>RigidBody2D<><>0<>0<><>::
 papa_projectile.tscn::PackedScene::6621797540333146816::1792681197::0::1::::<><><>0<>0<><>::uid://tj7xirn4vnup::::res://enemy/papa_projectile.gd<>uid://coj0d33vyyqx1::::res://player/bullet.webp<>uid://bd8yljg0haegu::::res://enemy/papa_proyectil.png
@@ -82,7 +84,7 @@ touch_button_right.png::CompressedTexture2D::2372723059915764642::1792681197::17
 touch_controls.gd::GDScript::5031145147641160591::1793220181::0::1::::<>CanvasLayer<><>0<>0<><>::
 victory_screen.gd::GDScript::6773666034670801910::1792783507::0::1::::VictoryScreen<>CanvasLayer<><>0<>0<><>::
 victory_screen.tscn::PackedScene::-1::1792783507::0::1::::<><><>0<>0<><>::res://gui/victory_screen.gd<>uid://da4noqsij73it::::res://gui/theme.tres
-::res://level/::1793823983
+::res://level/::1793825265
 apple.gd::GDScript::-1::1793220181::0::1::::Apple<>Area2D<><>0<>0<><>::
 apple.tscn::PackedScene::1570368377170113173::1793220181::0::1::::<><><>0<>0<><>::uid://w4j7xs5uhoer::::res://player/coin_pickup.wav<>res://level/apple.gd
 chile_sinfondo.png::CompressedTexture2D::5753226341239421825::1793220191::1793389207::1::::<><><>0<>0<>2dc9643731120ac5007fd56ccb72c6a1<>res://.godot/imported/chile_sinfondo.png-d7d9239d2550e909f76d8c54586c1531.ctex::
@@ -102,7 +104,7 @@ level2parte3tile.png::CompressedTexture2D::3893719477531375352::1793111873::1793
 level.gd::GDScript::5418006400233490121::1792783507::0::1::::<>Node2D<><>0<>0<><>::
 level.tscn::PackedScene::6120051906242158291::1793389183::0::1::::<><><>0<>0<><>::uid://cjgr1kswq38mn::::res://level/level.gd<>uid://08mkofgbxx70::::res://level/tileset.tres<>uid://bq1s62op2r461::::res://level/cueva.png<>uid://cw6nldo3rjyyq::::res://level/background/parallax_background.tscn<>uid://b6bbw7ccfpneu::::res://level/tiles2.png<>uid://b8y4570xnm321::::res://level/special_coin.tscn<>res://level/stage_gateway.tscn<>uid://ghkxb0mp0nyb::::res://level/background/sky1.webp<>uid://sk8j7o4wr2ar::::res://level/background/Sky.webp<>uid://c6v2n8m7x1402::::res://level/pit_hazard.tscn<>uid://df6kw4n78yq21::::res://enemy/dialogue_enemy.tscn<>uid://d3enemyjefe1x::::res://enemy/enemy_jefe.tscn<>res://level/tutorial_sign.tscn<>uid://b6mi6l3tkae6h::::res://enemy/enemy_papa.tscn<>uid://dfm8821ubqi5q::::res://enemy/enemy_coca.tscn<>uid://3edhhacjduu1::::res://enemy/npc_tuniliana.tscn<>res://gui/lives_display.tscn<>uid://6mtip3ruyn::::res://enemy/enemy.tscn<>uid://cqrg4jje8y0sl::::res://enemy/npc_maizano.tscn<>uid://c3dh7xb6ef76q::::res://level/coin.tscn<>res://level/apple.tscn
 level_2.tscn::PackedScene::2238785797922192579::1793823773::0::1::::<><><>0<>0<><>::uid://cjgr1kswq38mn::::res://level/level.gd<>uid://08mkofgbxx70::::res://level/tileset.tres<>uid://bq1s62op2r461::::res://level/cueva.png<>uid://b6bbw7ccfpneu::::res://level/tiles2.png<>res://level/stage_gateway.tscn<>uid://ghkxb0mp0nyb::::res://level/background/sky1.webp<>uid://sk8j7o4wr2ar::::res://level/background/Sky.webp<>uid://bvqe8xq66v6s7::::res://level/level2parte3tile.png<>uid://vek6i7nhbn1j::::res://level/background/parallax_background2.tscn<>uid://df6kw4n78yq21::::res://enemy/dialogue_enemy.tscn<>uid://duov7ot8sxn1a::::res://level/background/level2_parte2.png<>uid://ba5o53btpxvry::::res://enemy/enemy_jefe2.tscn<>res://level/tutorial_sign.tscn<>uid://b6mi6l3tkae6h::::res://enemy/enemy_papa.tscn<>uid://dfm8821ubqi5q::::res://enemy/enemy_coca.tscn<>uid://6mtip3ruyn::::res://enemy/enemy.tscn<>res://gui/lives_display.tscn<>uid://d1jwvahwnb1h5::::res://level/shield_pickup.tscn<>uid://c3dh7xb6ef76q::::res://level/coin.tscn<>uid://cibfgb83x8mih::::res://enemy/enemy_redbull.tscn<>uid://bvirwji1syvl0::::res://enemy/enemy_jefe_level3.tscn
-level_3.tscn::PackedScene::7975410101791895360::1793823982::0::1::::<><><>0<>0<><>::
+level_3.tscn::PackedScene::7975410101791895360::1793825265::0::1::::<><><>0<>0<><>::uid://cjgr1kswq38mn::::res://level/level.gd<>uid://08mkofgbxx70::::res://level/tileset.tres<>uid://bq1s62op2r461::::res://level/cueva.png<>uid://b6bbw7ccfpneu::::res://level/tiles2.png<>res://level/stage_gateway.tscn<>uid://ghkxb0mp0nyb::::res://level/background/sky1.webp<>uid://sk8j7o4wr2ar::::res://level/background/Sky.webp<>uid://bvqe8xq66v6s7::::res://level/level2parte3tile.png<>uid://bprlvl3n8x1at::::res://level/background/parallax_background3.tscn<>uid://dm0qnpc00001::::res://enemy/dialogue_enemy_mazorquino.tscn<>uid://c675t24ir45dt::::res://level/background/level3_parte2.png<>uid://ba5o53btpxvry::::res://enemy/enemy_jefe2.tscn<>uid://b6mi6l3tkae6h::::res://enemy/enemy_papa.tscn<>uid://dfm8821ubqi5q::::res://enemy/enemy_coca.tscn<>uid://6mtip3ruyn::::res://enemy/enemy.tscn<>res://gui/lives_display.tscn<>uid://d1jwvahwnb1h5::::res://level/shield_pickup.tscn<>uid://bvirwji1syvl0::::res://enemy/enemy_jefe_level3.tscn<>uid://c3dh7xb6ef76q::::res://level/coin.tscn
 manzanas.png::CompressedTexture2D::6248188361795499900::1793220181::1793220448::1::::<><><>0<>0<>e7b022b2ea55324ca65712be1e609ac2<>res://.godot/imported/manzanas.png-8b4e8194ccf16b50e8d859da2f0b6c3d.ctex::
 pit_hazard.gd::GDScript::4981412214509498526::1792783517::0::1::::PitHazard<>Area2D<><>0<>0<><>::
 pit_hazard.tscn::PackedScene::6993711780419852833::1792783507::0::1::::<><><>0<>0<><>::res://level/pit_hazard.gd
@@ -115,7 +117,7 @@ stage_gateway.gd::GDScript::-1::1793389183::0::1::::StageGateway<>Area2D<><>0<>0
 stage_gateway.tscn::PackedScene::-1::1793389183::0::1::::<><><>0<>0<><>::res://level/stage_gateway.gd
 tiles2.png::CompressedTexture2D::4564440902619809624::1792681198::1792681269::1::::<><><>0<>0<>a25e6e83aadeadd871b1fae913b9cbc5<>res://.godot/imported/tiles2.png-f2e1194a614faa67ffa9022d0ad7fc48.ctex::
 tiles.webp::CompressedTexture2D::8943829051513271016::1792681198::1792681268::1::::<><><>0<>0<>f4d4ddc68af8163f64f1c614f6c563af<>res://.godot/imported/tiles.webp-4f56cd8ea452f8ba920d65a0b9099010.ctex::
-tileset.tres::TileSet::1823592762012833405::1793823773::0::1::::<><><>0<>0<><>::uid://d0ops71sk562g::::res://level/tiles.webp<>uid://bq1s62op2r461::::res://level/cueva.png<>uid://bhnxfccpkxox6::::res://level/desierto3.png<>uid://b6bbw7ccfpneu::::res://level/tiles2.png<>uid://dhh0x4kb712ju::::res://level/tiles_level2_tileset_64x64.png<>uid://bvqe8xq66v6s7::::res://level/level2parte3tile.png
+tileset.tres::TileSet::1823592762012833405::1793825185::0::1::::<><><>0<>0<><>::uid://d0ops71sk562g::::res://level/tiles.webp<>uid://bq1s62op2r461::::res://level/cueva.png<>uid://bhnxfccpkxox6::::res://level/desierto3.png<>uid://b6bbw7ccfpneu::::res://level/tiles2.png<>uid://dhh0x4kb712ju::::res://level/tiles_level2_tileset_64x64.png<>uid://bvqe8xq66v6s7::::res://level/level2parte3tile.png
 tiles_level2_tileset_64x64.png::CompressedTexture2D::7666595137617372450::1793823773::1793823983::1::::<><><>0<>0<>82e990ae284af0b90f80dc8b45f4b5b9<>res://.godot/imported/tiles_level2_tileset_64x64.png-9699082ed9975bff52d9e3f4ce3d9455.ctex::
 tutorial_sign.gd::GDScript::-1::1792783507::0::1::::<>Node2D<><>0<>1<><>::
 tutorial_sign.tscn::PackedScene::-1::1792783507::0::1::::<><><>0<>0<><>::res://level/tutorial_sign.gd
@@ -161,7 +163,7 @@ tree_2.webp::CompressedTexture2D::7441597796757093123::1792681198::1792681268::1
 vine_1.webp::CompressedTexture2D::3903472584993895739::1792681198::1792681268::1::::<><><>0<>0<>9e0321be8a504b6e5a36ff5d642e9b75<>res://.godot/imported/vine_1.webp-6dd0b81d28006107c2ef3c2b0712758c.ctex::
 vine_2.webp::CompressedTexture2D::3853910507831647316::1792681198::1792681268::1::::<><><>0<>0<>bc1ab97e85f8d22e146e3601067dab82<>res://.godot/imported/vine_2.webp-fefcb8be103ba2c2eadfee25e1253e7a.ctex::
 wind_sway.tres::ShaderMaterial::7837160837109431848::1792783507::0::1::::<><><>0<>0<><>::
-::res://player/::1793824891
+::res://player/::1793825181
 aguacate.png::CompressedTexture2D::4332603949226836960::1793389183::1793389206::1::::<><><>0<>0<>896c1db7812d81cd745999e73ef00fac<>res://.godot/imported/aguacate.png-f54c6961efb828cba2390664a77d1dda.ctex::
 bola_chocolate.png::CompressedTexture2D::2173591881565661340::1792512170::1792785742::1::::<><><>0<>0<>f4893a0c3eca13ce1f81ff39b67f3655<>res://.godot/imported/bola_chocolate.png-7aa8c0e4b76e45f8e276817f6a6d8560.ctex::
 bullet.gd::GDScript::3167851862239204606::1792783507::0::1::::Bullet<>RigidBody2D<><>0<>0<><>::
