@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://sk8j7o4wr2ar" path="res://level/background/Sky.webp" id="5_l5lfc"]
 [ext_resource type="Texture2D" uid="uid://bvqe8xq66v6s7" path="res://level/level2parte3tile.png" id="6_qg0ee"]
 [ext_resource type="PackedScene" uid="uid://bprlvl3n8x1at" path="res://level/background/parallax_background3.tscn" id="8_qhnra"]
-[ext_resource type="PackedScene" uid="uid://dmzqnpc00001" path="res://enemy/dialogue_enemy_mazorquino.tscn" id="9_cw150"]
+[ext_resource type="PackedScene" uid="uid://dm0qnpc00001" path="res://enemy/dialogue_enemy_mazorquino.tscn" id="9_cw150"]
 [ext_resource type="Texture2D" uid="uid://c675t24ir45dt" path="res://level/background/level3_parte2.png" id="10_drhu7"]
 [ext_resource type="PackedScene" uid="uid://ba5o53btpxvry" path="res://enemy/enemy_jefe2.tscn" id="10_jefe"]
 [ext_resource type="PackedScene" uid="uid://b6mi6l3tkae6h" path="res://enemy/enemy_papa.tscn" id="15_fm1jd"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://6mtip3ruyn" path="res://enemy/enemy.tscn" id="17_drhu7"]
 [ext_resource type="PackedScene" path="res://gui/lives_display.tscn" id="18_lives"]
 [ext_resource type="PackedScene" uid="uid://d1jwvahwnb1h5" path="res://level/shield_pickup.tscn" id="18_qg0ee"]
+[ext_resource type="PackedScene" uid="uid://bvirwji1syvl0" path="res://enemy/enemy_jefe_level3.tscn" id="19_e2u7k"]
 [ext_resource type="PackedScene" uid="uid://c3dh7xb6ef76q" path="res://level/coin.tscn" id="19_vpspb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw150"]
@@ -1609,9 +1610,6 @@ dialogue_lines = ["¡Bienvenido al nivel 3, valiente!", "Este mundo es más peli
 [node name="EnemyJefe" parent="." unique_id=1566113503 instance=ExtResource("10_jefe")]
 position = Vector2(3471, 5239)
 
-[node name="Enemy2" parent="." unique_id=46466502 instance=ExtResource("15_fm1jd")]
-position = Vector2(1890, 2459)
-
 [node name="Enemy3" parent="." unique_id=277550276 instance=ExtResource("16_7jqyl")]
 position = Vector2(1523, 411)
 
@@ -1650,9 +1648,6 @@ position = Vector2(2413, 374)
 
 [node name="Enemy5" parent="." unique_id=402523270 instance=ExtResource("17_drhu7")]
 position = Vector2(3140, 375)
-
-[node name="Enemy6" parent="." unique_id=1216505176 instance=ExtResource("15_fm1jd")]
-position = Vector2(2463, 2466)
 
 [node name="Enemy7" parent="." unique_id=821515093 instance=ExtResource("16_7jqyl")]
 position = Vector2(3160, 2483)
@@ -1737,3 +1732,6 @@ position = Vector2(3093, 5087)
 
 [node name="Coin30" parent="." unique_id=473916755 instance=ExtResource("19_vpspb")]
 position = Vector2(2917, 5085)
+
+[node name="EnemyJefe2" parent="." unique_id=642282194 instance=ExtResource("19_e2u7k")]
+position = Vector2(2695, 2349)
