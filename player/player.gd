@@ -10,11 +10,13 @@ const TEXTURE_ROBOT    = preload("res://player/robot.png")
 const TEXTURE_AGUACATE = preload("res://player/aguacate.png")
 const TEXTURE_LIMONES  = preload("res://player/limones.png")
 const TEXTURE_GLOBO    = preload("res://player/globo.png")
+const TEXTURE_ELOTE = preload("res://player/elote_sprite.png")
+const TEXTURE_CEBOLLA = preload("res://player/cebolla_sprite.png")
 
 const LIMON_BULLET_SCENE = preload("res://player/limon_bullet.tscn")
 const BALLOON_BULLET_VELOCITY = 800.0
 
-enum CharacterSkin { ROBOT, AGUACATE, LIMONES, GLOBO }
+enum CharacterSkin { ROBOT, AGUACATE, LIMONES, GLOBO, ELOTE, CEBOLLA }
 var current_skin: CharacterSkin = CharacterSkin.ROBOT
 
 ## Modo globo: movimiento libre sin gravedad
@@ -62,6 +64,10 @@ const SHIELD_EFFECT_SCRIPT = preload("res://player/shield_effect.gd")
 
 
 func _ready() -> void:
+	# Cada jugador necesita sus propios frames al cambiar de personaje.
+	var animations := animation_player.get_animation_library(&"").duplicate(true) as AnimationLibrary
+	animation_player.remove_animation_library(&"")
+	animation_player.add_animation_library(&"", animations)
 	_shield_effect = SHIELD_EFFECT_SCRIPT.new()
 	add_child(_shield_effect)
 	add_to_group("player")
@@ -318,6 +324,8 @@ func toggle_limon_skin() -> void:
 
 
 func set_skin(new_skin: CharacterSkin) -> void:
+	animation_player.stop()
+	sprite.frame = 0
 	current_skin = new_skin
 	# Activar / desactivar modo globo
 	_balloon_mode = (current_skin == CharacterSkin.GLOBO)
@@ -346,6 +354,12 @@ func set_skin(new_skin: CharacterSkin) -> void:
 				sprite.hframes  = 8
 				sprite.vframes  = 6
 				_setup_globo_animations()
+			CharacterSkin.ELOTE, CharacterSkin.CEBOLLA:
+				sprite.texture = TEXTURE_ELOTE if current_skin == CharacterSkin.ELOTE else TEXTURE_CEBOLLA
+				sprite.hframes = 8
+				sprite.vframes = 7
+				_setup_robot_animations()
+	animation_player.play(&"balloon_idle" if _balloon_mode else &"idle")
 	skin_changed.emit(get_skin_name())
 
 
@@ -465,6 +479,10 @@ func get_skin_name() -> String:
 			return "Limón"
 		CharacterSkin.GLOBO:
 			return "Globo 🎈"
+		CharacterSkin.ELOTE:
+			return "Elote"
+		CharacterSkin.CEBOLLA:
+			return "Cebolla"
 		_:
 			return "Robot"
 

@@ -28,6 +28,8 @@ var _panel_open: bool  = false
 var _panel:      PanelContainer
 var _skin_btn:   Button
 var _limon_btn:  Button
+var _elote_btn: Button
+var _cebolla_btn: Button
 var _stage_btn:  Button
 var _speed_btn:  Button
 var _jump_btn:   Button
@@ -105,6 +107,14 @@ func _build_cheat_panel() -> void:
 	_limon_btn = _make_btn("Personaje: Limón")
 	_limon_btn.pressed.connect(_on_limon_pressed)
 	vbox.add_child(_limon_btn)
+
+	_elote_btn = _make_btn("Personaje: Elote")
+	_elote_btn.pressed.connect(_on_character_pressed.bind(Player.CharacterSkin.ELOTE))
+	vbox.add_child(_elote_btn)
+
+	_cebolla_btn = _make_btn("Personaje: Cebolla")
+	_cebolla_btn.pressed.connect(_on_character_pressed.bind(Player.CharacterSkin.CEBOLLA))
+	vbox.add_child(_cebolla_btn)
 
 	_stage_btn = _make_btn("Ir a: Inicio")
 	_stage_btn.pressed.connect(_on_stage_pressed)
@@ -204,7 +214,16 @@ func _on_limon_pressed() -> void:
 		_player.toggle_limon_skin()
 
 
+func _on_character_pressed(skin: Player.CharacterSkin) -> void:
+	if _player and _player.has_method("set_skin"):
+		_player.set_skin(skin)
+
+
 func _update_skin_label(skin_name: String) -> void:
+	if _elote_btn:
+		_elote_btn.text = "Personaje: Elote" + (" [ACTIVO]" if skin_name == "Elote" else "")
+	if _cebolla_btn:
+		_cebolla_btn.text = "Personaje: Cebolla" + (" [ACTIVO]" if skin_name == "Cebolla" else "")
 	if _skin_btn:
 		# El botón de Robot/Aguacate solo muestra esas skins
 		if skin_name in ["Robot", "Aguacate"]:
