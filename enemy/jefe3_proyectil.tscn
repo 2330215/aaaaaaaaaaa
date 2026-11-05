@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://depsyk8glc7uf"]
 
-[ext_resource type="Script" path="res://enemy/jefe3_proyectil.gd" id="1_wacur"]
-[ext_resource type="Texture2D" path="res://enemy/onda_rosa.png" id="2_v2cff"]
+[ext_resource type="Script" uid="uid://qx5e30xkwsn7" path="res://enemy/jefe3_proyectil.gd" id="1_wacur"]
+[ext_resource type="Texture2D" uid="uid://cjyw7msyxhdhd" path="res://enemy/onda_rosa.png" id="2_v2cff"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_seeker"]
 animations = [{
