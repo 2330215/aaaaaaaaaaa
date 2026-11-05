@@ -1331,18 +1331,18 @@ scale = Vector2(1, 1.3)
 transform = Transform2D(1, 0, 0, 1.3, 0, 0)
 
 [node name="StageGateway1" parent="." unique_id=1121133372 instance=ExtResource("3_gateway")]
-position = Vector2(3648, 350)
+position = Vector2(3840, 512)
 target_position = Vector2(128, 2208)
 target_stage_index = 1
 
 [node name="StageGateway2" parent="." unique_id=1025301933 instance=ExtResource("3_gateway")]
-position = Vector2(3709, 1625)
+position = Vector2(3840, 2304)
 target_position = Vector2(128, 3990)
 target_stage_index = 2
 switch_to_cave = true
 
 [node name="StageGateway3" parent="." unique_id=405188148 instance=ExtResource("3_gateway")]
-position = Vector2(3630, 3957)
+position = Vector2(3840, 4096)
 target_position = Vector2(128, 5300)
 target_stage_index = 1
 switch_to_sky = true
@@ -1354,18 +1354,18 @@ respawn_position = Vector2(128, 416)
 [node name="Nopalio" parent="." unique_id=392847561 instance=ExtResource("9_cw150")]
 position = Vector2(3403, 453)
 speaker_name = "Nopalio"
-dialogue_lines = ["¡Hola! Bienvenid@ a esta aventura.", "¡Buena suerte, viajero!"]
+dialogue_lines = ["Hola, soy Nopalio. Este es un diálogo de ejemplo."]
 
 [node name="Tuniliana" parent="." unique_id=584930217 instance=ExtResource("17_tuni")]
 position = Vector2(3216, 1729)
 speaker_name = "Tuniliana"
-dialogue_lines = ["¡Hola!"]
+dialogue_lines = ["Hola, soy Tuniliana. Este es un diálogo de ejemplo."]
 
 [node name="Maizano" parent="." unique_id=1265064969 instance=ExtResource("19_maizano")]
 position = Vector2(472, 2233)
 collision_layer = 1
 speaker_name = "Maizano"
-dialogue_lines = ["¡Hola!"]
+dialogue_lines = ["Hola, soy Maizano. Este es un diálogo de ejemplo."]
 
 [node name="SignFinal" parent="." unique_id=1819018411 instance=ExtResource("11_sign")]
 z_index = -2
@@ -1436,6 +1436,9 @@ position = Vector2(2589, 5382)
 
 [node name="Enemy" parent="." unique_id=1563624652 instance=ExtResource("18_sui6v")]
 position = Vector2(2888, 4098)
+
+[node name="CoinSpawn" parent="." instance=ExtResource("19_tv7ir")]
+position = Vector2(224, 448)
 
 [node name="Coin2" parent="." unique_id=2049719167 instance=ExtResource("19_tv7ir")]
 position = Vector2(3161, 487)

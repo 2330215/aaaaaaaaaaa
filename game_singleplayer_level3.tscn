@@ -19,7 +19,7 @@ position = Vector2(128, 448)
 [node name="TouchControls" parent="Level" unique_id=1351327737 instance=ExtResource("4_2olji")]
 
 [node name="InterfaceLayer" type="CanvasLayer" parent="." unique_id=1527951189]
-layer = 100
+layer = 500
 
 [node name="PauseMenu" parent="InterfaceLayer" unique_id=1458796011 instance=ExtResource("4_x6l06")]
 
