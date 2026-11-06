@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://6mtip3ruyn" path="res://enemy/enemy.tscn" id="17_drhu7"]
 [ext_resource type="PackedScene" path="res://gui/lives_display.tscn" id="18_lives"]
 [ext_resource type="PackedScene" uid="uid://d1jwvahwnb1h5" path="res://level/shield_pickup.tscn" id="18_qg0ee"]
-[ext_resource type="PackedScene" uid="uid://bvirwji1syvl0" path="res://enemy/enemy_jefe_level3.tscn" id="19_e2u7k"]
+[ext_resource type="PackedScene" uid="uid://bvirwji1syvl0" path="res://enemy/enemy_jefe_level4.tscn" id="19_e2u7k"]
 [ext_resource type="PackedScene" uid="uid://c3dh7xb6ef76q" path="res://level/coin.tscn" id="19_vpspb"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw150"]
