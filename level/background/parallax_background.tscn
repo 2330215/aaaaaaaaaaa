@@ -5,10 +5,15 @@
 
 [node name="ParallaxBackground" type="ParallaxBackground" unique_id=91308733]
 scroll_base_scale = Vector2(0.1, 0)
+scroll_ignore_camera_zoom = true
 script = ExtResource("4_script")
+stage_vertical_offsets = Array[float]([0.0, 0.0, 0.0])
+stage_vertical_motion = Array[float]([0.12, 0.12, 0.0])
+vertical_overscan = 1.15
+mirror_horizontal_tiles = true
 
 [node name="Sky" type="ParallaxLayer" parent="." unique_id=1690213654]
-motion_scale = Vector2(0.2, 1)
+motion_scale = Vector2(0.2, 0)
 motion_mirroring = Vector2(1024, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="Sky" unique_id=498925165]

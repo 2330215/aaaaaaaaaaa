@@ -19,6 +19,7 @@ var _music: AudioStreamPlayer
 
 func _ready() -> void:
 	GameState.begin_level(level_number)
+	_apply_level_skin()
 
 	_music = get_node_or_null("/root/Music") as AudioStreamPlayer
 
@@ -33,6 +34,34 @@ func _ready() -> void:
 	add_child(_game_over_screen)
 
 	_play_fade_in()
+
+
+func _apply_level_skin() -> void:
+	# Se aplica en cada entrada al nivel, tambien desde menus y al avanzar.
+	var starting_skin: Player.CharacterSkin
+	match level_number:
+		1:
+			starting_skin = Player.CharacterSkin.ROBOT # Frijol: nombre interno heredado.
+		2:
+			starting_skin = Player.CharacterSkin.AGUACATE
+		3:
+			starting_skin = Player.CharacterSkin.LIMONES
+		_:
+			return
+	for node in get_tree().get_nodes_in_group("player"):
+		if node is Player and is_ancestor_of(node):
+			(node as Player).set_skin(starting_skin)
+
+
+func apply_stage_skin() -> void:
+	if level_number != 3:
+		return
+	for node in get_tree().get_nodes_in_group("player"):
+		if node is Player and is_ancestor_of(node):
+			var player := node as Player
+			var level := get_node("Level") as Node2D
+			var skin := Player.CharacterSkin.GLOBO if level.to_local(player.global_position).y >= 3584.0 else Player.CharacterSkin.LIMONES
+			player.set_skin(skin)
 
 
 func _unhandled_input(event: InputEvent) -> void:

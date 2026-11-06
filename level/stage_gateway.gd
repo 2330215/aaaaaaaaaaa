@@ -14,6 +14,16 @@ class_name StageGateway extends Area2D
 @onready var _canvas_layer: CanvasLayer = $CanvasLayer
 
 var _triggered := false
+var enabled: bool = true
+
+
+func set_enabled(value: bool) -> void:
+	enabled = value
+	modulate = Color.WHITE if enabled else Color(0.45, 0.45, 0.45)
+	$ArrowHint.text = "→" if enabled else "×"
+	if enabled:
+		for body in get_overlapping_bodies():
+			_on_body_entered.call_deferred(body)
 
 
 func _ready() -> void:
@@ -26,7 +36,7 @@ func _ready() -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if _triggered:
+	if _triggered or not enabled:
 		return
 	if not (body is Player):
 		return
@@ -68,6 +78,10 @@ func _on_body_entered(body: Node2D) -> void:
 		for sibling in body.get_parent().get_children():
 			if sibling is Player and sibling != body:
 				sibling.global_position = target_position + Vector2(25, 0)
+
+	var game := get_tree().current_scene
+	if game and game.has_method("apply_stage_skin"):
+		game.apply_stage_skin()
 
 	await get_tree().process_frame
 	if not is_inside_tree():

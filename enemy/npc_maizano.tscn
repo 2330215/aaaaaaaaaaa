@@ -44,10 +44,14 @@ collision_mask = 24
 script = ExtResource("1_script")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1108387719]
+texture_filter = 1
+position = Vector2(0, 4)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("2_tex")
 hframes = 5
 vframes = 2
+region_enabled = true
+region_rect = Rect2(0, 0, 1535, 1024)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1007877600]
 libraries/ = SubResource("AnimationLibrary_maizano")

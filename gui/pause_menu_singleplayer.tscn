@@ -31,7 +31,13 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "Nivel 3"
 
+[node name="Level4Button" type="Button" parent="ColorRect/CenterContainer/VBoxContainer" index="9"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Nivel 4"
+
 [connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/SplitscreenButton" to="." method="_on_splitscreen_button_pressed"]
 [connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/Level1Button" to="." method="_on_goto_level1_pressed"]
 [connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/Level2Button" to="." method="_on_goto_level2_pressed"]
 [connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/Level3Button" to="." method="_on_goto_level3_pressed"]
+[connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/Level4Button" to="." method="_on_goto_level4_pressed"]

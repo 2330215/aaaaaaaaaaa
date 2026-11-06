@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://level/background/parallax_background_level4.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://level/background/nivel4_1.png" id="2_sky"]
+
+[node name="ParallaxBackground" type="ParallaxBackground"]
+scroll_base_scale = Vector2(0.1, 0)
+scroll_ignore_camera_zoom = true
+script = ExtResource("1_script")
+vertical_overscan = 1.15
+mirror_horizontal_tiles = true
+
+[node name="Sky" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.2, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Sky"]
+texture = ExtResource("2_sky")
+centered = false
+
+[node name="Sprite2" type="Sprite2D" parent="Sky"]
+texture = ExtResource("2_sky")
+centered = false

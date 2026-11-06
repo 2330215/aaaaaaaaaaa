@@ -55,7 +55,7 @@ var _double_jump_charged := false
 var _is_dead := false
 ## Estado de invencibilidad post-respawn
 var _invincible := false
-## Posición guardada para respawn en el mismo lugar
+## Punto elegido para reaparecer tras recibir dano o caer al vacio.
 var _respawn_position: Vector2 = Vector2.ZERO
 ## escudo 
 var shield_time_left: float = 0.0
@@ -210,12 +210,12 @@ func get_new_animation(is_shooting := false) -> StringName:
 
 
 ## Llamado al recibir daño (enemigo o pit). Inicia la animación de muerte y respawn.
-func take_damage() -> void:
-	if _is_dead or _invincible or shield_time_left > 0.0:
+func take_damage(respawn_override: Vector2 = Vector2.INF) -> void:
+	if _is_dead or (respawn_override == Vector2.INF and (_invincible or shield_time_left > 0.0)):
 		return
 
 	_is_dead = true
-	_respawn_position = global_position
+	_respawn_position = global_position if respawn_override == Vector2.INF else respawn_override
 
 	# La colisión se mantiene activa para que el cuerpo descanse en el suelo.
 	# _is_dead=true ya impide que se reciba daño de enemigos en _physics_process.
@@ -248,7 +248,7 @@ func _do_respawn() -> void:
 	sprite.rotation_degrees = 0.0
 	sprite.modulate.a = 1.0
 
-	# Teletransportar al punto de muerte
+	# Teletransportar al punto de reaparicion elegido.
 	global_position = _respawn_position
 	velocity = Vector2.ZERO
 
@@ -285,9 +285,8 @@ func _do_game_over() -> void:
 func die_from_pit(respawn_pos: Vector2) -> void:
 	if _is_dead:
 		return
-	_respawn_position = respawn_pos
 	shield_time_left = 0.0
-	take_damage()
+	take_damage(respawn_pos)
 
 
 ## Compatibilidad con código anterior

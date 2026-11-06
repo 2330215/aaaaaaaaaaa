@@ -1,13 +1,13 @@
 class_name EnemyJefe extends Enemy
 
-## Enemigo Jefe que persigue al jugador, salta constantemente y lanza proyectiles buscadores.
+## Enemigo Jefe que persigue al jugador, salta con pausas y lanza proyectiles buscadores.
 ## Solo se activa cuando el jugador llega al escenario 4 (Y > 4800).
 
 @export var move_speed: float = 150.0
 @export var min_distance: float = 220.0
 @export var jump_force: float = -520.0
-@export var jump_interval_min: float = 1.2
-@export var jump_interval_max: float = 2.2
+@export var jump_interval_min: float = 3.0
+@export var jump_interval_max: float = 5.0
 
 @export var attack_distance: float = 800.0
 
@@ -26,8 +26,6 @@ const DIALOGUE_BOX_SCENE := preload("res://level/dialogue_box.tscn")
 var _jump_timer: float = 1.5
 var _shoot_timer: float = 2.5
 var _player: Node2D = null
-var _double_jump_charged := false
-var _was_ascending := false
 
 var _health: int = 6
 var _is_hurt: bool = false  # invencibilidad temporal entre golpes
@@ -36,6 +34,7 @@ var _defeated: bool = false  # evita avisar más de una vez de la victoria
 
 
 func _ready() -> void:
+	super._ready()
 	_reset_jump_timer()
 	_reset_shoot_timer()
 	_player = _find_player()
@@ -124,33 +123,18 @@ func _physics_process(delta: float) -> void:
 		velocity.x = 0.0 if too_close else move_speed * facing_direction
 
 		if is_on_floor():
-			# Al tocar suelo se recarga el salto doble
-			_double_jump_charged = true
-			_was_ascending = false
-
-			# Temporizador de salto
+			# Esperar en tierra entre saltos; los bordes no omiten esta pausa.
 			_jump_timer -= delta
 			if _jump_timer <= 0.0:
 				velocity.y = jump_force
 				_reset_jump_timer()
+			else:
+				var detector := floor_detector_right if facing_direction > 0.0 else floor_detector_left
+				if detector:
+					detector.force_raycast_update()
+					if not detector.is_colliding():
+						velocity.x = 0.0
 
-			# Detección de bordes: si hay vacío al frente, forzar salto
-			if facing_direction > 0.0 and floor_detector_right and not floor_detector_right.is_colliding():
-				velocity.y = jump_force
-				_reset_jump_timer()
-			elif facing_direction < 0.0 and floor_detector_left and not floor_detector_left.is_colliding():
-				velocity.y = jump_force
-				_reset_jump_timer()
-		else:
-			# Salto doble: se dispara cuando empieza a caer tras el primer salto
-			if velocity.y < 0.0:
-				_was_ascending = true
-			elif _was_ascending and velocity.y >= 0.0 and _double_jump_charged:
-				_double_jump_charged = false
-				_was_ascending = false
-				velocity.y = jump_force * 0.85
-
-				# Cambiar de dirección al chocar con una pared
 		if is_on_wall():
 			facing_direction = -facing_direction
 			velocity.x = move_speed * facing_direction

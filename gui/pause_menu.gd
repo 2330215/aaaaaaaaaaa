@@ -8,10 +8,11 @@ class_name PauseMenu extends Control
 @onready var resume_button := center_cont.get_node(^"VBoxContainer/ResumeButton") as Button
 @onready var coins_counter := $ColorRect/CoinsCounter as CoinsCounter
 
-## Escenas de nivel 1, nivel 2 y nivel 3 (singleplayer y splitscreen)
+## Escenas disponibles en el selector de niveles.
 const SCENE_SP_L1 := "res://game_singleplayer.tscn"
 const SCENE_SP_L2 := "res://game_singleplayer_level2.tscn"
 const SCENE_SP_L3 := "res://game_singleplayer_level3.tscn"
+const SCENE_SP_L4 := "res://game_singleplayer_level4.tscn"
 const SCENE_SS_L1 := "res://game_splitscreen.tscn"
 const SCENE_SS_L2 := "res://game_splitscreen_level2.tscn"
 
@@ -109,3 +110,10 @@ func _on_goto_level3_pressed() -> void:
 	var scene := get_tree().current_scene
 	var is_split := scene != null and scene.name.to_lower().contains("splitscreen")
 	get_tree().change_scene_to_file(SCENE_SP_L3)
+
+
+func _on_goto_level4_pressed() -> void:
+	if not visible:
+		return
+	get_tree().paused = false
+	get_tree().change_scene_to_file(SCENE_SP_L4)

@@ -244,9 +244,19 @@ func _update_skin_label(skin_name: String) -> void:
 			_limon_btn.remove_theme_color_override("font_color")
 
 
+func _get_stages() -> Array:
+	var scene := get_tree().current_scene
+	var level := scene.get_node_or_null("Level") if scene else null
+	if level and level.has_method("get_stage_destinations"):
+		return level.get_stage_destinations()
+	return STAGES
+
+
 func _update_stage_label() -> void:
 	if _stage_btn:
-		var dest := STAGES[_next_stage_idx] as Dictionary
+		var stages := _get_stages()
+		_next_stage_idx %= stages.size()
+		var dest := stages[_next_stage_idx] as Dictionary
 		if dest:
 			_stage_btn.text = "Ir a: " + str(dest["label"])
 
@@ -257,13 +267,14 @@ func _on_stage_pressed() -> void:
 	_teleporting = true
 	_stage_btn.disabled = true
 
-	var dest := STAGES[_next_stage_idx] as Dictionary
+	var stages := _get_stages()
+	var dest := stages[_next_stage_idx % stages.size()] as Dictionary
 	if not dest:
 		_teleporting        = false
 		_stage_btn.disabled = false
 		return
 
-	_next_stage_idx = (_next_stage_idx + 1) % STAGES.size()
+	_next_stage_idx = (_next_stage_idx + 1) % stages.size()
 	_update_stage_label()
 
 	_fade_rect.color   = Color(0, 0, 0, 0)
@@ -290,6 +301,9 @@ func _on_stage_pressed() -> void:
 					sib.global_position = dest["pos"] + Vector2(32, 0)
 					if "velocity" in sib:
 						sib.velocity = Vector2.ZERO
+
+	if scene and scene.has_method("apply_stage_skin"):
+		scene.apply_stage_skin()
 
 	await get_tree().process_frame
 
