@@ -7,6 +7,8 @@ extends "res://level/level.gd"
 
 const ARENA_WIDTH: float = 1664.0
 const DEFENSE_FLOOR_Y: float = 449.0
+const DEFENSE_BOUNDS := Rect2(0, -192, 1664, 1088)
+const SECOND_STAGE_BOUNDS := Rect2(0, 1792, 3840, 1088)
 const AIR_BOUNDS := Rect2(0, 3584, 1280, 704)
 const HORDE_SCENES: Array[PackedScene] = [
 	preload("res://enemy/enemy_redbull.tscn"),
@@ -16,6 +18,8 @@ const HORDE_SCENES: Array[PackedScene] = [
 ]
 const COTTON_SCENE := preload("res://enemy/enemy_jefe_level3.tscn")
 const INTRO_SCENE := preload("res://level/dialogue_box.tscn")
+
+var _player_stages: Dictionary = {}
 
 var _time_left: float
 var _spawn_timer: float = 1.0
@@ -86,7 +90,7 @@ func _process(delta: float) -> void:
 	_status.visible = height < 1792.0
 	if height < 1792.0 and not _horde_complete:
 		_update_horde(delta)
-	if height >= AIR_BOUNDS.position.y and not _air_started:
+	if height >= AIR_BOUNDS.position.y and not _air_started and not $StageGateway2._triggered:
 		_air_started = true
 		_start_air_intro()
 	if is_instance_valid(_cotton) and _cotton._state != Enemy.State.DEAD and height >= AIR_BOUNDS.position.y:
@@ -137,19 +141,32 @@ func _setup_camera() -> void:
 		if player == null or player.get_world_2d() != get_world_2d():
 			continue
 		var height := to_local(player.global_position).y
-		var bounds := Rect2(0, -200, ARENA_WIDTH, 1224)
+		var stage := 2 if height >= AIR_BOUNDS.position.y else (1 if height >= 1792.0 else 0)
+		var changed_stage: bool = _player_stages.get(player, stage) != stage
+		_player_stages[player] = stage
+		var bounds := DEFENSE_BOUNDS
 		if height >= AIR_BOUNDS.position.y:
 			bounds = AIR_BOUNDS
 		elif height >= 1792.0:
-			player.camera.zoom = Vector2(0.7, 0.7)
-			continue
+			bounds = SECOND_STAGE_BOUNDS
+		# Ocultar las uniones exteriores de los tiles incluso con redondeo de pixeles.
+		bounds = bounds.grow(-8.0)
 		var viewport_size := player.get_viewport_rect().size
 		var zoom := maxf(0.7, maxf(viewport_size.x / bounds.size.x, viewport_size.y / bounds.size.y))
 		player.camera.zoom = Vector2.ONE * zoom
+		# Aplicar el nuevo encuadre sin arrastrar la camara entre escenarios.
+		player.camera.position_smoothing_enabled = false
+		player.camera.limit_smoothed = false
 		player.camera.limit_left = roundi(to_global(bounds.position).x - player.camera.offset.x)
 		player.camera.limit_top = roundi(to_global(bounds.position).y - player.camera.offset.y)
 		player.camera.limit_right = roundi(to_global(bounds.end).x - player.camera.offset.x)
 		player.camera.limit_bottom = roundi(to_global(bounds.end).y - player.camera.offset.y)
+		if changed_stage:
+			player.velocity = Vector2.ZERO
+			player.camera.reset_smoothing()
+			player.camera.force_update_scroll()
+			$ParallaxBackground.set_stage(stage)
+
 
 
 func _living_count(enemies: Array[Enemy]) -> int:

@@ -1592,7 +1592,7 @@ target_stage_index = 1
 
 [node name="StageGateway2" parent="." unique_id=1025301933 instance=ExtResource("3_gateway")]
 position = Vector2(3840, 2497)
-target_position = Vector2(128, 3990)
+target_position = Vector2(192, 3880)
 target_stage_index = 2
 switch_to_cave = true
 

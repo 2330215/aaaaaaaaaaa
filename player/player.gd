@@ -105,13 +105,7 @@ func _physics_process(delta: float) -> void:
 		var bspeed := BASE_WALK_SPEED * speed_mult
 		var dir_x  := Input.get_axis("move_left" + action_suffix, "move_right" + action_suffix)
 		# Subir: botón de salto (hold). Bajar: move_down
-		var going_up   := Input.is_action_pressed("jump"       + action_suffix)
-		var going_down := Input.is_action_pressed("move_down"  + action_suffix)
-		var dir_y: float = 0.0
-		if going_up:
-			dir_y = -1.0
-		elif going_down:
-			dir_y = 1.0
+		var dir_y := Input.get_axis("jump" + action_suffix, "move_down" + action_suffix)
 		velocity.x = move_toward(velocity.x, dir_x * bspeed, bspeed * 6.0 * delta)
 		velocity.y = move_toward(velocity.y, dir_y * bspeed * 0.75, bspeed * 4.0 * delta)
 		if not is_zero_approx(velocity.x):
@@ -133,9 +127,9 @@ func _physics_process(delta: float) -> void:
 		var anim: StringName
 		if balloon_shooting or (animation_player.current_animation == &"balloon_shoot" and animation_player.is_playing()):
 			anim = &"balloon_shoot"
-		elif going_up:
+		elif dir_y < 0.0:
 			anim = &"balloon_rise"
-		elif going_down:
+		elif dir_y > 0.0:
 			anim = &"balloon_fall"
 		else:
 			anim = &"balloon_idle"

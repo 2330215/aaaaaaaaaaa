@@ -52,6 +52,7 @@ func _ready() -> void:
 	if trucos_button:
 		trucos_button.pressed.connect(_toggle_panel)
 
+	$PauseButton.pressed.connect(_on_pause_pressed)
 	_build_cheat_panel()
 	_build_fade_rect()
 	call_deferred("_connect_to_player")
@@ -394,3 +395,23 @@ func set_special_ready(is_ready: bool) -> void:
 			special_button.modulate = Color(1.5, 1.3, 0.4, 1.0)
 		else:
 			special_button.modulate = Color(0.4, 0.4, 0.4, 0.5)
+
+
+func _on_pause_pressed() -> void:
+	var scene := get_tree().current_scene
+	if scene and scene.has_method("toggle_pause"):
+		$Joystick.release()
+		scene.toggle_pause()
+
+
+func _process(_delta: float) -> void:
+	var scene := get_tree().current_scene
+	var aerial := false
+	if scene and scene.get("level_number") == 3 and is_instance_valid(_player):
+		var level := scene.get_node("Level") as Node2D
+		aerial = level.to_local(_player.global_position).y >= 3584.0
+	if $Joystick.visible != aerial:
+		$TextureButtonIzq.visible = not aerial
+		$TextureButtonDer.visible = not aerial
+		$TextureButtonJump.visible = not aerial
+		$Joystick.visible = aerial

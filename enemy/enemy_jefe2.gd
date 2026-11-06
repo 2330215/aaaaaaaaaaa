@@ -5,16 +5,16 @@ class_name EnemyJefe2 extends Enemy
 
 @export var move_speed: float = 160.0
 @export var min_distance: float = 180.0
-@export var jump_force: float = -500.0
-@export var jump_interval_min: float = 1.3
-@export var jump_interval_max: float = 2.5
+@export var jump_force: float = -540.0
+@export var jump_interval_min: float = 3.5
+@export var jump_interval_max: float = 5.5
 
 ## Distancia a la que el jefe lanza el puñetazo
 @export var punch_distance: float = 320.0
 @export var punch_speed: float = 680.0
 ## Tiempo entre puñetazos
-@export var punch_cooldown_min: float = 1.5
-@export var punch_cooldown_max: float = 2.5
+@export var punch_cooldown_min: float = 0.08
+@export var punch_cooldown_max: float = 0.18
 
 ## Umbral Y a partir del cual el jefe se activa
 @export var activation_y_threshold: float = 4800.0
@@ -24,15 +24,13 @@ const DIALOGUE_BOX_SCENE := preload("res://level/dialogue_box.tscn")
 
 enum PunchPhase { NONE, WINDUP, LUNGE, RECOVERY }
 
-const WINDUP_TIME := 0.30
+const WINDUP_TIME := 0.45
 const LUNGE_TIME := 0.34
 const RECOVERY_TIME := 0.28
 
 var _jump_timer: float = 1.5
 var _punch_timer: float = 2.0
 var _player: Node2D = null
-var _double_jump_charged := false
-var _was_ascending := false
 
 var _health: int = 8
 var _is_hurt: bool = false
@@ -65,6 +63,7 @@ func _ready() -> void:
 
 	# Crear hitbox de puñetazo dinámicamente
 	_build_punch_hitbox()
+	_fit_floor_detectors()
 
 
 func _build_punch_hitbox() -> void:
@@ -78,11 +77,41 @@ func _build_punch_hitbox() -> void:
 	var rect := RectangleShape2D.new()
 	rect.size = Vector2(64, 72)
 	shape.shape = rect
-	shape.position = Vector2(68, -4)  # a la derecha; el Area2D se orienta con facing_direction
 	_punch_hitbox.add_child(shape)
 	add_child(_punch_hitbox)
 
 	_punch_hitbox.body_entered.connect(_on_punch_hit_body)
+	_fit_punch_hitbox()
+
+
+func _body_bounds() -> Rect2:
+	var collider := $CollisionShape2D as CollisionShape2D
+	return collider.transform * collider.shape.get_rect()
+
+
+func _fit_floor_detectors() -> void:
+	var bounds := _body_bounds()
+	var margin := 12.0 / absf(global_scale.y)
+	for detector in [floor_detector_left, floor_detector_right]:
+		# Los rayos heredaban otra escala de 0.5 y terminaban dentro del cuerpo.
+		detector.scale = Vector2.ONE
+		detector.position.y = bounds.get_center().y
+		detector.target_position = Vector2(0, bounds.size.y * 0.5 + margin)
+	floor_detector_left.position.x = bounds.position.x - 6.0 / absf(global_scale.x)
+	floor_detector_right.position.x = bounds.end.x + 6.0 / absf(global_scale.x)
+
+
+func _fit_punch_hitbox() -> void:
+	var bounds := _body_bounds()
+	var collider := _punch_hitbox.get_child(0) as CollisionShape2D
+	var rectangle := collider.shape as RectangleShape2D
+	rectangle.size = Vector2(maxf(bounds.size.x * 0.65, 48.0 / absf(global_scale.x)), bounds.size.y * 0.9)
+	collider.position = bounds.get_center() + Vector2(facing_direction * (bounds.size.x * 0.5 + rectangle.size.x * 0.5 - 8.0), 0)
+
+
+func _target_bounds() -> Rect2:
+	var collider := _player.get_node("CollisionShape2D") as CollisionShape2D
+	return collider.global_transform * collider.shape.get_rect()
 
 
 func _find_player() -> Node2D:
@@ -108,14 +137,19 @@ func _process(_delta: float) -> void:
 	if not is_instance_valid(_player):
 		_player = _find_player()
 		return
-	if _player.global_position.y >= activation_y_threshold:
+	var level := get_parent() as Node2D
+	var gateway := level.get_node_or_null("StageGateway2") as StageGateway
+	if gateway and gateway._triggered:
+		return
+	if level.to_local(_player.global_position).y >= activation_y_threshold:
 		_activate()
 
 
 func _activate() -> void:
 	_activated = true
 	set_process(false)
-	set_physics_process(true)
+	# Esperar al cierre del dialogo antes de comenzar el combate.
+	set_physics_process(false)
 	collision_layer = 2
 	collision_mask = 24
 	var tween := create_tween()
@@ -129,6 +163,7 @@ func _show_boss_dialogue() -> void:
 	get_tree().paused = true
 	dlg.dialogue_finished.connect(func() -> void:
 		get_tree().paused = false
+		set_physics_process(true)
 		await get_tree().process_frame
 		dlg.queue_free()
 	)
@@ -140,11 +175,16 @@ func _show_boss_dialogue() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_instance_valid(_player):
 		_player = _find_player()
+	_fit_floor_detectors()
 
 	if _state == State.WALKING and not _is_punching and not _is_hurt and is_instance_valid(_player):
 		var diff := _player.global_position.x - global_position.x
 		if absf(diff) > 8.0:
 			facing_direction = signf(diff)
+
+	if _state == State.WALKING and not _is_hurt:
+		# El salto se prepara también mientras golpea, sin interrumpir el puñetazo.
+		_jump_timer = maxf(0.0, _jump_timer - delta)
 
 	velocity.y += gravity * delta
 	if _state == State.WALKING:
@@ -153,19 +193,23 @@ func _physics_process(delta: float) -> void:
 		elif _is_punching:
 			_update_punch(delta)
 		else:
-			_handle_punch_logic(delta)
-			if not _is_punching:
-				_handle_movement(delta)
+			_handle_movement(delta)
+			# Un salto para interceptar tiene prioridad cuando termina el descanso.
+			if velocity.y >= 0.0:
+				_handle_punch_logic(delta)
 	else:
 		velocity.x = 0.0
 
 	move_and_slide()
+	if _punch_phase == PunchPhase.LUNGE and _punch_hitbox.monitoring:
+		for body in _punch_hitbox.get_overlapping_bodies():
+			_on_punch_hit_body(body)
 	if _punch_phase == PunchPhase.LUNGE and is_on_wall():
 		_begin_recovery()
 
 	# La dirección queda fijada durante todo el golpe, incluso si el jugador lo esquiva.
 	sprite.flip_h = facing_direction < 0.0
-	_punch_hitbox.scale.x = facing_direction
+	_fit_punch_hitbox()
 
 	# Animaciones
 	var animation := get_new_animation()
@@ -173,46 +217,43 @@ func _physics_process(delta: float) -> void:
 		animation_player.play(animation)
 
 
-func _handle_movement(delta: float) -> void:
+func _handle_movement(_delta: float) -> void:
 	var too_close := false
 	if is_instance_valid(_player):
 		too_close = abs(_player.global_position.x - global_position.x) < min_distance
 	velocity.x = 0.0 if too_close else move_speed * facing_direction
 
 	if is_on_floor():
-		_double_jump_charged = true
-		_was_ascending = false
-
-		_jump_timer -= delta
-		if _jump_timer <= 0.0:
+		var detector := floor_detector_right if facing_direction > 0.0 else floor_detector_left
+		detector.force_raycast_update()
+		var at_edge := not detector.is_colliding()
+		var needs_jump := at_edge or is_on_wall()
+		if is_instance_valid(_player):
+			var target := _target_bounds()
+			var body: Rect2 = global_transform * _body_bounds()
+			var nearby := absf(target.get_center().x - body.get_center().x) <= punch_distance
+			needs_jump = needs_jump or (nearby and target.end.y < body.end.y - 48.0)
+		if needs_jump and _jump_timer <= 0.0:
 			velocity.y = jump_force
+			velocity.x = move_speed * facing_direction
 			_reset_jump_timer()
-
-		# Detectar borde para saltar
-		if facing_direction > 0.0 and floor_detector_right and not floor_detector_right.is_colliding():
-			velocity.y = jump_force
-			_reset_jump_timer()
-		elif facing_direction < 0.0 and floor_detector_left and not floor_detector_left.is_colliding():
-			velocity.y = jump_force
-			_reset_jump_timer()
-	else:
-		if velocity.y < 0.0:
-			_was_ascending = true
-		elif _was_ascending and velocity.y >= 0.0 and _double_jump_charged:
-			_double_jump_charged = false
-			_was_ascending = false
-			velocity.y = jump_force * 0.85
-
-		if is_on_wall():
+		elif at_edge:
 			velocity.x = 0.0
+	elif is_on_wall():
+		velocity.x = 0.0
 
 
 func _handle_punch_logic(delta: float) -> void:
 	_punch_timer = maxf(0.0, _punch_timer - delta)
 	if not is_instance_valid(_player):
 		return
-	var offset := _player.global_position - global_position
-	if absf(offset.x) <= punch_distance and absf(offset.y) < 100.0 and is_on_floor() and _punch_timer <= 0.0:
+	var body: Rect2 = global_transform * _body_bounds()
+	var target := _target_bounds()
+	var gap_x := maxf(0.0, maxf(target.position.x - body.end.x, body.position.x - target.end.x))
+	var overlaps_height := target.end.y >= body.position.y and target.position.y <= body.end.y
+	# No cargar desde mas lejos de lo que realmente alcanza la embestida.
+	var reach := minf(punch_distance, punch_speed * LUNGE_TIME * 0.7 + 40.0)
+	if gap_x <= reach and overlaps_height and is_on_floor() and _punch_timer <= 0.0:
 		_do_punch()
 
 

@@ -59,14 +59,14 @@ func _layout_clouds() -> void:
 
 
 func _update_vertical_position() -> void:
-	# Cada escenario reinicia su recorrido, aunque las copias sean reflejadas.
+	# Cada zona tiene su propia imagen: reiniciar el paralaje al entrar.
 	var overflow := maxf(0.0, _background_height - _last_viewport_size.y)
-	var vertical_offset := -overflow * 0.5
+	var offset_y := -overflow * 0.5
 	var camera := get_viewport().get_camera_2d()
 	if camera and _current_stage < stage_vertical_motion.size():
-		var stage_start := stage_start_heights[_current_stage - 1] if _current_stage > 0 else 0.0
-		vertical_offset -= (camera.get_screen_center_position().y - stage_start) * camera.zoom.y * stage_vertical_motion[_current_stage]
-	($Sky as ParallaxLayer).motion_offset.y = clampf(vertical_offset, -overflow, 0.0)
+		var start_y := stage_start_heights[_current_stage - 1] if _current_stage > 0 else 0.0
+		offset_y -= (camera.get_screen_center_position().y - start_y) * camera.zoom.y * stage_vertical_motion[_current_stage]
+	($Sky as ParallaxLayer).motion_offset.y = clampf(offset_y, -overflow, 0.0)
 
 
 func _get_stage_textures() -> Array[Texture2D]:

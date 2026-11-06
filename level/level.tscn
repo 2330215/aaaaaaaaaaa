@@ -20,6 +20,11 @@
 [ext_resource type="PackedScene" uid="uid://cqrg4jje8y0sl" path="res://enemy/npc_maizano.tscn" id="19_maizano"]
 [ext_resource type="PackedScene" uid="uid://c3dh7xb6ef76q" path="res://level/coin.tscn" id="19_tv7ir"]
 [ext_resource type="PackedScene" uid="uid://wmx0c3ciqptt" path="res://level/apple.tscn" id="20_apple"]
+[ext_resource type="PackedScene" uid="uid://d1jwvahwnb1h5" path="res://level/shield_pickup.tscn" id="20_kdsbj"]
+[ext_resource type="Texture2D" uid="uid://82mnw4u87u87" path="res://gui/touch_button_right.png" id="21_o0wo3"]
+[ext_resource type="Texture2D" uid="uid://bwexvk7mhejjn" path="res://gui/touch_button_left.png" id="22_kdsbj"]
+[ext_resource type="Texture2D" uid="uid://bx5lprqgmkf1n" path="res://gui/touch_button_jump.png" id="23_ml0fe"]
+[ext_resource type="Texture2D" uid="uid://dh5f4544n38df" path="res://player/bullet.webp" id="24_h74y2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw150"]
 texture = ExtResource("2_0v1st")
@@ -1371,7 +1376,7 @@ dialogue_lines = ["Hola, soy Maizano. Este es un diálogo de ejemplo."]
 [node name="SignFinal" parent="." unique_id=1819018411 instance=ExtResource("11_sign")]
 z_index = -2
 position = Vector2(2993, 372)
-sign_text = "A lo largo de tu aventura podras recoger items como el platano que te permitira usar un ataque especial que se encendera cuando recojas los necesarios."
+sign_text = "Recoge items como el platano que te permitira usar un ataque especial, o la manzana que aumenta la cantidad de vidas, o el chile que te da un escudo temporal."
 sign_width = 500.0
 sign_height = 160.0
 font_size = 20
@@ -1379,7 +1384,7 @@ font_size = 20
 [node name="SignEnemigo" parent="." unique_id=1285671838 instance=ExtResource("11_sign")]
 z_index = -2
 position = Vector2(1949, 268)
-sign_text = "Cuidado!!, mas adelante hay un enemigo, para vencerlo presiona el boton de ataque que esta iluminado"
+sign_text = "Cuidado!!, mas adelante hay un enemigo, para vencerlo presiona: "
 sign_width = 340.0
 sign_height = 150.0
 font_size = 20
@@ -1395,7 +1400,8 @@ font_size = 20
 [node name="SignSalto" parent="." unique_id=1204455462 instance=ExtResource("11_sign")]
 z_index = -2
 position = Vector2(793, 324)
-sign_text = "Para  saltar, presiona el boton de flecha hacia arriba ubicado en la parte inferior derecha de la pantalla"
+sign_text = "
+Para  saltar, presiona:"
 sign_width = 340.0
 sign_height = 150.0
 font_size = 20
@@ -1403,7 +1409,8 @@ font_size = 20
 [node name="SignControles" parent="." unique_id=2001000004 instance=ExtResource("11_sign")]
 z_index = -2
 position = Vector2(281, 324)
-sign_text = "Para  moverte presiona los botones de flecha en la parte inferior izquierda de la pantalla"
+sign_text = "Para  moverte presiona los botones: 
+"
 sign_width = 340.0
 sign_height = 150.0
 font_size = 20
@@ -1439,13 +1446,16 @@ position = Vector2(1780, 5385)
 position = Vector2(2888, 4098)
 
 [node name="CoinSpawn" parent="." unique_id=1812276606 instance=ExtResource("19_tv7ir")]
-position = Vector2(224, 448)
+position = Vector2(3609, 490)
 
 [node name="Coin2" parent="." unique_id=2049719167 instance=ExtResource("19_tv7ir")]
 position = Vector2(3161, 487)
 
 [node name="Coin3" parent="." unique_id=1298693585 instance=ExtResource("19_tv7ir")]
 position = Vector2(3545, 487)
+
+[node name="Coin" parent="." unique_id=1127947759 instance=ExtResource("20_kdsbj")]
+position = Vector2(3290, 482)
 
 [node name="Coin4" parent="." unique_id=1252785248 instance=ExtResource("19_tv7ir")]
 position = Vector2(942, 2249)
@@ -1519,14 +1529,31 @@ position = Vector2(2939, 2253)
 [node name="Coin14" parent="." unique_id=514301765 instance=ExtResource("19_tv7ir")]
 position = Vector2(3204, 2256)
 
-[node name="Coin" parent="." unique_id=606447037 instance=ExtResource("19_tv7ir")]
-position = Vector2(3242, 487)
-
 [node name="Apple1" parent="." unique_id=268823020 instance=ExtResource("20_apple")]
-position = Vector2(300, 320)
+position = Vector2(3228, 484)
 
 [node name="Apple2" parent="." unique_id=1277370633 instance=ExtResource("20_apple")]
 position = Vector2(3712, 1689)
 
 [node name="Apple3" parent="." unique_id=1989940920 instance=ExtResource("20_apple")]
 position = Vector2(1236, 5062)
+
+[node name="TouchButtonRight" type="Sprite2D" parent="." unique_id=1139723176]
+position = Vector2(372.00003, 344)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("21_o0wo3")
+
+[node name="TouchButtonLeft" type="Sprite2D" parent="." unique_id=144272783]
+position = Vector2(280, 343)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("22_kdsbj")
+
+[node name="TouchButtonJump" type="Sprite2D" parent="." unique_id=577398736]
+position = Vector2(902, 335)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("23_ml0fe")
+
+[node name="Bullet" type="Sprite2D" parent="." unique_id=1048857268]
+position = Vector2(1983.0001, 303)
+scale = Vector2(3.3750021, 3.249998)
+texture = ExtResource("24_h74y2")

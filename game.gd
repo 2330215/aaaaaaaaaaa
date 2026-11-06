@@ -75,16 +75,20 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_tree().root.set_input_as_handled()
 
 	elif event.is_action_pressed(&"toggle_pause"):
-		# No permitir reanudar el juego por detrás de la pantalla de victoria o de game over.
-		if _victory_active or _game_over_active:
-			return
-		var tree := get_tree()
-		tree.paused = not tree.paused
-		if tree.paused:
-			_pause_menu.open()
-		else:
-			_pause_menu.close()
+		toggle_pause()
 		get_tree().root.set_input_as_handled()
+
+
+func toggle_pause() -> void:
+	# Compartido por Escape y el botón táctil.
+	if _victory_active or _game_over_active:
+		return
+	var tree := get_tree()
+	tree.paused = not tree.paused
+	if tree.paused:
+		_pause_menu.open()
+	else:
+		_pause_menu.close()
 
 
 func _on_boss_defeated() -> void:
