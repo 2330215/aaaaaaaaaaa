@@ -1,3 +1,9 @@
 .godot/
 .godot/
 AGENTS.md
+
+.godot/
+android/build/
+*.apk
+*.aab
+*.idsig
