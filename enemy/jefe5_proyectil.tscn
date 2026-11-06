@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://cnb7g7cq408x1"]
+
+[ext_resource type="Script" uid="uid://qx5e30xkwsn7" path="res://enemy/jefe3_proyectil.gd" id="1_uqmt1"]
+[ext_resource type="Texture2D" uid="uid://d2655gj8gel2e" path="res://enemy/Dona_proyectil.png" id="2_uqmt1"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_seeker"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_uqmt1")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3uca6"]
+radius = 9.552486
+
+[node name="JefeSeeker" type="Area2D" unique_id=1789341361]
+collision_layer = 16
+script = ExtResource("1_uqmt1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=456084232]
+position = Vector2(1, -0.9999999)
+scale = Vector2(0.02401101, 0.027495112)
+sprite_frames = SubResource("SpriteFrames_seeker")
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1444867304]
+position = Vector2(1, -0.5)
+rotation = 2.3125613
+shape = SubResource("CircleShape2D_3uca6")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
