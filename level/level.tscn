@@ -26,6 +26,11 @@
 [ext_resource type="Texture2D" uid="uid://bx5lprqgmkf1n" path="res://gui/touch_button_jump.png" id="23_ml0fe"]
 [ext_resource type="Texture2D" uid="uid://dh5f4544n38df" path="res://player/bullet.webp" id="24_h74y2"]
 
+[ext_resource type="Texture2D" path="res://level/props/planta_desierto1.png" id="decor_0"]
+[ext_resource type="Texture2D" path="res://level/props/planta_desierto2.png" id="decor_1"]
+[ext_resource type="Texture2D" path="res://level/props/planta_desierto3.png" id="decor_2"]
+[ext_resource type="Texture2D" path="res://level/props/planta_desierto4.png" id="decor_3"]
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw150"]
 texture = ExtResource("2_0v1st")
 texture_region_size = Vector2i(64, 64)
@@ -1557,3 +1562,140 @@ texture = ExtResource("23_ml0fe")
 position = Vector2(1983.0001, 303)
 scale = Vector2(3.3750021, 3.249998)
 texture = ExtResource("24_h74y2")
+
+[node name="PlantasDesierto" type="Node2D" parent="."]
+z_index = -1
+texture_filter = 1
+
+[node name="Decoracion01" type="Sprite2D" parent="PlantasDesierto"]
+position = Vector2(160, 514)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("decor_0")
+offset = Vector2(0, -70.5)
+flip_h = false
+
+[node name="Decoracion02" type="Sprite2D" parent="PlantasDesierto"]
+position = Vector2(520, 514)
+scale = Vector2(0.48, 0.48)
+texture = ExtResource("decor_1")
+offset = Vector2(0, -75.0)
+flip_h = true
+
+[node name="Decoracion03" type="Sprite2D" parent="PlantasDesierto"]
+position = Vector2(1080, 514)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("decor_2")
+offset = Vector2(0, -60.5)
+flip_h = false
+
+[node name="Decoracion04" type="Sprite2D" parent="PlantasDesierto"]
+position = Vector2(1510, 578)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("decor_3")
+offset = Vector2(0, -70.5)
+flip_h = false
+
+[node name="Decoracion05" type="Sprite2D" parent="PlantasDesierto"]
+position = Vector2(1770, 386)
+scale = Vector2(0.45, 0.45)
+texture = ExtResource("decor_1")
+offset = Vector2(0, -75.0)
+flip_h = false
+
+[node name="Decoracion06" type="Sprite2D" parent="PlantasDesierto"]
+position = Vector2(2160, 386)
+scale = Vector2(0.52, 0.52)
+texture = ExtResource("decor_0")
+offset = Vector2(0, -70.5)
+flip_h = true
+
+[node name="Decoracion07" type="Sprite2D" parent="PlantasDesierto"]
+position = Vector2(2432, 450)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("decor_2")
+offset = Vector2(0, -60.5)
+flip_h = true
+
+[node name="Decoracion08" type="Sprite2D" parent="PlantasDesierto"]
+position = Vector2(2840, 514)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("decor_3")
+offset = Vector2(0, -70.5)
+flip_h = false
+
+[node name="Decoracion09" type="Sprite2D" parent="PlantasDesierto"]
+position = Vector2(3500, 514)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("decor_1")
+offset = Vector2(0, -75.0)
+flip_h = false
+
+[node name="Decoracion10" type="Sprite2D" parent="PlantasDesierto"]
+position = Vector2(240, 2178)
+scale = Vector2(0.48, 0.48)
+texture = ExtResource("decor_2")
+offset = Vector2(0, -60.5)
+flip_h = false
+
+[node name="Decoracion11" type="Sprite2D" parent="PlantasDesierto"]
+position = Vector2(610, 2306)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("decor_3")
+offset = Vector2(0, -70.5)
+flip_h = true
+
+[node name="Decoracion12" type="Sprite2D" parent="PlantasDesierto"]
+position = Vector2(1180, 2306)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("decor_0")
+offset = Vector2(0, -70.5)
+flip_h = false
+
+[node name="Decoracion13" type="Sprite2D" parent="PlantasDesierto"]
+position = Vector2(1620, 2114)
+scale = Vector2(0.45, 0.45)
+texture = ExtResource("decor_1")
+offset = Vector2(0, -75.0)
+flip_h = false
+
+[node name="Decoracion14" type="Sprite2D" parent="PlantasDesierto"]
+position = Vector2(2240, 1986)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("decor_2")
+offset = Vector2(0, -60.5)
+flip_h = false
+
+[node name="Decoracion15" type="Sprite2D" parent="PlantasDesierto"]
+position = Vector2(2650, 1986)
+scale = Vector2(0.48, 0.48)
+texture = ExtResource("decor_3")
+offset = Vector2(0, -70.5)
+flip_h = false
+
+[node name="Decoracion16" type="Sprite2D" parent="PlantasDesierto"]
+position = Vector2(2880, 2306)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("decor_0")
+offset = Vector2(0, -70.5)
+flip_h = true
+
+[node name="Decoracion17" type="Sprite2D" parent="PlantasDesierto"]
+position = Vector2(3240, 2050)
+scale = Vector2(0.45, 0.45)
+texture = ExtResource("decor_1")
+offset = Vector2(0, -75.0)
+flip_h = true
+
+[node name="Decoracion18" type="Sprite2D" parent="PlantasDesierto"]
+position = Vector2(3500, 2306)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("decor_2")
+offset = Vector2(0, -60.5)
+flip_h = false
+
+[node name="Decoracion19" type="Sprite2D" parent="PlantasDesierto"]
+position = Vector2(3720, 2306)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("decor_3")
+offset = Vector2(0, -70.5)
+flip_h = false
