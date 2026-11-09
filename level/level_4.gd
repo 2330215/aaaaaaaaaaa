@@ -1,5 +1,5 @@
 extends "res://level/level.gd"
-## Tres tramos cortos de playa; Pizza se activa solo en el ultimo.
+## Tres tramos de playa; Dona en el segundo y Pizza en el ultimo.
 
 const STAGE_WIDTH: float = 1664.0
 const CAMERA_OFFSET := Vector2(0, -90)
@@ -10,14 +10,22 @@ const PLAYER_SPAWNS: Array[Vector2] = [Vector2(128, 400), Vector2(128, 2448), Ve
 func _process(_delta: float) -> void:
 	_setup_camera()
 	var in_boss_stage := false
+	var in_donut_stage := false
 	for node in get_tree().get_nodes_in_group("player"):
 		if node is Player and node.get_world_2d() == get_world_2d():
-			in_boss_stage = in_boss_stage or to_local(node.global_position).y >= 3584.0
+			var height := to_local(node.global_position).y
+			in_boss_stage = in_boss_stage or height >= 3584.0
+			in_donut_stage = in_donut_stage or (height >= 1792.0 and height < 3584.0)
 	var boss := get_node_or_null("PizzaBoss") as Enemy
 	if boss and boss._state != Enemy.State.DEAD:
 		boss.visible = in_boss_stage
 		boss.process_mode = Node.PROCESS_MODE_INHERIT if in_boss_stage else Node.PROCESS_MODE_DISABLED
 		boss.collision_layer = 2 if in_boss_stage else 0
+	var donut := get_node_or_null("DonutBoss") as Enemy
+	if donut and donut._state != Enemy.State.DEAD:
+		donut.visible = in_donut_stage
+		donut.process_mode = Node.PROCESS_MODE_INHERIT if in_donut_stage else Node.PROCESS_MODE_DISABLED
+		donut.collision_layer = 2 if in_donut_stage else 0
 
 
 func _setup_camera() -> void:

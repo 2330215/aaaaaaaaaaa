@@ -1,7 +1,7 @@
 extends "res://level/level.gd"
 ## Arenas de defensa y combate aereo exclusivas del nivel 3.
 
-@export var horde_duration: float = 60.0
+@export var horde_duration: float = 30.0
 @export var reinforcement_interval: float = 30.0
 @export var intro_duration: float = 1.5
 
@@ -191,7 +191,7 @@ func _update_horde(delta: float) -> void:
 		_spawn_timer = randf_range(2.5, 4.0)
 	var remaining := _living_count(_horde_enemies)
 	var seconds := ceili(_time_left)
-	_status.text = "DEFENSA  %d:%02d\nEnemigos: %d" % [seconds / 60, seconds % 60, remaining]
+	_status.text = "DEFENSA  %d:%02d\nEnemigos: %d" % [seconds / 30, seconds % 30, remaining]
 	if _time_left <= 0.0:
 		_status.text = "Elimina a los enemigos restantes: %d" % remaining
 		if remaining == 0:

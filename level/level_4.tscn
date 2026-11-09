@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://bvirwji1syvl0" path="res://enemy/enemy_jefe_level4.tscn" id="5_boss"]
 [ext_resource type="PackedScene" path="res://gui/lives_display.tscn" id="6_lives"]
 
+[ext_resource type="PackedScene" path="res://enemy/enemy_jefe_level5.tscn" id="7_donut"]
+
 [sub_resource type="RectangleShape2D" id="WallShape"]
 size = Vector2(64, 960)
 
@@ -32,6 +34,13 @@ target_stage_index = 1
 position = Vector2(1664, 2496)
 target_position = Vector2(128, 4240)
 target_stage_index = 2
+
+[node name="DonutBoss" parent="." instance=ExtResource("7_donut")]
+process_mode = 4
+visible = false
+position = Vector2(1216, 2228)
+collision_layer = 0
+completes_level = false
 
 [node name="PizzaBoss" parent="." unique_id=1190767070 instance=ExtResource("5_boss")]
 process_mode = 4

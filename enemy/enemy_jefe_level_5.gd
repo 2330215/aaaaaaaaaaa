@@ -6,6 +6,7 @@ extends Enemy
 @export var screen_margin: float = 16.0
 @export var attack_interval: float = 2
 @export var max_health: int = 8
+@export var completes_level: bool = true
 @export var donut_speed: float = 260.0
 @export var rain_duration: float = 2.5
 @export var rain_interval: float = 0.15
@@ -200,7 +201,8 @@ func destroy() -> void:
 		for hazard in get_tree().get_nodes_in_group(_hazard_group):
 			hazard.queue_free()
 		animation_player.play(&"destroy")
-		GameState.notify_boss_defeated()
+		if completes_level:
+			GameState.notify_boss_defeated()
 	else:
 		_hurt_timer = 0.3
 		sprite.self_modulate = Color(1.0, 0.35, 0.35)
