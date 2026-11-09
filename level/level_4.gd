@@ -1,31 +1,31 @@
 extends "res://level/level.gd"
-## Tres tramos de playa; Dona en el segundo y Pizza en el ultimo.
+## Playa, defensa naval de treinta segundos e isla de Pizza.
 
-const STAGE_WIDTH: float = 1664.0
+const STAGE_WIDTH: float = 3840.0
 const CAMERA_OFFSET := Vector2(0, -90)
 const FLOOR_HEIGHTS: Array[float] = [448.0, 2496.0, 4288.0]
-const PLAYER_SPAWNS: Array[Vector2] = [Vector2(128, 400), Vector2(128, 2448), Vector2(128, 4240)]
+const PLAYER_SPAWNS: Array[Vector2] = [Vector2(128, 400), Vector2(260, 2440), Vector2(1520, 4240)]
 
 
 func _process(_delta: float) -> void:
 	_setup_camera()
 	var in_boss_stage := false
-	var in_donut_stage := false
 	for node in get_tree().get_nodes_in_group("player"):
 		if node is Player and node.get_world_2d() == get_world_2d():
 			var height := to_local(node.global_position).y
 			in_boss_stage = in_boss_stage or height >= 3584.0
-			in_donut_stage = in_donut_stage or (height >= 1792.0 and height < 3584.0)
 	var boss := get_node_or_null("PizzaBoss") as Enemy
 	if boss and boss._state != Enemy.State.DEAD:
 		boss.visible = in_boss_stage
 		boss.process_mode = Node.PROCESS_MODE_INHERIT if in_boss_stage else Node.PROCESS_MODE_DISABLED
 		boss.collision_layer = 2 if in_boss_stage else 0
+	# El segundo escenario ahora es una batalla naval; conservar la escena de Dona inactiva.
 	var donut := get_node_or_null("DonutBoss") as Enemy
-	if donut and donut._state != Enemy.State.DEAD:
-		donut.visible = in_donut_stage
-		donut.process_mode = Node.PROCESS_MODE_INHERIT if in_donut_stage else Node.PROCESS_MODE_DISABLED
-		donut.collision_layer = 2 if in_donut_stage else 0
+	if donut:
+		donut.hide()
+		donut.process_mode = Node.PROCESS_MODE_DISABLED
+		donut.collision_layer = 0
+
 
 
 func _setup_camera() -> void:
@@ -49,6 +49,6 @@ func _setup_camera() -> void:
 func get_stage_destinations() -> Array:
 	return [
 		{"pos": to_global(PLAYER_SPAWNS[0]), "stage_index": 0, "cave": false, "sky": true, "label": "Inicio"},
-		{"pos": to_global(PLAYER_SPAWNS[1]), "stage_index": 1, "cave": false, "sky": true, "label": "Escenario 2"},
+		{"pos": to_global(PLAYER_SPAWNS[1]), "stage_index": 1, "cave": false, "sky": true, "label": "Batalla naval"},
 		{"pos": to_global(PLAYER_SPAWNS[2]), "stage_index": 2, "cave": false, "sky": true, "label": "Jefe Pizza"}
 	]

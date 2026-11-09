@@ -1,5 +1,15 @@
 extends Enemy
-## Jefe volador: ocupa la mitad derecha de la vista de la camara.
+## Dona puede combatir en el suelo o volar en la mitad derecha de la cámara.
+
+@export var grounded: bool = false
+@export var ground_speed: float = 140.0
+@export var ground_patrol_distance: float = 280.0
+@export var ground_jump_velocity: float = -520.0
+@export var ground_jump_interval: float = 3.5
+
+var _ground_origin_x: float
+var _ground_direction: float = -1.0
+var _jump_timer: float = 2.0
 
 @export var flight_speed: float = 150.0
 @export var flight_change_interval: float = 1.5
@@ -11,7 +21,7 @@ extends Enemy
 @export var rain_duration: float = 2.5
 @export var rain_interval: float = 0.15
 @export var sprinkle_speed: float = 330.0
-const DONUT_SCRIPT = preload("res://enemy/rolling_donut.gd")
+const DONUT_SCENE = preload("res://enemy/rolling_donut.tscn")
 const RAIN_SCRIPT = preload("res://enemy/donut_rain.gd")
 var _next_rain := false
 var _current_attack: StringName = &"attack"
@@ -31,7 +41,8 @@ var _hurt_timer := 0.0
 
 
 func _ready() -> void:
-	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
+	_ground_origin_x = global_position.x
+	motion_mode = CharacterBody2D.MOTION_MODE_GROUNDED if grounded else CharacterBody2D.MOTION_MODE_FLOATING
 	_health = max_health
 	_hazard_group = "boss5_hazard_%d" % get_instance_id()
 	animation_player.animation_finished.connect(_on_animation_finished)
@@ -76,11 +87,16 @@ func _physics_process(delta: float) -> void:
 		if not screen.grow(80.0).has_point(canvas * global_position):
 			return
 		_active = true
-	_clamp_to_screen()
+	if not grounded:
+		_clamp_to_screen()
 	var player := _find_player_in_view()
 	if player:
 		sprite.flip_h = player.global_position.x < global_position.x
 
+
+	if grounded:
+		_process_grounded(delta, player)
+		return
 
 	if _attacking:
 		velocity = Vector2.ZERO
@@ -105,9 +121,39 @@ func _physics_process(delta: float) -> void:
 	_clamp_to_screen()
 
 
+func _process_grounded(delta: float, player: Player) -> void:
+	_jump_timer = maxf(0.0, _jump_timer - delta)
+	if global_position.x <= _ground_origin_x - ground_patrol_distance:
+		_ground_direction = 1.0
+	elif global_position.x >= _ground_origin_x + ground_patrol_distance:
+		_ground_direction = -1.0
+	elif is_on_wall():
+		_ground_direction = signf(get_wall_normal().x)
+	velocity.x = 0.0 if _attacking else _ground_direction * ground_speed
+	# Saltar solo desde el suelo; nunca reiniciar el impulso en el aire.
+	if not _attacking and is_on_floor() and _jump_timer <= 0.0:
+		velocity.y = ground_jump_velocity
+		_jump_timer = maxf(0.5, ground_jump_interval)
+	# La gravedad sigue activa durante el salto y las animaciones de ataque.
+	velocity.y += gravity * delta
+	move_and_slide()
+	if _attacking:
+		if not _shot_fired and animation_player.current_animation_position >= 0.4:
+			_shot_fired = true
+			_fire_attack()
+	else:
+		_attack_timer -= delta
+		if player and is_on_floor() and _attack_timer <= 0.0:
+			attack()
+		else:
+			var movement_animation: StringName = &"walk" if not is_zero_approx(velocity.x) else &"idle"
+			if animation_player.current_animation != movement_animation:
+				animation_player.play(movement_animation)
+
+
 func _process(_delta: float) -> void:
 	# Mantener el limite tambien al desplazar o cambiar el zoom de la camara.
-	if _active and _state != State.DEAD:
+	if _active and _state != State.DEAD and not grounded:
 		_clamp_to_screen()
 
 
@@ -170,20 +216,25 @@ func _fire_attack() -> void:
 	var player := _find_player_in_view()
 	if not player:
 		return
-	# Situar la dona sobre el suelo real bajo el marcador, aunque el jefe vuele.
-	var spawn := projectile_spawn.global_position
+	# Proyectil independiente: nace delante del cuerpo y conserva su dirección.
+	var donut = DONUT_SCENE.instantiate()
+	donut.speed = donut_speed
+	donut.direction = -1.0 if player.global_position.x < global_position.x else 1.0
+	donut.hazard_group = _hazard_group
+	var collider := $CollisionShape2D as CollisionShape2D
+	var bounds: Rect2 = collider.global_transform * collider.shape.get_rect()
+	var spawn_x: float = bounds.position.x - donut.radius - 4.0 if donut.direction < 0.0 else bounds.end.x + donut.radius + 4.0
+	var spawn := Vector2(spawn_x, bounds.position.y)
 	var ray := PhysicsRayQueryParameters2D.create(spawn, spawn + Vector2(0, 2000), 24, [get_rid()])
 	var ground := get_world_2d().direct_space_state.intersect_ray(ray)
 	if ground.is_empty():
+		donut.free()
 		return
-	var donut = DONUT_SCRIPT.new()
-	donut.speed = donut_speed
-	donut.direction = -1.0 if player.global_position.x < spawn.x else 1.0
-	donut.hazard_group = _hazard_group
 	var parent := get_parent()
 	var point: Vector2 = ground.position + Vector2(0, -donut.radius - 2)
 	donut.position = parent.to_local(point) if parent is Node2D else point
 	parent.add_child(donut)
+
 
 func _on_animation_finished(animation: StringName) -> void:
 	if animation == &"attack" or animation == &"attack2":

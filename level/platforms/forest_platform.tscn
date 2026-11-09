@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://level/platforms/moving_platform.webp" id="1_texture"]
+
+[sub_resource type="RectangleShape2D" id="Rectangle_platform"]
+size = Vector2(192, 27)
+
+[node name="ForestPlatform" type="AnimatableBody2D"]
+z_index = -1
+collision_layer = 8
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("1_texture")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7.5)
+shape = SubResource("Rectangle_platform")
+one_way_collision = true

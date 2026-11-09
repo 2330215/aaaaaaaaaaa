@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://game.gd" id="2"]
+[ext_resource type="PackedScene" path="res://level/level_5.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://player/player.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://touch_controls.tscn" id="4_2olji"]
+[ext_resource type="PackedScene" path="res://gui/pause_menu_singleplayer.tscn" id="4_x6l06"]
+
+[node name="Game" type="Node"]
+process_mode = 3
+script = ExtResource("2")
+level_number = 5
+
+[node name="Level" parent="." instance=ExtResource("3")]
+
+[node name="Player" parent="Level" instance=ExtResource("4")]
+position = Vector2(128, 400)
+
+[node name="TouchControls" parent="Level" instance=ExtResource("4_2olji")]
+
+[node name="InterfaceLayer" type="CanvasLayer" parent="."]
+layer = 500
+
+[node name="PauseMenu" parent="InterfaceLayer" instance=ExtResource("4_x6l06")]
+
+[connection signal="coin_collected" from="Level/Player" to="InterfaceLayer/PauseMenu" method="_on_coin_collected"]

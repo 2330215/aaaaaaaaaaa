@@ -3,11 +3,11 @@ class_name EnemyJefe2 extends Enemy
 ## Jefe 2: persigue al jugador y ataca con golpes laterales (puñetazo).
 ## Se activa cuando el jugador entra al escenario del jefe (coordenada Y).
 
-@export var move_speed: float = 160.0
-@export var min_distance: float = 180.0
-@export var jump_force: float = -540.0
-@export var jump_interval_min: float = 3.5
-@export var jump_interval_max: float = 5.5
+@export var move_speed: float = 240.0
+@export var min_distance: float = 110.0
+@export var jump_force: float = -620.0
+@export var jump_interval_min: float = 2.0
+@export var jump_interval_max: float = 3.0
 
 ## Distancia a la que el jefe lanza el puñetazo
 @export var punch_distance: float = 320.0
@@ -24,15 +24,16 @@ const DIALOGUE_BOX_SCENE := preload("res://level/dialogue_box.tscn")
 
 enum PunchPhase { NONE, WINDUP, LUNGE, RECOVERY }
 
-const WINDUP_TIME := 0.45
+const WINDUP_TIME := 0.30
 const LUNGE_TIME := 0.34
-const RECOVERY_TIME := 0.28
+const RECOVERY_TIME := 0.18
 
 var _jump_timer: float = 1.5
 var _punch_timer: float = 2.0
 var _player: Node2D = null
 
 var _health: int = 8
+var _hit_stun_left: float = 0.0
 var _is_hurt: bool = false
 var _is_punching: bool = false   # true mientras dura la animación del puñetazo
 var _punch_phase := PunchPhase.NONE
@@ -115,10 +116,17 @@ func _target_bounds() -> Rect2:
 
 
 func _find_player() -> Node2D:
-	var nodes := get_tree().get_nodes_in_group("player")
-	if nodes.size() > 0:
-		return nodes[0] as Node2D
-	return null
+	var nearest: Player = null
+	var nearest_distance := INF
+	for node in get_tree().get_nodes_in_group("player"):
+		var player := node as Player
+		if player == null or player._is_dead or player.get_world_2d() != get_world_2d():
+			continue
+		var distance := global_position.distance_squared_to(player.global_position)
+		if distance < nearest_distance:
+			nearest = player
+			nearest_distance = distance
+	return nearest
 
 
 func _reset_jump_timer() -> void:
@@ -134,8 +142,8 @@ func _reset_punch_timer() -> void:
 func _process(_delta: float) -> void:
 	if _activated:
 		return
+	_player = _find_player()
 	if not is_instance_valid(_player):
-		_player = _find_player()
 		return
 	var level := get_parent() as Node2D
 	var gateway := level.get_node_or_null("StageGateway2") as StageGateway
@@ -173,22 +181,22 @@ func _show_boss_dialogue() -> void:
 # ── Física principal ─────────────────────────────────────────────────────────
 
 func _physics_process(delta: float) -> void:
-	if not is_instance_valid(_player):
-		_player = _find_player()
+	_hit_stun_left = maxf(0.0, _hit_stun_left - delta)
+	_player = _find_player()
 	_fit_floor_detectors()
 
-	if _state == State.WALKING and not _is_punching and not _is_hurt and is_instance_valid(_player):
+	if _state == State.WALKING and not _is_punching and _hit_stun_left <= 0.0 and is_instance_valid(_player):
 		var diff := _player.global_position.x - global_position.x
 		if absf(diff) > 8.0:
 			facing_direction = signf(diff)
 
-	if _state == State.WALKING and not _is_hurt:
+	if _state == State.WALKING and _hit_stun_left <= 0.0:
 		# El salto se prepara también mientras golpea, sin interrumpir el puñetazo.
 		_jump_timer = maxf(0.0, _jump_timer - delta)
 
 	velocity.y += gravity * delta
 	if _state == State.WALKING:
-		if _is_hurt:
+		if _hit_stun_left > 0.0:
 			velocity.x = move_toward(velocity.x, 0.0, 700.0 * delta)
 		elif _is_punching:
 			_update_punch(delta)
@@ -227,7 +235,7 @@ func _handle_movement(_delta: float) -> void:
 		var detector := floor_detector_right if facing_direction > 0.0 else floor_detector_left
 		detector.force_raycast_update()
 		var at_edge := not detector.is_colliding()
-		var needs_jump := at_edge or is_on_wall()
+		var needs_jump := _jump_timer <= 0.0 or at_edge or is_on_wall()
 		if is_instance_valid(_player):
 			var target := _target_bounds()
 			var body: Rect2 = global_transform * _body_bounds()
@@ -264,7 +272,7 @@ func _do_punch() -> void:
 	_punch_phase = PunchPhase.WINDUP
 	_phase_time = 0.0
 	velocity.x = 0.0
-	animation_player.play(&"punch_windup")
+	animation_player.play(&"punch_windup", -1.0, 0.45 / WINDUP_TIME)
 
 
 func _update_punch(delta: float) -> void:
@@ -305,7 +313,7 @@ func _begin_recovery() -> void:
 	_phase_time = 0.0
 	velocity.x = 0.0
 	_punch_hitbox.set_deferred("monitoring", false)
-	animation_player.play(&"punch_recover")
+	animation_player.play(&"punch_recover", -1.0, 0.28 / RECOVERY_TIME)
 
 
 func _cancel_punch() -> void:
@@ -346,18 +354,20 @@ func destroy() -> void:
 
 
 func _apply_hit_reaction() -> void:
-	_cancel_punch()
-	_reset_punch_timer()
 	_is_hurt = true
-	var knockback_dir := -facing_direction
-	if is_instance_valid(_player):
-		knockback_dir = sign(global_position.x - _player.global_position.x)
-	velocity.x = knockback_dir * 380.0
-	velocity.y = -280.0
+	# Un impacto no interrumpe un puñetazo ya preparado o en ejecución.
+	if not _is_punching:
+		_hit_stun_left = 0.10
+		var knockback_dir := -facing_direction
+		if is_instance_valid(_player):
+			knockback_dir = signf(global_position.x - _player.global_position.x)
+		velocity.x = knockback_dir * 90.0
+		# Conservar la velocidad vertical: recibir daño ya no lo lanza al aire.
 	var tween := create_tween()
 	tween.tween_property(sprite, "self_modulate", Color.RED, 0.06)
-	tween.tween_property(sprite, "self_modulate", Color.WHITE, 0.30)
+	tween.tween_property(sprite, "self_modulate", Color.WHITE, 0.44)
 	tween.tween_callback(func() -> void: _is_hurt = false)
+
 
 
 # ── Animaciones ──────────────────────────────────────────────────────────────

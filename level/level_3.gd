@@ -2,8 +2,11 @@ extends "res://level/level.gd"
 ## Arenas de defensa y combate aereo exclusivas del nivel 3.
 
 @export var horde_duration: float = 30.0
-@export var reinforcement_interval: float = 30.0
+@export var reinforcement_interval: float = 5.0
 @export var intro_duration: float = 1.5
+@export var horde_spawn_interval_min: float = 0.75
+@export var horde_spawn_interval_max: float = 1.25
+@export var max_horde_enemies: int = 16
 
 const ARENA_WIDTH: float = 1664.0
 const DEFENSE_FLOOR_Y: float = 449.0
@@ -22,7 +25,7 @@ const INTRO_SCENE := preload("res://level/dialogue_box.tscn")
 var _player_stages: Dictionary = {}
 
 var _time_left: float
-var _spawn_timer: float = 1.0
+var _spawn_timer: float = 0.5
 var _horde_enemies: Array[Enemy] = []
 var _enemy_bag: Array[int] = []
 var _horde_complete: bool = false
@@ -181,17 +184,17 @@ func _update_horde(delta: float) -> void:
 	_time_left = maxf(0.0, _time_left - delta)
 	_spawn_timer -= delta
 	_horde_enemies = _horde_enemies.filter(func(enemy) -> bool: return is_instance_valid(enemy))
-	if _time_left > 0.0 and _spawn_timer <= 0.0 and _living_count(_horde_enemies) < 10:
+	if _time_left > 0.0 and _spawn_timer <= 0.0 and _living_count(_horde_enemies) < max_horde_enemies:
 		if _enemy_bag.is_empty():
 			_enemy_bag.assign([0, 1, 2, 3])
 			_enemy_bag.shuffle()
 		var kind: int = _enemy_bag.pop_back()
 		var point := _horde_spawn_position()
 		_horde_enemies.append(_spawn_enemy(HORDE_SCENES[kind], point))
-		_spawn_timer = randf_range(2.5, 4.0)
+		_spawn_timer = randf_range(horde_spawn_interval_min, horde_spawn_interval_max)
 	var remaining := _living_count(_horde_enemies)
 	var seconds := ceili(_time_left)
-	_status.text = "DEFENSA  %d:%02d\nEnemigos: %d" % [seconds / 30, seconds % 30, remaining]
+	_status.text = "DEFENSA  %d:%02d\nEnemigos: %d" % [seconds / 60, seconds % 60, remaining]
 	if _time_left <= 0.0:
 		_status.text = "Elimina a los enemigos restantes: %d" % remaining
 		if remaining == 0:
@@ -201,19 +204,18 @@ func _update_horde(delta: float) -> void:
 
 
 func _horde_spawn_position() -> Vector2:
-	var camera := get_viewport().get_camera_2d()
-	if camera:
-		var half_width := get_viewport_rect().size.x / camera.zoom.x * 0.5
-		var center := to_local(camera.get_screen_center_position())
-		var sides: Array[float] = []
-		if center.x - half_width > 160.0:
-			sides.append(center.x - half_width - 80.0)
-		if center.x + half_width < ARENA_WIDTH - 160.0:
-			sides.append(center.x + half_width + 80.0)
-		if not sides.is_empty():
-			return Vector2(sides.pick_random(), 280)
-	# Si toda la arena es visible, entran desde el cielo dentro de las paredes.
-	return Vector2(randf_range(120, ARENA_WIDTH - 120), -90)
+	var left := 120.0
+	var right := ARENA_WIDTH - 120.0
+	var top := -90.0
+	if get_viewport().get_camera_2d():
+		var inverse := get_viewport().get_canvas_transform().affine_inverse()
+		var screen := get_viewport_rect()
+		var top_left := to_local(inverse * screen.position)
+		var bottom_right := to_local(inverse * screen.end)
+		left = maxf(left, top_left.x + 80.0)
+		right = maxf(left, minf(right, bottom_right.x - 80.0))
+		top = minf(top, top_left.y - 96.0)
+	return Vector2(randf_range(left, right), top)
 
 
 func _spawn_enemy(scene: PackedScene, point: Vector2) -> Enemy:
@@ -258,10 +260,14 @@ func _finish_air_intro() -> void:
 func _spawn_reinforcements() -> void:
 	if not is_instance_valid(_cotton) or _cotton._state == Enemy.State.DEAD:
 		return
+	var right_edge := AIR_BOUNDS.end.x
+	if get_viewport().get_camera_2d():
+		var inverse := get_viewport().get_canvas_transform().affine_inverse()
+		right_edge = maxf(right_edge, to_local(inverse * get_viewport_rect().end).x)
+	# Nacen fuera de cámara, separados en profundidad para entrar escalonados.
 	for index in range(3):
-		var angle := randf_range(0.0, TAU)
-		var point := _cotton.position + Vector2.from_angle(angle) * randf_range(140, 220)
-		point = point.clamp(AIR_BOUNDS.position + Vector2(100, 100), AIR_BOUNDS.end - Vector2(100, 100))
+		var point := Vector2(right_edge + 120.0 + index * 80.0,
+			randf_range(AIR_BOUNDS.position.y + 120.0, AIR_BOUNDS.end.y - 120.0))
 		_reinforcements.append(_spawn_enemy(HORDE_SCENES[0], point))
 
 

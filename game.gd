@@ -46,6 +46,10 @@ func _apply_level_skin() -> void:
 			starting_skin = Player.CharacterSkin.AGUACATE
 		3:
 			starting_skin = Player.CharacterSkin.LIMONES
+		4:
+			starting_skin = Player.CharacterSkin.ELOTE
+		5:
+			starting_skin = Player.CharacterSkin.CEBOLLA
 		_:
 			return
 	for node in get_tree().get_nodes_in_group("player"):

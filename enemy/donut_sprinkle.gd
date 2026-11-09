@@ -5,9 +5,15 @@ var warning_time: float = 0.4
 var hazard_group := ""
 var tint := Color("ff71b3")
 var _age := 0.0
+var _despawn_y: float
 var _sensor: Area2D
 
 func _ready() -> void:
+	# Limpiar por recorrido, nunca por tiempo: las chispas lentas también terminan de caer.
+	var viewport := get_viewport()
+	var screen_bottom := viewport.get_visible_rect().end
+	_despawn_y = maxf(global_position.y,
+		(viewport.get_canvas_transform().affine_inverse() * screen_bottom).y) + 64.0
 	collision_layer = 0
 	collision_mask = 24
 	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
@@ -38,7 +44,8 @@ func _physics_process(delta: float) -> void:
 		if body is Player:
 			body.take_damage()
 			queue_free()
-	if get_slide_collision_count() > 0 or _age > 6.0:
+			return
+	if get_slide_collision_count() > 0 or global_position.y > _despawn_y:
 		queue_free()
 	queue_redraw()
 

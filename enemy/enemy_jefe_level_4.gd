@@ -1,9 +1,10 @@
 extends Enemy
-## Jefe volador: ocupa la mitad derecha de la vista de la camara.
+## Pizza combate en tierra: patrulla, salta y alterna proyectiles y golpes al suelo.
 
-@export var flight_speed: float = 150.0
-@export var flight_change_interval: float = 1.5
-@export var screen_margin: float = 16.0
+@export var ground_speed: float = 150.0
+@export var ground_patrol_distance: float = 280.0
+@export var jump_speed: float = 560.0
+@export var jump_interval: float = 3.0
 @export var attack_interval: float = 2
 @export var max_health: int = 8
 @export var slam_jump_speed: float = 500.0
@@ -24,14 +25,17 @@ var _active := false
 var _attacking := false
 var _shot_fired := false
 var _attack_timer := 1.0
-var _flight_timer := 0.0
-var _destination_ratio := Vector2(0.6, 0.4)
+var _ground_origin_x: float
+var _patrol_direction: float = -1.0
+var _jump_timer: float = 1.8
 var _health: int
 var _hurt_timer := 0.0
 
 
 func _ready() -> void:
-	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
+	_ground_origin_x = global_position.x
+	floor_snap_length = 8.0
+	motion_mode = CharacterBody2D.MOTION_MODE_GROUNDED
 	_health = max_health
 	animation_player.animation_finished.connect(_on_animation_finished)
 	# Estas animaciones heredadas tenian cuadros de otra hoja de sprites.
@@ -69,7 +73,6 @@ func _physics_process(delta: float) -> void:
 		if not screen.grow(80.0).has_point(canvas * global_position):
 			return
 		_active = true
-	_clamp_to_screen()
 	var player := _find_player_in_view()
 	if player:
 		sprite.flip_h = player.global_position.x < global_position.x
@@ -78,59 +81,31 @@ func _physics_process(delta: float) -> void:
 		_update_slam(delta)
 		return
 
+	_jump_timer = maxf(0.0, _jump_timer - delta)
+	if global_position.x <= _ground_origin_x - ground_patrol_distance:
+		_patrol_direction = 1.0
+	elif global_position.x >= _ground_origin_x + ground_patrol_distance:
+		_patrol_direction = -1.0
+	elif is_on_wall():
+		_patrol_direction = signf(get_wall_normal().x)
+	velocity.x = 0.0 if _attacking else _patrol_direction * ground_speed
+	if not _attacking and is_on_floor() and _jump_timer <= 0.0:
+		velocity.y = -jump_speed
+		_jump_timer = maxf(0.5, jump_interval)
+	velocity.y += gravity * delta
+	move_and_slide()
 	if _attacking:
-		velocity = Vector2.ZERO
 		if not _shot_fired and animation_player.current_animation_position >= 0.4:
 			_shot_fired = true
 			_fire_attack()
 	else:
-		_flight_timer -= delta
-		if _flight_timer <= 0.0:
-			_destination_ratio = Vector2(randf_range(0.1, 0.9), randf_range(0.1, 0.9))
-			_flight_timer = maxf(0.1, flight_change_interval)
-		var limits := _screen_limits()
-		var destination := canvas.affine_inverse() * (limits.position + limits.size * _destination_ratio)
-		var offset := destination - global_position
-		velocity = offset.normalized() * minf(flight_speed, offset.length() / maxf(delta, 0.001))
-		move_and_slide()
 		_attack_timer -= delta
-		if player and _attack_timer <= 0.0:
+		if player and is_on_floor() and _attack_timer <= 0.0:
 			attack()
-		elif animation_player.current_animation != &"idle":
-			animation_player.play(&"idle")
-	_clamp_to_screen()
-
-
-func _process(_delta: float) -> void:
-	# Mantener el limite tambien al desplazar o cambiar el zoom de la camara.
-	if _active and _state != State.DEAD:
-		_clamp_to_screen()
-
-
-func _screen_limits() -> Rect2:
-	var screen := get_viewport().get_visible_rect()
-	var canvas := get_viewport().get_canvas_transform()
-	var origin := canvas * global_position
-	var bounds: Rect2 = sprite.get_global_transform_with_canvas() * sprite.get_rect()
-	var collider_bounds: Rect2 = $CollisionShape2D.get_global_transform_with_canvas() * $CollisionShape2D.shape.get_rect()
-	bounds = bounds.merge(collider_bounds)
-	var start := Vector2(screen.position.x + screen.size.x * 0.5, screen.position.y)
-	start += Vector2.ONE * screen_margin - (bounds.position - origin)
-	var finish := screen.end - Vector2.ONE * screen_margin - (bounds.end - origin)
-	# Si una ventana es muy pequena, centrar en el espacio disponible.
-	finish = finish.max(start)
-	return Rect2(start, finish - start)
-
-
-func _clamp_to_screen() -> void:
-	var canvas := get_viewport().get_canvas_transform()
-	var limits := _screen_limits()
-	var point := canvas * global_position
-	var saved_y := point.y
-	point = point.clamp(limits.position, limits.end)
-	if _slamming:
-		point.y = saved_y
-	global_position = canvas.affine_inverse() * point
+		else:
+			var animation: StringName = &"walk" if not is_zero_approx(velocity.x) else &"idle"
+			if animation_player.current_animation != animation:
+				animation_player.play(animation)
 
 
 func _find_player_in_view() -> Player:
@@ -216,7 +191,6 @@ func _update_slam(delta: float) -> void:
 	velocity.x = 0.0
 	var falling := velocity.y > 0.0
 	move_and_slide()
-	_clamp_to_screen()
 	if falling and is_on_floor():
 		velocity = Vector2.ZERO
 		animation_player.play(&"attack2")
@@ -233,7 +207,7 @@ func _update_slam(delta: float) -> void:
 func _finish_slam() -> void:
 	_slamming = false
 	_attacking = false
-	motion_mode = CharacterBody2D.MOTION_MODE_FLOATING
+	motion_mode = CharacterBody2D.MOTION_MODE_GROUNDED
 	velocity = Vector2.ZERO
 	_attack_timer = maxf(0.1, attack_interval)
 	animation_player.play(&"idle")

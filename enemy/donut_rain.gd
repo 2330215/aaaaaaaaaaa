@@ -36,6 +36,7 @@ func _physics_process(delta: float) -> void:
 	sprinkle.hazard_group = hazard_group
 	var colors := [Color("ff71b3"), Color("ffe17b"), Color("8df4ea"), Color("b293ff"), Color("fff2ce")]
 	sprinkle.tint = colors[randi_range(0, colors.size()-1)]
+	# Las chispas son hermanas del emisor: sobreviven cuando termina la lluvia.
 	var parent := get_parent()
 	sprinkle.position = parent.to_local(spawn) if parent is Node2D else spawn
 	parent.add_child(sprinkle)

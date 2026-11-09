@@ -4,7 +4,7 @@ extends Enemy
 @export var flight_speed: float = 150.0
 @export var flight_change_interval: float = 1.5
 @export var screen_margin: float = 16.0
-@export var attack_interval: float = 2
+@export var attack_interval: float = 1.0
 @export var max_health: int = 8
 @onready var projectile_spawn: Marker2D = $proyectil
 

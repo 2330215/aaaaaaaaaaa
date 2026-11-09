@@ -13,6 +13,7 @@ const SCENE_SP_L1 := "res://game_singleplayer.tscn"
 const SCENE_SP_L2 := "res://game_singleplayer_level2.tscn"
 const SCENE_SP_L3 := "res://game_singleplayer_level3.tscn"
 const SCENE_SP_L4 := "res://game_singleplayer_level4.tscn"
+const SCENE_SP_L5 := "res://game_singleplayer_level5.tscn"
 const SCENE_SS_L1 := "res://game_splitscreen.tscn"
 const SCENE_SS_L2 := "res://game_splitscreen_level2.tscn"
 
@@ -117,3 +118,10 @@ func _on_goto_level4_pressed() -> void:
 		return
 	get_tree().paused = false
 	get_tree().change_scene_to_file(SCENE_SP_L4)
+
+
+func _on_goto_level5_pressed() -> void:
+	if not visible:
+		return
+	get_tree().paused = false
+	get_tree().change_scene_to_file(SCENE_SP_L5)
