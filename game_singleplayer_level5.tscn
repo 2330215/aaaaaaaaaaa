@@ -14,7 +14,7 @@ level_number = 5
 [node name="Level" parent="." instance=ExtResource("3")]
 
 [node name="Player" parent="Level" instance=ExtResource("4")]
-position = Vector2(128, 400)
+position = Vector2(3660, 450)
 
 [node name="TouchControls" parent="Level" instance=ExtResource("4_2olji")]
 

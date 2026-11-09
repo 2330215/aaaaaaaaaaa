@@ -1,6 +1,9 @@
 [gd_scene format=4 uid="uid://cyvp8msrs6qg6"]
 
 [ext_resource type="Script" path="res://level/level_4.gd" id="1_script"]
+[ext_resource type="Script" path="res://level/animated_water.gd" id="water_animation"]
+[ext_resource type="Texture2D" path="res://level/props/sprites_olas2.png" id="waves_naval"]
+[ext_resource type="Texture2D" path="res://level/props/sprites_olas3.png" id="waves_island"]
 [ext_resource type="TileSet" path="res://level/playa_tileset.tres" id="2_tiles"]
 [ext_resource type="PackedScene" path="res://level/background/parallax_background4.tscn" id="3_bg"]
 [ext_resource type="PackedScene" path="res://level/stage_gateway.tscn" id="4_gate"]
@@ -311,6 +314,21 @@ collision_mask = 0
 
 [node name="@CollisionPolygon2D@5" type="CollisionPolygon2D" parent="EnemyBoat3/Deck" unique_id=1684863855]
 polygon = PackedVector2Array(13, 132, 178, 132, 413, 78, 392, 134, 56, 169)
+
+[node name="NavalWaves" type="Node2D" parent="."]
+z_index = -3
+texture_filter = 1
+position = Vector2(0, 2516)
+script = ExtResource("water_animation")
+sprite_sheet = ExtResource("waves_naval")
+
+[node name="IslandWaves" type="Node2D" parent="."]
+z_index = -3
+texture_filter = 1
+position = Vector2(0, 4320)
+script = ExtResource("water_animation")
+sprite_sheet = ExtResource("waves_island")
+frames_per_second = 6.0
 
 [node name="NavalWater" type="Area2D" parent="." unique_id=67920918 instance=ExtResource("33_duj7j")]
 position = Vector2(1920, 2720)
