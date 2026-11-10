@@ -361,9 +361,11 @@ gravity = Vector2(0, -250)
 color_ramp = SubResource("Gradient_exp")
 
 [node name="Hit" type="AudioStreamPlayer2D" parent="." unique_id=1966580274]
+bus = &"SFX"
 position = Vector2(2.4999962, -2.500001)
 stream = ExtResource("4_aj4ar")
 
 [node name="Explode" type="AudioStreamPlayer2D" parent="." unique_id=560553588]
+bus = &"SFX"
 position = Vector2(3.8146973e-06, 7.1054274e-15)
 stream = ExtResource("5_oi77m")

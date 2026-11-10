@@ -187,5 +187,6 @@ position = Vector2(5.5, 7.5)
 shape = SubResource("RectangleShape2D_apple")
 
 [node name="Pickup" type="AudioStreamPlayer2D" parent="." unique_id=600165070]
+bus = &"SFX"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -18,11 +18,26 @@ const SCENE_SS_L1 := "res://game_splitscreen.tscn"
 const SCENE_SS_L2 := "res://game_splitscreen_level2.tscn"
 
 
+@onready var main_options: VBoxContainer = center_cont.get_node("VBoxContainer")
+@onready var settings_panel: PanelContainer = center_cont.get_node("AudioSettings")
+@onready var settings_content: VBoxContainer = settings_panel.get_node("Margin/Content")
+@onready var music_slider: HSlider = settings_content.get_node("MusicSlider")
+@onready var effects_slider: HSlider = settings_content.get_node("EffectsSlider")
+@onready var music_value: Label = settings_content.get_node("MusicRow/Value")
+@onready var effects_value: Label = settings_content.get_node("EffectsRow/Value")
+
+
 func _ready() -> void:
 	hide()
+	# Colocar Ajustes junto a Reanudar también en las escenas heredadas.
+	main_options.move_child(main_options.get_node("SettingsButton"), 3)
+	music_slider.value_changed.connect(_on_music_volume_changed)
+	effects_slider.value_changed.connect(_on_effects_volume_changed)
+	settings_content.get_node("BackButton").pressed.connect(_show_main_options)
 
 
 func close() -> void:
+	AudioSettings.save_settings()
 	var tween := create_tween()
 	get_tree().paused = false
 	tween.tween_property(
@@ -41,6 +56,7 @@ func close() -> void:
 
 
 func open() -> void:
+	_show_main_options()
 	show()
 	resume_button.grab_focus()
 
@@ -125,3 +141,36 @@ func _on_goto_level5_pressed() -> void:
 		return
 	get_tree().paused = false
 	get_tree().change_scene_to_file(SCENE_SP_L5)
+
+
+func _on_settings_button_pressed() -> void:
+	music_slider.set_value_no_signal(AudioSettings.music_volume * 100.0)
+	effects_slider.set_value_no_signal(AudioSettings.effects_volume * 100.0)
+	_update_volume_labels()
+	main_options.hide()
+	settings_panel.show()
+	music_slider.grab_focus()
+
+
+func _show_main_options() -> void:
+	if settings_panel.visible:
+		AudioSettings.save_settings()
+	settings_panel.hide()
+	main_options.show()
+	if visible:
+		main_options.get_node("SettingsButton").grab_focus()
+
+
+func _on_music_volume_changed(value: float) -> void:
+	AudioSettings.set_music_volume(value / 100.0)
+	_update_volume_labels()
+
+
+func _on_effects_volume_changed(value: float) -> void:
+	AudioSettings.set_effects_volume(value / 100.0)
+	_update_volume_labels()
+
+
+func _update_volume_labels() -> void:
+	music_value.text = "%d%%" % roundi(music_slider.value)
+	effects_value.text = "%d%%" % roundi(effects_slider.value)

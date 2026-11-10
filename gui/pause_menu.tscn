@@ -1,8 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://dh71g61cm8k44"]
+[gd_scene load_steps=5 format=3 uid="uid://dh71g61cm8k44"]
 
 [ext_resource type="Theme" uid="uid://da4noqsij73it" path="res://gui/theme.tres" id="1"]
 [ext_resource type="Script" path="res://gui/pause_menu.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://bsyqg6eh3wl5i" path="res://gui/coins_counter.tscn" id="4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_audio"]
+bg_color = Color(0.055, 0.075, 0.12, 0.97)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.41, 0.61, 0.91, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_left = 8
+corner_radius_bottom_right = 8
 
 [node name="PauseMenu" type="Control"]
 process_mode = 3
@@ -54,6 +66,97 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "Quit"
 
+[node name="SettingsButton" type="Button" parent="ColorRect/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Ajustes"
+
+[node name="AudioSettings" type="PanelContainer" parent="ColorRect/CenterContainer"]
+visible = false
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_audio")
+
+[node name="Margin" type="MarginContainer" parent="ColorRect/CenterContainer/AudioSettings"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 20
+
+[node name="Content" type="VBoxContainer" parent="ColorRect/CenterContainer/AudioSettings/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="ColorRect/CenterContainer/AudioSettings/Margin/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "AJUSTES"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="ColorRect/CenterContainer/AudioSettings/Margin/Content"]
+layout_mode = 2
+text = "Audio"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="ColorRect/CenterContainer/AudioSettings/Margin/Content"]
+layout_mode = 2
+
+[node name="MusicRow" type="HBoxContainer" parent="ColorRect/CenterContainer/AudioSettings/Margin/Content"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/CenterContainer/AudioSettings/Margin/Content/MusicRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Música"
+
+[node name="Value" type="Label" parent="ColorRect/CenterContainer/AudioSettings/Margin/Content/MusicRow"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+text = "100%"
+horizontal_alignment = 2
+
+[node name="MusicSlider" type="HSlider" parent="ColorRect/CenterContainer/AudioSettings/Margin/Content"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+mouse_filter = 0
+max_value = 100.0
+step = 1.0
+value = 100.0
+
+[node name="EffectsRow" type="HBoxContainer" parent="ColorRect/CenterContainer/AudioSettings/Margin/Content"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/CenterContainer/AudioSettings/Margin/Content/EffectsRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Efectos de sonido"
+
+[node name="Value" type="Label" parent="ColorRect/CenterContainer/AudioSettings/Margin/Content/EffectsRow"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+text = "100%"
+horizontal_alignment = 2
+
+[node name="EffectsSlider" type="HSlider" parent="ColorRect/CenterContainer/AudioSettings/Margin/Content"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+mouse_filter = 0
+max_value = 100.0
+step = 1.0
+value = 100.0
+
+[node name="Hint" type="Label" parent="ColorRect/CenterContainer/AudioSettings/Margin/Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "0% silencia · Se guarda automáticamente"
+horizontal_alignment = 1
+
+[node name="BackButton" type="Button" parent="ColorRect/CenterContainer/AudioSettings/Margin/Content"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+text = "Volver"
+
 [node name="CoinsCounter" parent="ColorRect" instance=ExtResource("4")]
 layout_mode = 0
 offset_left = 0.0
@@ -63,3 +166,5 @@ offset_bottom = 50.0
 
 [connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
+
+[connection signal="pressed" from="ColorRect/CenterContainer/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]

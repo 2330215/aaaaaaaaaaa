@@ -36,6 +36,9 @@
 [ext_resource type="PackedScene" path="res://enemy/npc_papos.tscn" id="npc_papos"]
 [ext_resource type="PackedScene" path="res://enemy/npc_trolelo.tscn" id="npc_trolelo"]
 
+[sub_resource type="RectangleShape2D" id="SecondStagePitsShape"]
+size = Vector2(3840, 100)
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw150"]
 texture = ExtResource("2_0v1st")
 texture_region_size = Vector2i(64, 64)
@@ -1719,6 +1722,16 @@ position = Vector2(1920, 2740)
 script = ExtResource("34_atgjg")
 safe_respawn_points = Array[Vector2]([Vector2(480, 2448), Vector2(930, 2320), Vector2(1500, 2448), Vector2(1920, 2320), Vector2(2700, 2448), Vector2(3440, 2448)])
 respawn_position = Vector2(480, 2448)
+
+[node name="CollisionShape2D" parent="SecondStagePits"]
+position = Vector2(0, 0)
+shape = SubResource("SecondStagePitsShape")
+
+[node name="PitGradient" parent="SecondStagePits"]
+visible = false
+
+[node name="PitSolidBottom" parent="SecondStagePits"]
+visible = false
 
 [node name="SecondStageEnemy2" parent="." unique_id=1375059055 instance=ExtResource("17_drhu7")]
 position = Vector2(1640, 2420)
