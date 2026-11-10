@@ -2,6 +2,10 @@
 
 [ext_resource type="Script" uid="uid://bmgq0ycueqq8x" path="res://level/dialogue_box.gd" id="1_script"]
 
+[ext_resource type="Script" path="res://level/dialogue_reveal.gd" id="2_reveal"]
+
+[ext_resource type="Script" path="res://level/dialogue_backdrop.gd" id="3_backdrop"]
+
 [sub_resource type="LabelSettings" id="LabelSettings_name"]
 font_size = 18
 outline_size = 4
@@ -21,16 +25,13 @@ layer = 110
 script = ExtResource("1_script")
 
 [node name="Panel" type="Control" parent="." unique_id=1833264554]
+clip_children = 1
+script = ExtResource("2_reveal")
 visible = false
 layout_mode = 3
-anchors_preset = 12
-anchor_top = 1.0
+anchor_top = 0.68
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 40.0
-offset_top = -140.0
-offset_right = -40.0
-offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 0
 
@@ -44,6 +45,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 0.8)
 
 [node name="Background" type="ColorRect" parent="Panel" unique_id=215693031]
+script = ExtResource("3_backdrop")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,16 +63,16 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 15.0
-offset_top = 10.0
-offset_right = -15.0
-offset_bottom = -10.0
+offset_left = 20.0
+offset_top = 16.0
+offset_right = -20.0
+offset_bottom = -16.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 15
+theme_override_constants/separation = 25
 
 [node name="Portrait" type="TextureRect" parent="Panel/HBox" unique_id=328164008]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 expand_mode = 1
 stretch_mode = 5

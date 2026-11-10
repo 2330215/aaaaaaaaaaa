@@ -44,6 +44,7 @@
 [ext_resource type="Texture2D" path="res://level/props/tronco2.png" id="selva_20"]
 [ext_resource type="Texture2D" path="res://level/props/selvacoso1.png" id="selva_21"]
 [ext_resource type="Texture2D" path="res://level/props/tronco1.png" id="selva_22"]
+[ext_resource type="Texture2D" path="res://player/portraits/cebolla.png" id="player_lives_portrait"]
 
 [sub_resource type="RectangleShape2D" id="WallShape"]
 size = Vector2(64, 960)
@@ -97,6 +98,7 @@ tile_set = ExtResource("2_tiles")
 [node name="ParallaxBackground" parent="." unique_id=753351567 instance=ExtResource("3_bg")]
 
 [node name="LivesDisplay" parent="." unique_id=1282555338 instance=ExtResource("6_lives")]
+starting_portrait = ExtResource("player_lives_portrait")
 
 [node name="StageGateway1" parent="." unique_id=96894099 instance=ExtResource("4_gate")]
 position = Vector2(0, 494)

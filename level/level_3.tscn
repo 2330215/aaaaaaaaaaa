@@ -2,28 +2,33 @@
 
 [ext_resource type="Script" uid="uid://c2khqjo2qquah" path="res://level/level_3.gd" id="1_script"]
 [ext_resource type="TileSet" uid="uid://08mkofgbxx70" path="res://level/tileset.tres" id="1_tileset"]
-[ext_resource type="Texture2D" uid="uid://bq1s62op2r461" path="res://level/cueva.png" id="2_0v1st"]
-[ext_resource type="Texture2D" uid="uid://b6bbw7ccfpneu" path="res://level/tiles2.png" id="3_6gtgk"]
 [ext_resource type="PackedScene" path="res://level/stage_gateway.tscn" id="3_gateway"]
-[ext_resource type="Texture2D" uid="uid://ghkxb0mp0nyb" path="res://level/background/sky1.webp" id="3_rhqlf"]
-[ext_resource type="Texture2D" uid="uid://sk8j7o4wr2ar" path="res://level/background/Sky.webp" id="5_l5lfc"]
-[ext_resource type="Texture2D" uid="uid://bvqe8xq66v6s7" path="res://level/level2parte3tile.png" id="6_qg0ee"]
 [ext_resource type="PackedScene" uid="uid://bprlvl3n8x1at" path="res://level/background/parallax_background3.tscn" id="8_qhnra"]
-[ext_resource type="Texture2D" uid="uid://c675t24ir45dt" path="res://level/background/level3_parte2.png" id="10_drhu7"]
 [ext_resource type="PackedScene" uid="uid://dfm8821ubqi5q" path="res://enemy/enemy_coca.tscn" id="16_7jqyl"]
 [ext_resource type="PackedScene" uid="uid://6mtip3ruyn" path="res://enemy/enemy.tscn" id="17_drhu7"]
 [ext_resource type="PackedScene" path="res://gui/lives_display.tscn" id="18_lives"]
 [ext_resource type="PackedScene" uid="uid://d1jwvahwnb1h5" path="res://level/shield_pickup.tscn" id="18_qg0ee"]
 [ext_resource type="PackedScene" uid="uid://c3dh7xb6ef76q" path="res://level/coin.tscn" id="19_vpspb"]
-[ext_resource type="Texture2D" uid="uid://b8o458kbiamdd" path="res://enemy/Trolelo.png" id="25_ep8al"]
-[ext_resource type="Texture2D" uid="uid://kt3h5xnjdtva" path="res://enemy/Papos.png" id="27_f4a2u"]
-[ext_resource type="Texture2D" uid="uid://c33dtcs6lr7dp" path="res://enemy/Calivan.png" id="29_uo708"]
-[ext_resource type="Texture2D" uid="uid://bp7mnb51lkkkl" path="res://enemy/Narancio.png" id="31_htjwi"]
 [ext_resource type="PackedScene" path="res://level/platforms/forest_platform.tscn" id="32_1s7sw"]
 [ext_resource type="PackedScene" uid="uid://c6v2n8m7x1402" path="res://level/pit_hazard.tscn" id="33_fgbti"]
 [ext_resource type="Script" uid="uid://04qae1207c5t" path="res://level/stage_water_hazard.gd" id="34_atgjg"]
 [ext_resource type="PackedScene" uid="uid://b6mi6l3tkae6h" path="res://enemy/enemy_papa.tscn" id="35_mimcb"]
 [ext_resource type="PackedScene" uid="uid://wmx0c3ciqptt" path="res://level/apple.tscn" id="37_tmwyn"]
+[ext_resource type="PackedScene" path="res://enemy/npc_calivan.tscn" id="npc_calivan"]
+[ext_resource type="PackedScene" path="res://enemy/npc_narancio.tscn" id="npc_narancio"]
+[ext_resource type="PackedScene" path="res://enemy/npc_papos.tscn" id="npc_papos"]
+[ext_resource type="PackedScene" path="res://enemy/npc_trolelo.tscn" id="npc_trolelo"]
+[ext_resource type="Texture2D" path="res://player/portraits/limones.png" id="player_lives_portrait"]
+[ext_resource type="Texture2D" uid="uid://bq1s62op2r461" path="res://level/cueva.png" id="2_0v1st"]
+[ext_resource type="Texture2D" uid="uid://b6bbw7ccfpneu" path="res://level/tiles2.png" id="3_6gtgk"]
+[ext_resource type="Texture2D" uid="uid://ghkxb0mp0nyb" path="res://level/background/sky1.webp" id="3_rhqlf"]
+[ext_resource type="Texture2D" uid="uid://sk8j7o4wr2ar" path="res://level/background/Sky.webp" id="5_l5lfc"]
+[ext_resource type="Texture2D" uid="uid://bvqe8xq66v6s7" path="res://level/level2parte3tile.png" id="6_qg0ee"]
+[ext_resource type="Texture2D" uid="uid://c675t24ir45dt" path="res://level/background/level3_parte2.png" id="10_drhu7"]
+[ext_resource type="Texture2D" uid="uid://b8o458kbiamdd" path="res://enemy/Trolelo.png" id="25_ep8al"]
+[ext_resource type="Texture2D" uid="uid://kt3h5xnjdtva" path="res://enemy/Papos.png" id="27_f4a2u"]
+[ext_resource type="Texture2D" uid="uid://c33dtcs6lr7dp" path="res://enemy/Calivan.png" id="29_uo708"]
+[ext_resource type="Texture2D" uid="uid://bp7mnb51lkkkl" path="res://enemy/Narancio.png" id="31_htjwi"]
 [ext_resource type="Texture2D" uid="uid://d15xoebq2dcpd" path="res://level/props/arbol_montaña1.png" id="decor_0"]
 [ext_resource type="Texture2D" uid="uid://cku45lrxhcxqy" path="res://level/props/arbol_montaña2.png" id="decor_1"]
 [ext_resource type="Texture2D" uid="uid://dkfi13ma88urt" path="res://level/props/arbol_montaña3.png" id="decor_2"]
@@ -31,10 +36,6 @@
 [ext_resource type="Texture2D" uid="uid://men34hcrsxri" path="res://level/props/planta_montaña1.png" id="decor_4"]
 [ext_resource type="Texture2D" uid="uid://cj1okhm0a5luy" path="res://level/props/planta_montaña2.png" id="decor_5"]
 [ext_resource type="Texture2D" uid="uid://d38ukpd4sn0nu" path="res://level/props/planta_montaña3.png" id="decor_6"]
-[ext_resource type="PackedScene" path="res://enemy/npc_calivan.tscn" id="npc_calivan"]
-[ext_resource type="PackedScene" path="res://enemy/npc_narancio.tscn" id="npc_narancio"]
-[ext_resource type="PackedScene" path="res://enemy/npc_papos.tscn" id="npc_papos"]
-[ext_resource type="PackedScene" path="res://enemy/npc_trolelo.tscn" id="npc_trolelo"]
 
 [sub_resource type="RectangleShape2D" id="SecondStagePitsShape"]
 size = Vector2(3840, 100)
@@ -1581,22 +1582,6 @@ sources/1 = SubResource("TileSetAtlasSource_m3nah")
 sources/3 = SubResource("TileSetAtlasSource_fm1jd")
 sources/4 = SubResource("TileSetAtlasSource_vpspb")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_portrait"]
-atlas = ExtResource("25_ep8al")
-region = Rect2(0, 0, 396, 396)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8hw38"]
-atlas = ExtResource("27_f4a2u")
-region = Rect2(0, 0, 396, 396)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8begw"]
-atlas = ExtResource("29_uo708")
-region = Rect2(0, 0, 396, 396)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ivxs1"]
-atlas = ExtResource("31_htjwi")
-region = Rect2(0, 0, 396, 396)
-
 [node name="Level2" type="Node2D" unique_id=1340857866]
 process_mode = 1
 script = ExtResource("1_script")
@@ -1614,6 +1599,7 @@ tile_map_data = PackedByteArray("AAD//wQAAwATAAcAAAD//wUAAwATAAYAAAD//wYAAwATAAc
 tile_set = ExtResource("1_tileset")
 
 [node name="LivesDisplay" parent="." unique_id=748291035 instance=ExtResource("18_lives")]
+starting_portrait = ExtResource("player_lives_portrait")
 
 [node name="ParallaxBackground" parent="." unique_id=91308733 instance=ExtResource("8_qhnra")]
 
@@ -1691,19 +1677,15 @@ position = Vector2(3002, 2390)
 
 [node name="Trolelo" parent="." unique_id=1666350313 instance=ExtResource("npc_trolelo")]
 position = Vector2(420, 405)
-portrait_texture = SubResource("AtlasTexture_portrait")
 
 [node name="Papos" parent="." unique_id=871035104 instance=ExtResource("npc_papos")]
 position = Vector2(1260, 405)
-portrait_texture = SubResource("AtlasTexture_8hw38")
 
 [node name="Calivan" parent="." unique_id=2113421127 instance=ExtResource("npc_calivan")]
 position = Vector2(600, 2389)
-portrait_texture = SubResource("AtlasTexture_8begw")
 
 [node name="Narancio" parent="." unique_id=737715649 instance=ExtResource("npc_narancio")]
 position = Vector2(2260, 2261)
-portrait_texture = SubResource("AtlasTexture_ivxs1")
 
 [node name="BridgePlatform1" parent="." unique_id=14657690 instance=ExtResource("32_1s7sw")]
 position = Vector2(1184, 2326)

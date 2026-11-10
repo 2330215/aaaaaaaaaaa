@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bp52s1pssxli2" path="res://enemy/dialogue_enemy.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://booncpqf4b635" path="res://enemy/Mazorquino.png" id="2_mazorquino"]
+[ext_resource type="Texture2D" path="res://enemy/portraits/mazorquino.png" id="3_portrait"]
 
 [sub_resource type="Animation" id="Animation_idle"]
 length = 1.0
@@ -41,6 +42,7 @@ outline_color = Color(0, 0, 0, 1)
 collision_layer = 2
 collision_mask = 24
 script = ExtResource("1_script")
+portrait_texture = ExtResource("3_portrait")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=859685667]
 scale = Vector2(0.25, 0.25)

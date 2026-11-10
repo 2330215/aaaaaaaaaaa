@@ -16,10 +16,6 @@
 [ext_resource type="Script" path="res://enemy/enemy_jefe_level_5.gd" id="10_h0kaq"]
 [ext_resource type="Script" path="res://enemy/enemy_jefe_level_4.gd" id="12_ht88j"]
 [ext_resource type="Script" path="res://enemy/dialogue_enemy.gd" id="14_e61q6"]
-[ext_resource type="Texture2D" path="res://enemy/Pesado.png" id="15_c4upc"]
-[ext_resource type="Texture2D" path="res://enemy/Platanael.png" id="17_0xqme"]
-[ext_resource type="Texture2D" path="res://enemy/Bistevin.png" id="19_4x6fr"]
-[ext_resource type="Texture2D" path="res://enemy/Huevike.png" id="21_2gdlw"]
 [ext_resource type="Texture2D" path="res://level/props/palmera1.png" id="22_75yw6"]
 [ext_resource type="Texture2D" path="res://level/props/casaplaya1.png" id="23_jqdbi"]
 [ext_resource type="Texture2D" path="res://level/props/palmera2.png" id="24_yy8a7"]
@@ -49,25 +45,14 @@
 [ext_resource type="PackedScene" path="res://enemy/npc_huevike.tscn" id="npc_huevike"]
 [ext_resource type="PackedScene" path="res://enemy/npc_pesado.tscn" id="npc_pesado"]
 [ext_resource type="PackedScene" path="res://enemy/npc_platanael.tscn" id="npc_platanael"]
+[ext_resource type="Texture2D" path="res://player/portraits/elote.png" id="player_lives_portrait"]
+[ext_resource type="Texture2D" path="res://enemy/Pesado.png" id="15_c4upc"]
+[ext_resource type="Texture2D" path="res://enemy/Platanael.png" id="17_0xqme"]
+[ext_resource type="Texture2D" path="res://enemy/Bistevin.png" id="19_4x6fr"]
+[ext_resource type="Texture2D" path="res://enemy/Huevike.png" id="21_2gdlw"]
 
 [sub_resource type="RectangleShape2D" id="WallShape"]
 size = Vector2(64, 960)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_portrait"]
-atlas = ExtResource("15_c4upc")
-region = Rect2(0, 0, 396, 396)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dtu02"]
-atlas = ExtResource("17_0xqme")
-region = Rect2(0, 0, 396, 396)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_nx6cl"]
-atlas = ExtResource("19_4x6fr")
-region = Rect2(0, 0, 396, 396)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5tot6"]
-atlas = ExtResource("21_2gdlw")
-region = Rect2(0, 0, 396, 396)
 
 [sub_resource type="RectangleShape2D" id="WaterShape_NavalWater"]
 size = Vector2(3840, 160)
@@ -92,6 +77,7 @@ vertical_overscan = 1.15
 mirror_horizontal_tiles = true
 
 [node name="LivesDisplay" type="CanvasLayer" parent="." unique_id=371969082 instance=ExtResource("6_lives")]
+starting_portrait = ExtResource("player_lives_portrait")
 layer = 105
 script = ExtResource("6_e512u")
 
@@ -166,7 +152,6 @@ collision_mask = 0
 script = ExtResource("14_e61q6")
 speaker_name = "Pesado"
 dialogue_lines = ["Texto de ejemplo."]
-portrait_texture = SubResource("AtlasTexture_portrait")
 
 [node name="Platanael" type="CharacterBody2D" parent="." unique_id=957584116 instance=ExtResource("npc_platanael")]
 position = Vector2(1100, 450)
@@ -175,7 +160,6 @@ collision_mask = 0
 script = ExtResource("14_e61q6")
 speaker_name = "Platanael"
 dialogue_lines = ["Texto de ejemplo."]
-portrait_texture = SubResource("AtlasTexture_dtu02")
 
 [node name="Bistevin" type="CharacterBody2D" parent="." unique_id=1546468413 instance=ExtResource("npc_bistevin")]
 position = Vector2(420, 2457)
@@ -184,7 +168,6 @@ collision_mask = 0
 script = ExtResource("14_e61q6")
 speaker_name = "Bistevin"
 dialogue_lines = ["Texto de ejemplo."]
-portrait_texture = SubResource("AtlasTexture_nx6cl")
 
 [node name="Huevike" type="CharacterBody2D" parent="." unique_id=519709957 instance=ExtResource("npc_huevike")]
 position = Vector2(1790, 4290)
@@ -193,7 +176,6 @@ collision_mask = 0
 script = ExtResource("14_e61q6")
 speaker_name = "Huevike"
 dialogue_lines = ["Texto de ejemplo."]
-portrait_texture = SubResource("AtlasTexture_5tot6")
 
 [node name="BeachPalm1" type="Sprite2D" parent="." unique_id=131067043]
 z_index = -2

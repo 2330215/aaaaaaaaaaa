@@ -34,6 +34,7 @@
 [ext_resource type="PackedScene" path="res://enemy/npc_mato.tscn" id="npc_mato"]
 [ext_resource type="PackedScene" path="res://enemy/npc_webi.tscn" id="npc_webi"]
 [ext_resource type="PackedScene" path="res://enemy/npc_zanorio.tscn" id="npc_zanorio"]
+[ext_resource type="Texture2D" path="res://player/portraits/aguacate.png" id="player_lives_portrait"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cw150"]
 texture = ExtResource("2_0v1st")
@@ -1639,6 +1640,7 @@ tile_map_data = PackedByteArray("AAA8AAgAAwASAAcAAAA8AAkAAwASAAYAAAA9AAgAAwATAAc
 tile_set = ExtResource("1_tileset")
 
 [node name="LivesDisplay" parent="." unique_id=748291035 instance=ExtResource("18_lives")]
+starting_portrait = ExtResource("player_lives_portrait")
 
 [node name="Carro1" type="Sprite2D" parent="." unique_id=1403855844]
 show_behind_parent = true

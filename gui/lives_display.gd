@@ -2,17 +2,26 @@ extends CanvasLayer
 ## HUD de vidas estilo contador: icono - x - número de vidas.
 ## Se conecta a GameState.life_lost y GameState.life_gained para actualizarse.
 
+@export var starting_portrait: Texture2D = preload("res://player/portraits/robot.png")
+
 @onready var lives_label := $Container/LivesLabel as Label
 @onready var icon_texture := $Container/IconTexture as TextureRect
 
 var _player: Player
-var _portrait := AtlasTexture.new()
+const CHARACTER_PORTRAITS: Dictionary = {
+	Player.CharacterSkin.ROBOT: preload("res://player/portraits/robot.png"),
+	Player.CharacterSkin.AGUACATE: preload("res://player/portraits/aguacate.png"),
+	Player.CharacterSkin.LIMONES: preload("res://player/portraits/limones.png"),
+	Player.CharacterSkin.GLOBO: preload("res://player/portraits/globo.png"),
+	Player.CharacterSkin.ELOTE: preload("res://player/portraits/elote.png"),
+	Player.CharacterSkin.CEBOLLA: preload("res://player/portraits/cebolla.png"),
+}
 
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	icon_texture.texture = starting_portrait
 
-	icon_texture.texture = _portrait
 	call_deferred("_bind_player")
 
 	GameState.life_lost.connect(_on_lives_changed)
@@ -56,11 +65,4 @@ func _bind_player() -> void:
 
 
 func _on_skin_changed(_skin_name: String) -> void:
-	# Recortar un solo cuadro de la misma imagen que usa el jugador.
-	var character_sprite := _player.get_node("Sprite2D") as Sprite2D
-	if not character_sprite.texture:
-		return
-	var frame_size := character_sprite.texture.get_size() / Vector2(character_sprite.hframes, character_sprite.vframes)
-	_portrait.atlas = character_sprite.texture
-	_portrait.region = Rect2(Vector2.ZERO, frame_size)
-	_portrait.filter_clip = true
+	icon_texture.texture = CHARACTER_PORTRAITS[_player.current_skin]
