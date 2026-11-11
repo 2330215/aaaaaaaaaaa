@@ -7,6 +7,23 @@ const LEVEL2_TEXTURES: Array[Texture2D] = [
 ]
 
 
+const CloudLayer = preload("res://level/background/moving_background_clouds.gd")
+
+var _clouds: CloudLayer
+
+
+func _ready() -> void:
+	super._ready()
+	_clouds = CloudLayer.new()
+	_clouds.name = "MovingClouds"
+	$Sky.add_child(_clouds)
+
+
+func _process(delta: float) -> void:
+	super._process(delta)
+	_clouds.update_clouds(delta)
+
+
 func _update_vertical_position() -> void:
 	var overflow := maxf(0.0, _background_height - _last_viewport_size.y)
 	var offset_y := -overflow * 0.5

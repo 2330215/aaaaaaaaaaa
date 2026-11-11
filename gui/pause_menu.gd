@@ -99,7 +99,7 @@ func _on_splitscreen_button_pressed() -> void:
 
 func _on_quit_button_pressed() -> void:
 	if visible:
-		get_tree().quit()
+		GameState.return_to_title()
 
 
 func _on_goto_level1_pressed() -> void:

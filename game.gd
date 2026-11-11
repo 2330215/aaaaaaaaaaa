@@ -19,6 +19,7 @@ var _music: AudioStreamPlayer
 
 func _ready() -> void:
 	GameState.begin_level(level_number)
+	GameState.remember_level(scene_file_path)
 	_apply_level_skin()
 
 	_music = get_node_or_null("/root/Music") as AudioStreamPlayer
@@ -114,8 +115,9 @@ func _on_boss_defeated() -> void:
 
 
 func _on_victory_exit_requested() -> void:
-	# Todavía no existe un menú principal: salir cierra el juego.
-	get_tree().quit()
+	if not next_level_scene.is_empty():
+		GameState.remember_level(next_level_scene)
+	GameState.return_to_title(false)
 
 
 func _on_victory_advance_requested() -> void:

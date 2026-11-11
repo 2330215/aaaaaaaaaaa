@@ -64,7 +64,7 @@ text = "Resume"
 [node name="QuitButton" type="Button" parent="ColorRect/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Quit"
+text = "Salir al inicio"
 
 [node name="SettingsButton" type="Button" parent="ColorRect/CenterContainer/VBoxContainer"]
 layout_mode = 2

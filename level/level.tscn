@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://sk8j7o4wr2ar" path="res://level/background/Sky.webp" id="5_l5lfc"]
 [ext_resource type="PackedScene" uid="uid://c6v2n8m7x1402" path="res://level/pit_hazard.tscn" id="6_ivpvi"]
 [ext_resource type="PackedScene" uid="uid://df6kw4n78yq21" path="res://enemy/dialogue_enemy.tscn" id="9_cw150"]
+[ext_resource type="Script" uid="uid://dtgeleqjsr0j6" path="res://level/background/parallax_background.gd" id="9_u5n7q"]
 [ext_resource type="PackedScene" uid="uid://d3enemyjefe1x" path="res://enemy/enemy_jefe.tscn" id="10_jefe"]
 [ext_resource type="PackedScene" path="res://level/tutorial_sign.tscn" id="11_sign"]
 [ext_resource type="PackedScene" uid="uid://b6mi6l3tkae6h" path="res://enemy/enemy_papa.tscn" id="15_fm1jd"]
@@ -1339,6 +1340,7 @@ tile_set = ExtResource("1_tileset")
 [node name="ParallaxBackground" parent="." unique_id=950639615 instance=ExtResource("2_bg")]
 scale = Vector2(0.9, 1.17)
 transform = Transform2D(0.9, 0, 0, 1.17, 0, 0)
+script = ExtResource("9_u5n7q")
 
 [node name="StageGateway1" parent="." unique_id=1121133372 instance=ExtResource("3_gateway")]
 position = Vector2(3840, 512)
