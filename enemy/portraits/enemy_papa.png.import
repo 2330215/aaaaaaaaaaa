@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cymlt6hl26pn1"
-path="res://.godot/imported/assets6.png-1a16e8493ed565483a7659f348457886.ctex"
+uid="uid://dp1eka2loyixg"
+path="res://.godot/imported/enemy_papa.png-9f67f45c66f2563320fa436bd2a80895.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://level/props/assets6.png"
-dest_files=["res://.godot/imported/assets6.png-1a16e8493ed565483a7659f348457886.ctex"]
+source_file="res://enemy/portraits/enemy_papa.png"
+dest_files=["res://.godot/imported/enemy_papa.png-9f67f45c66f2563320fa436bd2a80895.ctex"]
 
 [params]
 

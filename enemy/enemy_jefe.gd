@@ -20,7 +20,7 @@ class_name EnemyJefe extends Enemy
 @export var activation_y_threshold: float = 4800.0
 
 const SEEKER_SCENE := preload("res://enemy/jefe_seeker.tscn")
-const JAGUAR_TEX   := preload("res://enemy/jaguar_frente_64x64.png")
+const BOSS_PORTRAIT   := preload("res://enemy/portraits/enemy_jefe.png")
 const DIALOGUE_BOX_SCENE := preload("res://level/dialogue_box.tscn")
 
 var _jump_timer: float = 1.5
@@ -97,7 +97,7 @@ func _show_boss_dialogue() -> void:
 		dlg.queue_free()
 	)
 
-	dlg.start_dialogue("JEFE FINAL", JAGUAR_TEX, ["texto de prueba"])
+	dlg.start_dialogue("JEFE FINAL", BOSS_PORTRAIT, ["texto de prueba"])
 
 
 func _physics_process(delta: float) -> void:

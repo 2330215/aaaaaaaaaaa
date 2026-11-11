@@ -19,7 +19,7 @@ class_name EnemyJefe2 extends Enemy
 ## Umbral Y a partir del cual el jefe se activa
 @export var activation_y_threshold: float = 4800.0
 
-const JAGUAR_TEX := preload("res://enemy/jaguar_frente_64x64.png")
+const BOSS_PORTRAIT := preload("res://enemy/portraits/enemy_jefe2.png")
 const DIALOGUE_BOX_SCENE := preload("res://level/dialogue_box.tscn")
 
 enum PunchPhase { NONE, WINDUP, LUNGE, RECOVERY }
@@ -175,7 +175,7 @@ func _show_boss_dialogue() -> void:
 		await get_tree().process_frame
 		dlg.queue_free()
 	)
-	dlg.start_dialogue("JEFE 2", JAGUAR_TEX, ["¡No pasarás de aquí!"])
+	dlg.start_dialogue("JEFE 2", BOSS_PORTRAIT, ["¡No pasarás de aquí!"])
 
 
 # ── Física principal ─────────────────────────────────────────────────────────

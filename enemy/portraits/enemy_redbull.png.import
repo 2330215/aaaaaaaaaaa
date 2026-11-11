@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://tn6i0x0teiwl"
-path="res://.godot/imported/assets_nose.png-955c56d0963258db3c55eddb97b88dd3.ctex"
+uid="uid://cbfwrli7i5pk6"
+path="res://.godot/imported/enemy_redbull.png-7e0388e131be33f2fe254e29059cb593.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://level/props/assets_nose.png"
-dest_files=["res://.godot/imported/assets_nose.png-955c56d0963258db3c55eddb97b88dd3.ctex"]
+source_file="res://enemy/portraits/enemy_redbull.png"
+dest_files=["res://.godot/imported/enemy_redbull.png-7e0388e131be33f2fe254e29059cb593.ctex"]
 
 [params]
 
