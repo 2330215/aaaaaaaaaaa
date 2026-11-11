@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://hn8ftbn88bcy"
+
+[deps]
+
+files=["res://foley_128_efectos/segmentos.inicio.translation", "res://foley_128_efectos/segmentos.fin.translation", "res://foley_128_efectos/segmentos.duracion.translation"]
+
+source_file="res://foley_128_efectos/segmentos.csv"
+dest_files=["res://foley_128_efectos/segmentos.inicio.translation", "res://foley_128_efectos/segmentos.fin.translation", "res://foley_128_efectos/segmentos.duracion.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

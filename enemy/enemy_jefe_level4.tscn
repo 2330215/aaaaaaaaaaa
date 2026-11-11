@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://bdsrcwgchqpo1" path="res://enemy/enemy_jefe_level_4.gd" id="1_yse2l"]
 [ext_resource type="Texture2D" uid="uid://cy3sdfjy02c1g" path="res://enemy/pizza.png" id="2_7yr8q"]
 [ext_resource type="Texture2D" uid="uid://dh5f4544n38df" path="res://player/bullet.webp" id="3_hhcgl"]
-[ext_resource type="AudioStream" uid="uid://dm7wsawmylc7b" path="res://enemy/hit.wav" id="4_jpku7"]
-[ext_resource type="AudioStream" uid="uid://duwm7i44o75o2" path="res://enemy/explode.wav" id="5_v8a0x"]
+[ext_resource type="AudioStream" path="res://enemy/hit_sound.tres" id="4_jpku7"]
+[ext_resource type="AudioStream" path="res://enemy/explode_sound.tres" id="5_v8a0x"]
 
 [sub_resource type="Animation" id="Animation_reset"]
 length = 0.001

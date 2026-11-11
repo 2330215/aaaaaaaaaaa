@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b8y4570xnm321"]
 
 [ext_resource type="Texture2D" uid="uid://cj2absxg54f75" path="res://level/coin.webp" id="1"]
-[ext_resource type="AudioStream" uid="uid://w4j7xs5uhoer" path="res://player/coin_pickup.wav" id="2"]
+[ext_resource type="AudioStream" path="res://level/pickup_sound.tres" id="2"]
 [ext_resource type="Script" uid="uid://cqxvygqbw5gb3" path="res://level/special_coin.gd" id="3"]
 
 [sub_resource type="Animation" id="Animation_4kkvr"]

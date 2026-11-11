@@ -1,27 +1,42 @@
 [gd_scene format=3 uid="uid://dh3uwqsjr7t6s"]
 
 [ext_resource type="Script" uid="uid://cdxehwx6mi3s2" path="res://gui/touch_controls.gd" id="1_controls_script"]
-[ext_resource type="Texture2D" uid="uid://bwexvk7mhejjn" path="res://gui/touch_button_left.png" id="1_leftbtn"]
-[ext_resource type="Texture2D" uid="uid://82mnw4u87u87" path="res://gui/touch_button_right.png" id="2_rightbtn"]
-[ext_resource type="Texture2D" uid="uid://tgw4f8fu0btj" path="res://gui/touch_button_fire.webp" id="3_firebtn"]
-[ext_resource type="Texture2D" uid="uid://bx5lprqgmkf1n" path="res://gui/touch_button_jump.png" id="4_jumpbtn"]
 [ext_resource type="Script" uid="uid://c5a1krlnxww5n" path="res://player/touch_button.gd" id="5_touchscript"]
 [ext_resource type="Theme" uid="uid://da4noqsij73it" path="res://gui/theme.tres" id="6_theme"]
 [ext_resource type="Script" uid="uid://d1cfdatdbyukx" path="res://gui/virtual_joystick.gd" id="7_joystick"]
+
+[ext_resource type="Texture2D" path="res://gui/mobile-controls-1/Sprites/Style E/Default/button_circle.png" id="ui_circle"]
+[ext_resource type="Texture2D" path="res://gui/mobile-controls-1/Sprites/Style E/Default/button_square.png" id="ui_square"]
+[ext_resource type="Texture2D" path="res://gui/mobile-controls-1/Sprites/Icons/Default/icon_crosshair.png" id="ui_crosshair"]
+[ext_resource type="Texture2D" path="res://gui/mobile-controls-1/Sprites/Icons/Default/icon_jump.png" id="ui_jump"]
+[ext_resource type="Texture2D" path="res://gui/mobile-controls-1/Sprites/Icons/Default/icon_arrow.png" id="ui_arrow"]
+[ext_resource type="Texture2D" path="res://gui/mobile-controls-1/Sprites/Icons/Default/icon_pause.png" id="ui_pause"]
+[ext_resource type="Texture2D" path="res://gui/mobile-controls-1/Sprites/Icons/Default/icon_cog.png" id="ui_cog"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBox_ui"]
+texture = ExtResource("ui_square")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
 
 [node name="TouchControls" type="CanvasLayer" unique_id=1351327736]
 script = ExtResource("1_controls_script")
 
 [node name="TrucosButton" type="Button" parent="." unique_id=987654330]
-offset_left = 16.0
-offset_top = 12.0
-offset_right = 146.0
-offset_bottom = 36.0
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme = ExtResource("6_theme")
 theme_override_font_sizes/font_size = 14
-text = "🔧 Trucos"
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 60.0
+offset_bottom = 56.0
+text = ""
+tooltip_text = "Trucos"
+theme_override_styles/normal = SubResource("StyleBox_ui")
+theme_override_styles/hover = SubResource("StyleBox_ui")
+theme_override_styles/pressed = SubResource("StyleBox_ui")
 
 [node name="ChargeBar" type="ProgressBar" parent="." unique_id=987654321]
 anchors_preset = 1
@@ -60,11 +75,12 @@ offset_right = 95.0
 offset_bottom = -35.0
 grow_vertical = 0
 scale = Vector2(1.3, 1.3)
-texture_normal = ExtResource("1_leftbtn")
 ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource("5_touchscript")
 action = "move_left"
+visible = false
+texture_normal = ExtResource("ui_circle")
 
 [node name="TextureButtonDer" type="TextureButton" parent="." unique_id=1931341645]
 anchors_preset = -1
@@ -76,11 +92,12 @@ offset_right = 213.0
 offset_bottom = -35.0
 grow_vertical = 0
 scale = Vector2(1.3, 1.3)
-texture_normal = ExtResource("2_rightbtn")
 ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource("5_touchscript")
 action = "move_right"
+visible = false
+texture_normal = ExtResource("ui_circle")
 
 [node name="TextureButtonAttack1" type="TextureButton" parent="." unique_id=2000000004]
 anchors_preset = -1
@@ -88,18 +105,18 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -279.0
-offset_top = -113.0
-offset_right = -204.0
-offset_bottom = -38.0
 grow_horizontal = 0
 grow_vertical = 0
-scale = Vector2(1.3, 1.3)
-texture_normal = ExtResource("3_firebtn")
 ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource("5_touchscript")
 action = "shoot"
+offset_left = -222.0
+offset_top = -208.0
+offset_right = -114.0
+offset_bottom = -100.0
+scale = Vector2(1, 1)
+texture_normal = ExtResource("ui_circle")
 
 [node name="TextureButtonAttack2" type="TextureButton" parent="." unique_id=2000000005]
 anchors_preset = -1
@@ -107,18 +124,18 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -162.0
-offset_top = -234.0
-offset_right = -87.0
-offset_bottom = -159.0
 grow_horizontal = 0
 grow_vertical = 0
-scale = Vector2(1.3, 1.3)
-texture_normal = ExtResource("3_firebtn")
 ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource("5_touchscript")
 action = "special_attack"
+offset_left = -112.0
+offset_top = -104.0
+offset_right = -36.0
+offset_bottom = -28.0
+scale = Vector2(1, 1)
+texture_normal = ExtResource("ui_circle")
 
 [node name="TextureButtonJump" type="TextureButton" parent="." unique_id=897920863]
 anchors_preset = -1
@@ -126,38 +143,117 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -133.0
-offset_top = -110.0
-offset_right = -58.0
-offset_bottom = -35.0
 grow_horizontal = 0
 grow_vertical = 0
-scale = Vector2(1.3, 1.3)
-texture_normal = ExtResource("4_jumpbtn")
 ignore_texture_size = true
 stretch_mode = 5
 script = ExtResource("5_touchscript")
 action = "jump"
+offset_left = -312.0
+offset_top = -104.0
+offset_right = -236.0
+offset_bottom = -28.0
+scale = Vector2(1, 1)
+texture_normal = ExtResource("ui_circle")
 
 [node name="PauseButton" type="Button" parent="." unique_id=1354887782]
 process_mode = 3
-offset_left = 340.0
-offset_top = 420.0
-offset_right = 402.0
-offset_bottom = 448.0
-scale = Vector2(1.5, 1.5)
 focus_mode = 0
 theme = ExtResource("6_theme")
-text = "Pausa"
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -292.0
+offset_top = 12.0
+offset_right = -248.0
+offset_bottom = 56.0
+scale = Vector2(1, 1)
+text = ""
+tooltip_text = "Pausa"
+theme_override_styles/normal = SubResource("StyleBox_ui")
+theme_override_styles/hover = SubResource("StyleBox_ui")
+theme_override_styles/pressed = SubResource("StyleBox_ui")
 
 [node name="Joystick" type="Control" parent="." unique_id=656680083]
-visible = false
 layout_mode = 3
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = -180.0
-offset_right = 180.0
-offset_bottom = -20.0
 script = ExtResource("7_joystick")
+visible = true
+offset_left = 28.0
+offset_top = -188.0
+offset_right = 188.0
+offset_bottom = -28.0
+
+[node name="Icon" type="TextureRect" parent="TextureButtonAttack1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 27.0
+offset_top = 27.0
+offset_right = -27.0
+offset_bottom = -27.0
+mouse_filter = 2
+texture = ExtResource("ui_crosshair")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Icon" type="TextureRect" parent="TextureButtonAttack2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 23.0
+offset_top = 23.0
+offset_right = -23.0
+offset_bottom = -23.0
+mouse_filter = 2
+texture = ExtResource("ui_jump")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Icon" type="TextureRect" parent="TextureButtonJump"]
+rotation = -1.5707964
+pivot_offset = Vector2(15, 15)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 23.0
+offset_top = 23.0
+offset_right = -23.0
+offset_bottom = -23.0
+mouse_filter = 2
+texture = ExtResource("ui_arrow")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Icon" type="TextureRect" parent="PauseButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = -12.0
+offset_bottom = -12.0
+mouse_filter = 2
+texture = ExtResource("ui_pause")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Icon" type="TextureRect" parent="TrucosButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+mouse_filter = 2
+texture = ExtResource("ui_cog")
+expand_mode = 1
+stretch_mode = 5

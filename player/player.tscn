@@ -2,8 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://btvff520704x0" path="res://player/robot.png" id="2_qjkh3"]
 [ext_resource type="Script" uid="uid://dbslsctwk26jh" path="res://player/player.gd" id="3"]
-[ext_resource type="AudioStream" uid="uid://sjod173axgwf" path="res://player/jump.wav" id="5"]
-[ext_resource type="AudioStream" uid="uid://b01brytl75mwa" path="res://player/shoot.wav" id="6"]
+[ext_resource type="AudioStream" path="res://player/jump_sound.tres" id="5"]
+[ext_resource type="AudioStream" path="res://player/shoot_sound.tres" id="6"]
 [ext_resource type="Script" uid="uid://delifkap63ect" path="res://player/gun.gd" id="8"]
 
 [sub_resource type="Animation" id="1"]

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cw6nldo3rjyyq"]
 
-[ext_resource type="Texture2D" uid="uid://sk8j7o4wr2ar" path="res://level/background/Sky.webp" id="2"]
-[ext_resource type="Script" uid="uid://dtgeleqjsr0j6" path="res://level/background/parallax_background.gd" id="4_script"]
+[ext_resource type="Texture2D" path="res://level/background/nivel1_parte1.png" id="2"]
+[ext_resource type="Script" path="res://level/background/parallax_background_level1.gd" id="4_script"]
 
 [node name="ParallaxBackground" type="ParallaxBackground" unique_id=91308733]
 scroll_base_scale = Vector2(0.1, 0)

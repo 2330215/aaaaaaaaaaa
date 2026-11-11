@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://ba5o53btpxvry"]
 
 [ext_resource type="Texture2D" uid="uid://dh5f4544n38df" path="res://player/bullet.webp" id="1_bullet"]
-[ext_resource type="AudioStream" uid="uid://duwm7i44o75o2" path="res://enemy/explode.wav" id="2_explode"]
+[ext_resource type="AudioStream" path="res://enemy/explode_sound.tres" id="2_explode"]
 [ext_resource type="Texture2D" uid="uid://ce1e474w0hcwk" path="res://enemy/jefe2_sprites.png" id="2_jefe2tex"]
-[ext_resource type="AudioStream" uid="uid://dm7wsawmylc7b" path="res://enemy/hit.wav" id="3_hit"]
+[ext_resource type="AudioStream" path="res://enemy/hit_sound.tres" id="3_hit"]
 [ext_resource type="Script" uid="uid://bs07sd4u4nqy" path="res://enemy/enemy_jefe2.gd" id="4_script"]
 
 [sub_resource type="Animation" id="Animation_reset"]

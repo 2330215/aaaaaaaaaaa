@@ -75,7 +75,7 @@ func _build_cheat_panel() -> void:
 	_panel.add_theme_stylebox_override("panel", style)
 
 	_panel.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
-	_panel.position = Vector2(8, 42)
+	_panel.position = Vector2(16, 64)
 	_panel.custom_minimum_size = Vector2(200, 0)
 	_panel.visible = false
 
@@ -193,13 +193,13 @@ func _toggle_panel() -> void:
 		_panel.visible    = true
 		var tw := create_tween()
 		tw.tween_property(_panel, "modulate:a", 1.0, 0.15)
-		trucos_button.text = "Cerrar"
+		trucos_button.tooltip_text = "Cerrar trucos"
 	else:
 		var tw := create_tween()
 		tw.tween_property(_panel, "modulate:a", 0.0, 0.12)
 		await tw.finished
 		_panel.visible     = false
-		trucos_button.text = "Trucos"
+		trucos_button.tooltip_text = "Trucos"
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -410,8 +410,5 @@ func _process(_delta: float) -> void:
 	if scene and scene.get("level_number") == 3 and is_instance_valid(_player):
 		var level := scene.get_node("Level") as Node2D
 		aerial = level.to_local(_player.global_position).y >= 3584.0
-	if $Joystick.visible != aerial:
-		$TextureButtonIzq.visible = not aerial
-		$TextureButtonDer.visible = not aerial
-		$TextureButtonJump.visible = not aerial
-		$Joystick.visible = aerial
+	$Joystick.set_aerial_mode(aerial)
+	$TextureButtonJump.visible = not aerial

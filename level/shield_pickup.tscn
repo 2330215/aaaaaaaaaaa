@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bvpaag4qkb8yi" path="res://level/shield_pickup.gd" id="1_eyap3"]
 [ext_resource type="Texture2D" uid="uid://cn752dwon6wa8" path="res://level/chile_sinfondo.png" id="2_eyap3"]
-[ext_resource type="AudioStream" uid="uid://w4j7xs5uhoer" path="res://player/coin_pickup.wav" id="3_rvxbw"]
+[ext_resource type="AudioStream" path="res://level/pickup_sound.tres" id="3_rvxbw"]
 
 [sub_resource type="Animation" id="Animation_4kkvr"]
 length = 0.001

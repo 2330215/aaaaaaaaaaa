@@ -1,7 +1,7 @@
 extends Control
-## Control táctil con un dedo reservado; los demás quedan libres para disparar.
-const BASE := preload("res://gui/joy.png")
-const KNOB := preload("res://gui/joy2.png")
+## Pad digital; reserva un dedo y deja los demás libres para los botones.
+const BASE := preload("res://gui/mobile-controls-1/Sprites/Style E/Default/dpad.png")
+var _aerial_mode: bool = false
 const ACTIONS := [&"move_left", &"move_right", &"jump", &"move_down"]
 var _finger: int = -1
 var _mouse_drag := false
@@ -14,8 +14,10 @@ func _ready() -> void:
 
 func _draw() -> void:
 	draw_texture_rect(BASE, Rect2(Vector2.ZERO, size), false)
-	var knob_size := size * 0.45
-	draw_texture_rect(KNOB, Rect2(size * 0.5 + _direction * size.x * 0.28 - knob_size * 0.5, knob_size), false)
+	for index in range(ACTIONS.size()):
+		var direction: Vector2 = [Vector2.LEFT, Vector2.RIGHT, Vector2.UP, Vector2.DOWN][index]
+		if _direction.dot(direction) > 0.0:
+			draw_circle(size * 0.5 + direction * size.x * 0.33, size.x * 0.075, Color(1, 1, 1, 0.35))
 
 func _process(_delta: float) -> void:
 	if get_tree().paused and (_finger != -1 or _mouse_drag):
@@ -46,9 +48,13 @@ func _inside(point: Vector2) -> bool:
 
 func _update_direction(point: Vector2) -> void:
 	var local := get_global_transform_with_canvas().affine_inverse() * point
-	_direction = ((local - size * 0.5) / (size.x * 0.35)).limit_length()
-	if _direction.length() < 0.18:
-		_direction = Vector2.ZERO
+	var offset := (local - size * 0.5) / (size * 0.5)
+	_direction = Vector2(
+		signf(offset.x) if absf(offset.x) > 0.3 else 0.0,
+		signf(offset.y) if absf(offset.y) > 0.3 else 0.0
+	)
+	if not _aerial_mode and _direction.y > 0.0:
+		_direction.y = 0.0
 	var strengths := [-_direction.x, _direction.x, -_direction.y, _direction.y]
 	for index in range(ACTIONS.size()):
 		if strengths[index] > 0.0:
@@ -70,3 +76,10 @@ func release() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_FOCUS_OUT or what == NOTIFICATION_EXIT_TREE:
 		release()
+
+
+func set_aerial_mode(enabled: bool) -> void:
+	if _aerial_mode == enabled:
+		return
+	release()
+	_aerial_mode = enabled

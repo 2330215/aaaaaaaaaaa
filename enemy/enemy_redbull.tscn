@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://boghqp1y2hrde" path="res://enemy/enemy_redbull.gd" id="1_n4dn7"]
 [ext_resource type="Texture2D" uid="uid://cebrggco2xewa" path="res://enemy/redbull.png" id="2_ph52w"]
 [ext_resource type="Texture2D" uid="uid://dh5f4544n38df" path="res://player/bullet.webp" id="3_jsi6k"]
-[ext_resource type="AudioStream" uid="uid://dm7wsawmylc7b" path="res://enemy/hit.wav" id="4_efwhk"]
-[ext_resource type="AudioStream" uid="uid://duwm7i44o75o2" path="res://enemy/explode.wav" id="5_douln"]
+[ext_resource type="AudioStream" path="res://enemy/hit_sound.tres" id="4_efwhk"]
+[ext_resource type="AudioStream" path="res://enemy/explode_sound.tres" id="5_douln"]
 
 [sub_resource type="CanvasItemMaterial" id="1"]
 

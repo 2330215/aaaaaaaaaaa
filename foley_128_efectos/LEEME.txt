@@ -1,0 +1,27 @@
+128 EFECTOS DE SONIDO EXTRAÍDOS DE foley-preview.ogg
+
+Archivo original: 54.766 segundos, 48 kHz, estéreo, OGG Vorbis.
+Salida: 128 archivos WAV PCM de 16 bits a 48 kHz, estéreo.
+También se incluye segmentos.csv, con los tiempos de cada clip en el original.
+
+La división es automática, usando un umbral de -35 dBFS, un silencio
+mínimo de 70 milisegundos y márgenes para conservar las colas del sonido.
+Es posible que en algunos casos un efecto quede combinado con otro o
+que una reverberación resulte abreviada. Revisa los cortes con el oído.
+
+Para volver a procesar otro audio (con 'separar_foley.py'):
+
+  python -m pip install numpy soundfile
+  python separar_foley.py foley-preview.ogg
+
+Parámetros útiles:
+  --umbral-db -35       Sensibilidad para detectar audio activo.
+  --silencio-ms 70      Duración mínima de una pausa entre sonidos.
+  --despues-ms 220      Mantener cola tras cada sonido, en ms.
+  --formato wav         WAV sin pérdida adicional; admite 'ogg'.
+
+Si deseas más sonidos separados:
+  python separar_foley.py foley-preview.ogg --silencio-ms 45 --umbral-db -32
+
+Si deseas menos cortes (unir sonidos próximos):
+  python separar_foley.py foley-preview.ogg --silencio-ms 150 --umbral-db -42

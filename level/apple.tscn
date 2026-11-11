@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://wmx0c3ciqptt"]
 
-[ext_resource type="AudioStream" uid="uid://w4j7xs5uhoer" path="res://player/coin_pickup.wav" id="3"]
+[ext_resource type="AudioStream" path="res://level/pickup_sound.tres" id="3"]
 [ext_resource type="Script" path="res://level/apple.gd" id="4"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pjicg"]

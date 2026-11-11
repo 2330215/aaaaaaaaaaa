@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://6mtip3ruyn"]
 
 [ext_resource type="Texture2D" uid="uid://dh5f4544n38df" path="res://player/bullet.webp" id="1"]
-[ext_resource type="AudioStream" uid="uid://duwm7i44o75o2" path="res://enemy/explode.wav" id="2"]
+[ext_resource type="AudioStream" path="res://enemy/explode_sound.tres" id="2"]
 [ext_resource type="Texture2D" uid="uid://c8cwk3dpq8j5r" path="res://enemy/hamburguesa_framebueno.png" id="2_pmsee"]
-[ext_resource type="AudioStream" uid="uid://dm7wsawmylc7b" path="res://enemy/hit.wav" id="3"]
+[ext_resource type="AudioStream" path="res://enemy/hit_sound.tres" id="3"]
 [ext_resource type="Script" uid="uid://rdvvhn0hgd8w" path="res://enemy/enemy.gd" id="5"]
 
 
