@@ -8,8 +8,10 @@ const LEVEL2_TEXTURES: Array[Texture2D] = [
 
 
 const CloudLayer = preload("res://level/background/moving_background_clouds.gd")
+const AircraftLayer = preload("res://level/background/occasional_aircraft.gd")
 
 var _clouds: CloudLayer
+var _aircraft: AircraftLayer
 
 
 func _ready() -> void:
@@ -17,11 +19,16 @@ func _ready() -> void:
 	_clouds = CloudLayer.new()
 	_clouds.name = "MovingClouds"
 	$Sky.add_child(_clouds)
+	_aircraft = AircraftLayer.new()
+	_aircraft.name = "OccasionalAircraft"
+	_aircraft.sky_stages = [0, 1, 2]
+	add_child(_aircraft)
 
 
 func _process(delta: float) -> void:
 	super._process(delta)
 	_clouds.update_clouds(delta)
+	_aircraft.update_aircraft(delta, _current_stage)
 
 
 func _update_vertical_position() -> void:

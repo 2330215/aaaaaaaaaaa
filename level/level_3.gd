@@ -9,6 +9,7 @@ extends "res://level/level.gd"
 @export var max_horde_enemies: int = 16
 
 const ARENA_WIDTH: float = 1664.0
+const CAMERA_OFFSET := Vector2(0, -10)
 const DEFENSE_FLOOR_Y: float = 449.0
 const DEFENSE_BOUNDS := Rect2(0, -192, 1664, 1088)
 const SECOND_STAGE_BOUNDS := Rect2(0, 1792, 3840, 1088)
@@ -152,18 +153,13 @@ func _setup_camera() -> void:
 			bounds = AIR_BOUNDS
 		elif height >= 1792.0:
 			bounds = SECOND_STAGE_BOUNDS
-		# Ocultar las uniones exteriores de los tiles incluso con redondeo de pixeles.
-		bounds = bounds.grow(-8.0)
-		var viewport_size := player.get_viewport_rect().size
-		var zoom := maxf(0.7, maxf(viewport_size.x / bounds.size.x, viewport_size.y / bounds.size.y))
-		player.camera.zoom = Vector2.ONE * zoom
+		bounds.position.y += 8.0
+		bounds.size.y -= 16.0
 		# Aplicar el nuevo encuadre sin arrastrar la camara entre escenarios.
 		player.camera.position_smoothing_enabled = false
 		player.camera.limit_smoothed = false
-		player.camera.limit_left = roundi(to_global(bounds.position).x - player.camera.offset.x)
-		player.camera.limit_top = roundi(to_global(bounds.position).y - player.camera.offset.y)
-		player.camera.limit_right = roundi(to_global(bounds.end).x - player.camera.offset.x)
-		player.camera.limit_bottom = roundi(to_global(bounds.end).y - player.camera.offset.y)
+		player.camera.offset = CAMERA_OFFSET
+		_apply_camera_bounds(player.camera, bounds)
 		if changed_stage:
 			player.velocity = Vector2.ZERO
 			player.camera.reset_smoothing()

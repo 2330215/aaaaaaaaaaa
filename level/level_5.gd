@@ -77,14 +77,8 @@ func _setup_camera() -> void:
 		var height := to_local(player.global_position).y
 		var stage := 2 if height >= 3584.0 else (1 if height >= 1792.0 else 0)
 		var bounds := Rect2(0, FLOOR_HEIGHTS[stage] - 640.0, STAGE_WIDTHS[stage], 960)
-		var viewport_size := player.get_viewport_rect().size
-		var zoom := maxf(0.7, maxf(viewport_size.x / bounds.size.x, viewport_size.y / bounds.size.y))
-		player.camera.zoom = Vector2.ONE * zoom
 		player.camera.offset = CAMERA_OFFSET
-		player.camera.limit_left = roundi(to_global(bounds.position).x - player.camera.offset.x)
-		player.camera.limit_top = roundi(to_global(bounds.position).y - player.camera.offset.y)
-		player.camera.limit_right = roundi(to_global(bounds.end).x - player.camera.offset.x)
-		player.camera.limit_bottom = roundi(to_global(bounds.end).y - player.camera.offset.y)
+		_apply_camera_bounds(player.camera, bounds)
 
 
 func get_stage_destinations() -> Array:
