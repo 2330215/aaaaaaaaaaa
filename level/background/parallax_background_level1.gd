@@ -3,7 +3,7 @@ extends LevelBackground
 const LEVEL1_TEXTURES: Array[Texture2D] = [
 	preload("res://level/background/nivel1_parte1.png"),
 	preload("res://level/background/nivel1_parte1.png"),
-	preload("res://level/background/cueva_1.webp")
+	null
 ]
 const CloudLayer = preload("res://level/background/moving_background_clouds.gd")
 

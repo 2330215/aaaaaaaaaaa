@@ -291,7 +291,7 @@ func _close_options() -> void:
 
 func _quit_game() -> void:
 	AudioSettings.save_settings()
-	get_tree().quit()
+	Music.quit_game()
 
 
 func _unhandled_input(event: InputEvent) -> void:
