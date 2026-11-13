@@ -64,6 +64,8 @@ func _show_next_background() -> void:
 	_background_index = (_background_index + 1) % _background_order.size()
 	var entry := _background_order[_background_index]
 	_background = BACKGROUNDS[entry.x].instantiate() as LevelBackground
+	if entry == Vector2i(0, 2):
+		_background.set("cave_preview_texture", preload("res://level/cueva.png"))
 	add_child(_background)
 	_background.set_stage(entry.y)
 	_backdrop_label.text = "NIVEL %d  /  ESCENARIO %d" % [entry.x + 1, entry.y + 1]

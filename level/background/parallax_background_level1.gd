@@ -1,5 +1,7 @@
 extends LevelBackground
 
+@export var cave_preview_texture: Texture2D
+
 const LEVEL1_TEXTURES: Array[Texture2D] = [
 	preload("res://level/background/nivel1_parte1.png"),
 	preload("res://level/background/nivel1_parte1.png"),
@@ -24,7 +26,9 @@ func _process(delta: float) -> void:
 
 
 func _get_stage_textures() -> Array[Texture2D]:
-	return LEVEL1_TEXTURES
+	var textures: Array[Texture2D] = LEVEL1_TEXTURES.duplicate()
+	textures[2] = cave_preview_texture
+	return textures
 
 
 func set_stage(stage_index: int) -> void:
