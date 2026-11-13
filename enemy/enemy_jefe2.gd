@@ -32,7 +32,7 @@ var _jump_timer: float = 1.5
 var _punch_timer: float = 2.0
 var _player: Node2D = null
 
-var _health: int = 8
+var _health: int = 15
 var _hit_stun_left: float = 0.0
 var _is_hurt: bool = false
 var _is_punching: bool = false   # true mientras dura la animación del puñetazo
