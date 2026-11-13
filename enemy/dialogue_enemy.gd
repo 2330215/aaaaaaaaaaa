@@ -3,6 +3,9 @@ class_name DialogueEnemy extends CharacterBody2D
 ## - Al acercarse el jugador: se pausa y abre el diálogo automáticamente.
 ## - Tras la primera vez: se puede volver a ver tocando/haciendo click sobre el NPC.
 
+@export var story_dialogue_id: String = ""
+const STORY = preload("res://story/story_dialogues.gd")
+
 @export var speaker_name: String = "ENEMIGO DEL NIVEL"
 @export var dialogue_lines: Array = ["¡Hola! Bienvenid@ a este nivel."]
 @export var portrait_texture: Texture2D
@@ -110,7 +113,8 @@ func _open_dialogue() -> void:
 	var port_tex := portrait_texture
 	if port_tex == null and sprite:
 		port_tex = sprite.texture
-	_dialogue_box.start_dialogue(speaker_name, port_tex, dialogue_lines)
+	var lines: Array = STORY.lines(story_dialogue_id) if not story_dialogue_id.is_empty() else dialogue_lines
+	_dialogue_box.start_dialogue(speaker_name, port_tex, lines)
 
 	if prompt_label:
 		prompt_label.visible = false
@@ -118,6 +122,7 @@ func _open_dialogue() -> void:
 
 func _on_dialogue_finished() -> void:
 	get_tree().paused = false
+	RecipeCollection.complete_dialogue(story_dialogue_id)
 	# Mostrar el prompt de nuevo si el jugador sigue cerca (indica que puede re-tocar)
 	if prompt_label and _player_in_range:
 		prompt_label.text = "Toca para volver a leer"

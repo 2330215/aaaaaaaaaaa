@@ -20,7 +20,9 @@ const FADE_OUT_DURATION: float = 0.3
 @onready var text_label: Label = $Panel/HBox/VBox/TextLabel
 @onready var prompt_label: Label = $Panel/HBox/VBox/PromptLabel
 
-var _lines: Array[String] = []
+var _lines: Array[Dictionary] = []
+var _default_speaker: String = ""
+var _default_portrait: Texture2D
 var _current_line_index := 0
 var _is_typing := false
 var _active := false
@@ -44,8 +46,12 @@ func start_dialogue(speaker_name: String, portrait_tex: Texture2D, lines: Array)
 
 	_apply_environment_theme()
 	_lines.clear()
+	_default_speaker = speaker_name
+	_default_portrait = portrait_tex
 	for line_item in lines:
-		_lines.append(str(line_item))
+		var turn: Dictionary = line_item if line_item is Dictionary else {"speaker": speaker_name, "text": str(line_item)}
+		for page in _paginate(str(turn.get("text", ""))):
+			_lines.append({"speaker": str(turn.get("speaker", speaker_name)), "text": page})
 
 	if _transition_tween:
 		_transition_tween.kill()
@@ -154,7 +160,12 @@ func _show_current_line() -> void:
 		return
 
 	_is_typing = true
-	var line_text := _lines[_current_line_index]
+	var turn: Dictionary = _lines[_current_line_index]
+	var current_speaker: String = turn.get("speaker", _default_speaker)
+	var line_text: String = turn.get("text", "")
+	name_label.text = current_speaker
+	portrait_rect.texture = _default_portrait
+	portrait_rect.visible = current_speaker != "Jugador" and _default_portrait != null
 	text_label.text = line_text
 	text_label.visible_characters = 0
 
@@ -186,3 +197,17 @@ func _on_transition_out_finished() -> void:
 	_active = false
 	_is_closing = false
 	dialogue_finished.emit()
+
+
+func _paginate(text: String) -> Array[String]:
+	# Keep complete words; repeated speaker labels distinguish pages from turns.
+	var pages: Array[String] = []
+	var page := ""
+	for word in text.split(" ", false):
+		if not page.is_empty() and page.length() + word.length() + 1 > 155:
+			pages.append(page)
+			page = ""
+		page += (" " if not page.is_empty() else "") + word
+	if not page.is_empty():
+		pages.append(page)
+	return pages

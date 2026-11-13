@@ -34,6 +34,8 @@ func show_victory(stats: Dictionary, can_advance: bool) -> void:
 	if _shown:
 		return
 	_shown = true
+	if int(stats.get("level_number", 1)) == 5:
+		await preload("res://story/story_dialogues.gd").play(self, "epilogo", "Nopalio", preload("res://enemy/portraits/nopalio.png"))
 
 	panel.visible = true
 	panel.modulate.a = 0.0

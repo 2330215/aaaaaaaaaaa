@@ -22,6 +22,7 @@ var _levels: VBoxContainer
 var _options: VBoxContainer
 var _continue_button: Button
 var _level_buttons: Array[Button] = []
+var _mode: OptionButton
 var _music_slider: HSlider
 var _effects_slider: HSlider
 var _music_value: Label
@@ -134,11 +135,18 @@ func _build_interface() -> void:
 	_continue_button.disabled = not GameState.has_continue()
 	_continue_button.tooltip_text = "Reanuda la partida actual o abre el último nivel jugado."
 	_button(_main, "Elegir nivel", _open_levels)
+	_button(_main, "Coleccionables", _open_collectibles)
 	_button(_main, "Opciones", _open_options)
 	_button(_main, "Salir del juego", _quit_game)
 
 	_levels = _box(content)
 	_levels.add_child(_label("SELECCIÓN DE NIVEL", 17))
+	_mode = OptionButton.new()
+	_mode.custom_minimum_size.y = 36
+	_mode.add_item("Un jugador")
+	_mode.add_item("Dos jugadores · pantalla dividida")
+	_mode.item_selected.connect(_update_level_buttons)
+	_levels.add_child(_mode)
 	var grid := GridContainer.new()
 	grid.columns = 3
 	grid.add_theme_constant_override("h_separation", 8)
@@ -229,14 +237,25 @@ func _show_panel(panel: VBoxContainer) -> void:
 
 func _open_levels() -> void:
 	_show_panel(_levels)
-	_level_buttons[0].grab_focus()
+	_update_level_buttons(_mode.selected)
+	_mode.grab_focus()
+
+
+func _open_collectibles() -> void:
+	RecipeCollection.open_notebook(self)
+
+
+func _update_level_buttons(mode: int) -> void:
+	for index in range(_level_buttons.size()):
+		_level_buttons[index].disabled = mode == 1 and index >= GameState.SPLITSCREEN_LEVELS.size()
 
 
 func _start_selected_level(index: int) -> void:
 	if _transitioning:
 		return
 	_transitioning = true
-	GameState.start_level(GameState.SINGLEPLAYER_LEVELS[index])
+	var scenes := GameState.SPLITSCREEN_LEVELS if _mode.selected == 1 else GameState.SINGLEPLAYER_LEVELS
+	GameState.start_level(scenes[index])
 
 
 func _on_continue() -> void:
@@ -279,7 +298,7 @@ func _close_options() -> void:
 
 func _quit_game() -> void:
 	AudioSettings.save_settings()
-	Music.quit_game()
+	get_tree().quit()
 
 
 func _unhandled_input(event: InputEvent) -> void:

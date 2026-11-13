@@ -175,7 +175,7 @@ func _show_boss_dialogue() -> void:
 		await get_tree().process_frame
 		dlg.queue_free()
 	)
-	dlg.start_dialogue("JEFE 2", BOSS_PORTRAIT, ["¡No pasarás de aquí!"])
+	dlg.start_dialogue("Boxeador", preload("res://enemy/portraits/enemy_jefe2.png"), preload("res://story/story_dialogues.gd").lines("boxeador"))
 
 
 # ── Física principal ─────────────────────────────────────────────────────────

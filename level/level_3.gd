@@ -233,10 +233,7 @@ func _start_air_intro() -> void:
 	add_child(_intro)
 	get_tree().paused = true
 	_intro.dialogue_finished.connect(_finish_air_intro, CONNECT_ONE_SHOT)
-	_intro.start_dialogue("ALGODÓN DE AZÚCAR", preload("res://enemy/portraits/enemy_jefe_level3.png"), [""])
-	await get_tree().create_timer(intro_duration, true).timeout
-	if is_instance_valid(_intro):
-		_finish_air_intro()
+	_intro.start_dialogue("Algodón de azúcar", preload("res://enemy/portraits/enemy_jefe_level3.png"), preload("res://story/story_dialogues.gd").lines("algodon"))
 
 
 func _finish_air_intro() -> void:

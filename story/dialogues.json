@@ -1,0 +1,616 @@
+{
+  "nopalio": [
+    {
+      "speaker": "Nopalio",
+      "text": "¡Tú! Acércate. Necesito alguien valiente, con buenos reflejos y que no use los libros para espantar moscas."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Depende del tamaño de la mosca. ¿Qué ocurre?"
+    },
+    {
+      "speaker": "Nopalio",
+      "text": "Dona quiere quedarse con este recetario y poner su nombre en todas las recetas. ¡Hasta en mis nopales! Y eso que una vez los confundió con pepinos despeinados."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Pero aquí faltan páginas."
+    },
+    {
+      "speaker": "Nopalio",
+      "text": "Repartí siete hojas para protegerlas. Tuniliana guarda una. Las demás están con gente de las otras regiones. Yo iría, pero mis rodillas hacen más ruido que mis botas."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Las recuperaré. Dona no va a borrar sus nombres."
+    },
+    {
+      "speaker": "Nopalio",
+      "text": "Entonces llévate la libreta. Y cuidado con Chocolate: ya anda decidiendo quién puede pasar. Desde que se siente importante, ni saluda al sombrero."
+    }
+  ],
+  "tuniliana": [
+    {
+      "speaker": "Tuniliana",
+      "text": "Si preguntas por recetas, no sé nada. Si preguntas por fruta, tengo de temporada. Si preguntas por mi escondite… ¡tampoco sé nada!"
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Me envió Nopalio. Tengo su libreta."
+    },
+    {
+      "speaker": "Tuniliana",
+      "text": "¡Menos mal! Guardé la hoja debajo de la canasta. Chocolate vino a buscarla, pero salió preguntando cuánto costaban las tunas."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Conseguiste distraerlo?"
+    },
+    {
+      "speaker": "Tuniliana",
+      "text": "Le expliqué toda la cosecha. Cuando llegué a los precios, ya se había ido. Toma la ensalada de nopales. ¡Y que siga llevando nuestro nombre!"
+    }
+  ],
+  "maizano": [
+    {
+      "speaker": "Maizano",
+      "text": "Chocolate me pidió una receta para dejarme pasar. Le ofrecí explicarle mis tacos de frijoles con tortilla de maíz. Dijo que quería algo más importante."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Y qué hiciste?"
+    },
+    {
+      "speaker": "Maizano",
+      "text": "Me senté a comerlos. Se quedó mirando todo el rato. Parece que sí eran importantes."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Voy a pasar por donde está él."
+    },
+    {
+      "speaker": "Maizano",
+      "text": "Pues guarda bien la libreta. Si te dice que el camino es suyo, pídele que lo levante y se lo lleve."
+    }
+  ],
+  "chocolate": [
+    {
+      "speaker": "Chocolate",
+      "text": "¡Alto! Este camino tiene dueño. Para pasar, debes entregarme esa libreta."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿También compraste las piedras o solo te pusiste en medio?"
+    },
+    {
+      "speaker": "Chocolate",
+      "text": "Dona me prometió la primera página de su gran recetario. ¡Mi nombre se verá antes que todos!"
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Los nombres que van ahí son los de quienes hicieron las recetas."
+    },
+    {
+      "speaker": "Chocolate",
+      "text": "¡Pues ven a defenderlos! Pero deja de mirarme así. Estoy intentando dar miedo."
+    }
+  ],
+  "mato_1": [
+    {
+      "speaker": "Mato",
+      "text": "Hoy no tengo recetas, no guardo papeles y ese comal definitivamente no está tapando nada."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "No te pregunté por el comal."
+    },
+    {
+      "speaker": "Mato",
+      "text": "Ah. Tendré que practicar mi cara de inocente. ¿Esa es la libreta de Nopalio?"
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Sí. Estoy recuperando las hojas."
+    },
+    {
+      "speaker": "Mato",
+      "text": "Aquí están mis tacos de frijoles con verduras. Cambio las verduras según lo que llega al mercado. Dona quería cambiar otra cosa: ¡mi firma por la suya!"
+    }
+  ],
+  "webi_1": [
+    {
+      "speaker": "Webi",
+      "text": "Me pidieron una receta exclusiva. Preparé huevo con jitomate y tortillas. Entonces dijeron que «exclusiva» significaba que nadie más podía hacerla."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Y aceptaste?"
+    },
+    {
+      "speaker": "Webi",
+      "text": "No. Mi abuela me enseñó a prepararla. Tendría que prohibírsela a ella… y yo todavía quiero que me invite a desayunar."
+    }
+  ],
+  "zanorio_1": [
+    {
+      "speaker": "Zanorio",
+      "text": "Entrega para Mato, canasta para Webi y una orden de Dona que dice: «Enviar todas las recetas»."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Se las vas a entregar?"
+    },
+    {
+      "speaker": "Zanorio",
+      "text": "Le entregué una respuesta: «No caben en el paquete». Todavía no sabe que el paquete estaba vacío."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Sabes dónde hay más páginas?"
+    },
+    {
+      "speaker": "Zanorio",
+      "text": "Nopalio mandó dos a la montaña. Pero primero tendrás que cruzar el estadio. El boxeador está convirtiendo cualquier conversación en una pelea."
+    }
+  ],
+  "mato_2": [
+    {
+      "speaker": "Mato",
+      "text": "¡Sigues llevando la libreta! Bien. Si ves al boxeador, no le preguntes por su receta favorita."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Por qué?"
+    },
+    {
+      "speaker": "Mato",
+      "text": "Porque responde «¡el gancho!» y después intenta enseñártelo."
+    }
+  ],
+  "webi_2": [
+    {
+      "speaker": "Webi",
+      "text": "El boxeador me pidió un desayuno de campeón. Se lo preparé y luego preguntó si eso significaba que ya había ganado."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Qué le dijiste?"
+    },
+    {
+      "speaker": "Webi",
+      "text": "Que primero tenía que dejar de discutir con la silla y sentarse."
+    }
+  ],
+  "zanorio_2": [
+    {
+      "speaker": "Zanorio",
+      "text": "La salida está cerca. Yo seguiré con mis entregas: estas canastas no van a caminar solas."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Nunca te cansas de recorrer la ciudad?"
+    },
+    {
+      "speaker": "Zanorio",
+      "text": "Sí. Descanso y continúo. Aunque hoy llevo tanto rato buscando a Mato que creo que debería entregarme una carta a mí misma."
+    }
+  ],
+  "mazorquino": [
+    {
+      "speaker": "Mazorquino",
+      "text": "¡Un momento! ¿Traes una libreta o una lista de cosas que no deberían estar entrando aquí?"
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Una libreta. Busco las páginas que faltan."
+    },
+    {
+      "speaker": "Mazorquino",
+      "text": "Entonces escucha: el boxeador prepara el puñetazo antes de lanzarlo. Mira sus movimientos y aprovecha cuando termina."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Lo has estudiado?"
+    },
+    {
+      "speaker": "Mazorquino",
+      "text": "He intentado pedirle que se retire. Tres veces. Ahora sé muchísimo de puñetazos y poquísimo de acuerdos."
+    }
+  ],
+  "boxeador": [
+    {
+      "speaker": "Boxeador",
+      "text": "¡La libreta! Dona dijo que tendría una página entera para mí. Con letras enormes."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Podrías escribir tu propia receta."
+    },
+    {
+      "speaker": "Boxeador",
+      "text": "¡Yo reparto golpes, no ingredientes!"
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Entonces te equivocaste de libro."
+    },
+    {
+      "speaker": "Boxeador",
+      "text": "¡Ya veremos si sigues haciendo bromas cuando suene la pelea!"
+    }
+  ],
+  "trolelo": [
+    {
+      "speaker": "Trolelo",
+      "text": "Consejo de montaña: si una nube tiene cara de enfadada, no te quedes esperando lluvia."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Hablas del algodón de azúcar?"
+    },
+    {
+      "speaker": "Trolelo",
+      "text": "Sí. Le dije que parecía una nube y ahora quiere que lo llame «Su Altísima Majestad». Le ofrecí «pelusa». No le gustó."
+    }
+  ],
+  "papos": [
+    {
+      "speaker": "Papos",
+      "text": "¡No dejan de llegar enemigos! Apenas termino de contar un grupo y ya viene otro."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Tendré que resistir hasta que se despeje el paso."
+    },
+    {
+      "speaker": "Papos",
+      "text": "Yo pondré a salvo la cosecha. Las papas van al guiso con verduras, no debajo de los pies de esa pandilla."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Tienes una página de Nopalio?"
+    },
+    {
+      "speaker": "Papos",
+      "text": "La guarda Calivan. Yo perdí una lista de compras en el bolsillo… de estos mismos pantalones. Hicieron bien en dársela a él."
+    }
+  ],
+  "calivan": [
+    {
+      "speaker": "Calivan",
+      "text": "Antes de hablar: ¿vienes a llevarte mi receta o a preguntarme por ella?"
+    },
+    {
+      "speaker": "Jugador",
+      "text": "A devolverla a la libreta de Nopalio, con tu nombre."
+    },
+    {
+      "speaker": "Calivan",
+      "text": "Entonces podemos entendernos. Aquí está el guiso de calabaza, papa y frijoles. Nopalio y yo lo cambiamos tantas veces que al final escribimos con lápiz."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Dona también quiere esta hoja?"
+    },
+    {
+      "speaker": "Calivan",
+      "text": "Sí, pero ni siquiera sabe por qué tiene tachones. Son nuestras pruebas. Hasta donde dice «menos agua, esto parece un lago»."
+    }
+  ],
+  "narancio": [
+    {
+      "speaker": "Narancio",
+      "text": "Guardé esta hoja tan bien que casi tuve que organizar una expedición para encontrarla."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Qué receta tiene?"
+    },
+    {
+      "speaker": "Narancio",
+      "text": "Avena con fruta. Yo quería llamarla «Desayuno glorioso de Narancio, explorador del gran mirador»."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Aquí solo dice «Avena con fruta»."
+    },
+    {
+      "speaker": "Narancio",
+      "text": "Nopalio dijo que mi título ocupaba el lugar de los ingredientes. Toma. Prefiero mi nombre pequeño y verdadero que uno enorme que no sea mío."
+    }
+  ],
+  "algodon": [
+    {
+      "speaker": "Algodón de azúcar",
+      "text": "¡Por fin llegas! Estaba preparando mi entrada triunfal."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Te vi esperando desde allá."
+    },
+    {
+      "speaker": "Algodón de azúcar",
+      "text": "¡Era una espera misteriosa! Dame la libreta. Dona pondrá mi retrato en una página completa."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿No sería mejor que te recordaran por algo que hiciste?"
+    },
+    {
+      "speaker": "Algodón de azúcar",
+      "text": "¡Excelente idea! Me recordarán por derrotarte. ¡Ahora empieza el espectáculo!"
+    }
+  ],
+  "pesado": [
+    {
+      "speaker": "Pesado",
+      "text": "Pizza me exigió que entregara mi receta. Le dije que antes tendría que pasar por encima de mí."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Y qué hizo?"
+    },
+    {
+      "speaker": "Pesado",
+      "text": "Miró para abajo y preguntó si podía rodearme. Casi me reí. Casi."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Yo puedo guardarla en la libreta de Nopalio."
+    },
+    {
+      "speaker": "Pesado",
+      "text": "Entonces toma: pescado con verduras. La hicimos juntos. Él elegía tantas verduras que yo tenía que recordarle que todavía faltaba poner el pescado."
+    }
+  ],
+  "platanael": [
+    {
+      "speaker": "Platanael",
+      "text": "Puedes rellenar tu botella con agua natural. Aprovecha; por aquí todo el mundo anda gritando órdenes y casi nadie se detiene."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Pizza también vino a darte órdenes?"
+    },
+    {
+      "speaker": "Platanael",
+      "text": "Quiso cobrarme por usar la sombra. Le pregunté si había plantado la palmera."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Y qué respondió?"
+    },
+    {
+      "speaker": "Platanael",
+      "text": "Que consultaría con su tripulación. Sigo esperando. Mientras tanto, la sombra está libre."
+    }
+  ],
+  "huevike": [
+    {
+      "speaker": "Huevike",
+      "text": "Hay movimiento en el agua. Si vas a cruzar, mantente atento. Esta vez no son mis burbujas."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Pizza está detrás de todo esto?"
+    },
+    {
+      "speaker": "Huevike",
+      "text": "Quiere la libreta para entregársela a Dona. Y, según él, convertirse en «capitán de las recetas»."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Eso existe?"
+    },
+    {
+      "speaker": "Huevike",
+      "text": "Desde que se le ocurrió, sí. Ayer intentó darle órdenes a una cuchara."
+    }
+  ],
+  "bistevin": [
+    {
+      "speaker": "Bistevin",
+      "text": "Pizza me ofreció aparecer en el libro de Dona si le decía dónde estaban las páginas."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Qué le respondiste?"
+    },
+    {
+      "speaker": "Bistevin",
+      "text": "Que mis amigos no eran ingredientes que pudiera cambiar de lugar. Después intentó ofrecerme una página más grande."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Parece que no entendió."
+    },
+    {
+      "speaker": "Bistevin",
+      "text": "Le cuesta escuchar. En las comidas también: todos acordamos qué llevar, y él aparece queriendo elegir por todos. Por eso siempre pregunto primero qué quieren preparar los demás."
+    }
+  ],
+  "pizza": [
+    {
+      "speaker": "Pizza",
+      "text": "¡Entrega el recetario! Queda confiscado por orden del capitán."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Qué capitán?"
+    },
+    {
+      "speaker": "Pizza",
+      "text": "¡Yo! ¿No ves mi aspecto de autoridad?"
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Veo a alguien intentando quedarse con un libro ajeno."
+    },
+    {
+      "speaker": "Pizza",
+      "text": "¡Pues vas a ver mucho más! Cuando termine contigo, Dona tendrá su libro… ¡y yo la dedicatoria!"
+    }
+  ],
+  "papua": [
+    {
+      "speaker": "Papua",
+      "text": "Traes la libreta. Bien. Ya estaba cansada de escuchar que estas recetas iban a tener una sola dueña."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Estoy reuniendo las páginas originales."
+    },
+    {
+      "speaker": "Papua",
+      "text": "Esta es la de nuestra olla de frijoles con verduras. La hicimos entre varios: unos lavaron, otros cocinaron y otros pusieron la mesa."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Dónde está tu firma?"
+    },
+    {
+      "speaker": "Papua",
+      "text": "Junto a las demás. Dona quería quitar cinco nombres para poner uno. ¡Y luego dice que está ahorrando espacio!"
+    }
+  ],
+  "michigan": [
+    {
+      "speaker": "Michigan",
+      "text": "Estoy buscando a alguien que lleva una libreta y viene desde el desierto. Parece que ya pasó por cuatro jefes."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Soy yo."
+    },
+    {
+      "speaker": "Michigan",
+      "text": "¡Excelente! Sabía que mi búsqueda iba por buen camino."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Cuánto llevas buscándome?"
+    },
+    {
+      "speaker": "Michigan",
+      "text": "Acabo de empezar. Ha sido mi investigación más rápida. Manguel tiene la última hoja; no dejes que Dona te quite las otras."
+    }
+  ],
+  "chay": [
+    {
+      "speaker": "Chay",
+      "text": "Los enemigos siguen en el poblado. Mientras estén aquí, no podremos despejar la salida."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Me ocuparé de ellos."
+    },
+    {
+      "speaker": "Chay",
+      "text": "Gracias. He pasado más tiempo vigilando que cuidando el huerto. Hasta mis chayotes deben de estar preguntándose dónde ando."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿También querían llevarse tus recetas?"
+    },
+    {
+      "speaker": "Chay",
+      "text": "Todas: chayote en sopa, en guiso… Pero se llevaron una lista de herramientas. Espero que a Dona le guste su nueva receta de pala con cubeta."
+    }
+  ],
+  "manguel": [
+    {
+      "speaker": "Manguel",
+      "text": "Antes de darte nada, dime: ¿cuántos nombres piensas dejar en el recetario?"
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Todos los que ya tiene."
+    },
+    {
+      "speaker": "Manguel",
+      "text": "Buena respuesta. Dona dijo que mi firma parecía una hormiga aplastada. Puede ser, ¡pero es mi hormiga!"
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Tienes la última receta?"
+    },
+    {
+      "speaker": "Manguel",
+      "text": "Fruta de temporada para compartir. Nopalio anotaba qué conseguíamos cada vez. Hay mango en esta versión… y una mancha que no necesita explicación."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Con esta hoja, la libreta está completa."
+    },
+    {
+      "speaker": "Manguel",
+      "text": "Las recetas, sí. Ahora falta que siga siendo nuestra. Dona no está acostumbrada a que alguien le diga que no."
+    }
+  ],
+  "jaguar": [
+    {
+      "speaker": "Jaguar",
+      "text": "Veo que conservas la libreta. Has llegado más lejos de lo que Dona esperaba."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Ahora quiere quedarse con todo lo que reuní."
+    },
+    {
+      "speaker": "Jaguar",
+      "text": "Va a intentar hacerte mirar donde ella quiere. Fíjate en sus ataques y también en el suelo."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "¿Tienes algún otro consejo?"
+    },
+    {
+      "speaker": "Jaguar",
+      "text": "Sí. Cuando diga que todo está bajo control, pregunta bajo el control de quién."
+    }
+  ],
+  "dona": [
+    {
+      "speaker": "Dona",
+      "text": "¡Qué considerado! Recuperaste todas las páginas y me las trajiste. Ahorraste muchísimo trabajo."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "No son para ti. Son de quienes escribieron las recetas."
+    },
+    {
+      "speaker": "Dona",
+      "text": "Mi nombre quedará precioso en cada hoja. «Dona». Corto, elegante y fácil de recordar."
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Pero no inventaste la ensalada, ni los tacos, ni el guiso."
+    },
+    {
+      "speaker": "Dona",
+      "text": "¡Por eso necesito el libro! Chocolate quería la primera página, el boxeador quería letras enormes… ¡y todos estropearon mi plan!"
+    },
+    {
+      "speaker": "Jugador",
+      "text": "Les prometiste un lugar y pensabas borrar sus nombres también."
+    },
+    {
+      "speaker": "Dona",
+      "text": "¡Basta de leerme las intenciones! ¡Dame esa libreta o ven a defenderla!"
+    }
+  ],
+  "epilogo": [
+    {
+      "speaker": "Nopalio",
+      "text": "Si llegaste hasta aquí, ya sabes por qué cuidaba tanto esta libreta. No habría podido escribirla yo solo."
+    },
+    {
+      "speaker": "Nopalio",
+      "text": "Ahora también lleva un poco de tu historia. Puedes firmar… pero deja espacio, que todavía pienso conseguir más recetas."
+    },
+    {
+      "speaker": "Nopalio",
+      "text": "Y no le creas a Maizano: el comal sí se lo devolví."
+    }
+  ]
+}

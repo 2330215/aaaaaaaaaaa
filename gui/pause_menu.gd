@@ -31,6 +31,13 @@ func _ready() -> void:
 	hide()
 	# Colocar Ajustes junto a Reanudar también en las escenas heredadas.
 	main_options.move_child(main_options.get_node("SettingsButton"), 3)
+	var collection_button := Button.new()
+	collection_button.name = "CollectiblesButton"
+	collection_button.text = "Coleccionables"
+	collection_button.custom_minimum_size.y = 34
+	collection_button.pressed.connect(_open_collectibles)
+	main_options.add_child(collection_button)
+	main_options.move_child(collection_button, 1)
 	music_slider.value_changed.connect(_on_music_volume_changed)
 	effects_slider.value_changed.connect(_on_effects_volume_changed)
 	settings_content.get_node("BackButton").pressed.connect(_show_main_options)
@@ -53,6 +60,10 @@ func close() -> void:
 		fade_out_duration
 	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.tween_callback(hide)
+
+
+func _open_collectibles() -> void:
+	RecipeCollection.open_notebook(self)
 
 
 func open() -> void:

@@ -1,0 +1,154 @@
+[
+  {
+    "id": "ensalada_desierto",
+    "dialogue": "tuniliana",
+    "title": "Ensalada del desierto",
+    "region": "Desierto",
+    "author": "Tuniliana y Nopalio",
+    "color": "be9852",
+    "ingredients": [
+      "Nopales cocidos y picados",
+      "Jitomate",
+      "Cebolla al gusto",
+      "Cilantro y unas gotas de limón"
+    ],
+    "steps": [
+      "Laven los ingredientes y pidan ayuda a una persona adulta para picarlos y cocinar los nopales.",
+      "Mezclen los nopales con el jitomate, la cebolla y el cilantro.",
+      "Añadan limón al gusto y sirvan como acompañamiento de la comida."
+    ],
+    "note": "Nopalio quería dibujar cada nopal. Tuniliana le recordó que primero había que terminar la ensalada.",
+    "hint": "Tuniliana protege esta hoja en el desierto.",
+    "illustration": "res://gui/recipe_art/ensalada_desierto.png"
+  },
+  {
+    "id": "tacos_mercado",
+    "dialogue": "mato_1",
+    "title": "Tacos del mercado",
+    "region": "Ciudad",
+    "author": "Mato",
+    "color": "b44e3e",
+    "ingredients": [
+      "Tortillas de maíz",
+      "Frijoles cocidos",
+      "Calabacita o nopales cocidos",
+      "Jitomate y cilantro al gusto"
+    ],
+    "steps": [
+      "Elijan y laven las verduras. Una persona adulta puede ayudar a picarlas, cocinarlas y calentar las tortillas.",
+      "Pongan frijoles y verduras dentro de cada tortilla.",
+      "Agreguen jitomate y cilantro al gusto. Cambien las verduras según lo que haya en el mercado."
+    ],
+    "note": "El comal es importante. Saber de quién es el comal… también, según Maizano.",
+    "hint": "Busca a Mato en el primer encuentro de la ciudad.",
+    "illustration": "res://gui/recipe_art/tacos_mercado.png"
+  },
+  {
+    "id": "guiso_montana",
+    "dialogue": "calivan",
+    "title": "Guiso de montaña",
+    "region": "Montaña",
+    "author": "Calivan y Nopalio",
+    "color": "64836a",
+    "ingredients": [
+      "Calabaza o calabacita",
+      "Papa",
+      "Frijoles cocidos",
+      "Jitomate y un poco de agua"
+    ],
+    "steps": [
+      "Laven las verduras. Pidan a una persona adulta que pique la papa, la calabaza y el jitomate.",
+      "Con su ayuda, cocinen la papa con el jitomate y un poco de agua; agreguen la calabaza y dejen que todo quede bien cocido.",
+      "Añadan los frijoles cocidos y calienten el guiso. Ajusten el agua poco a poco."
+    ],
+    "note": "En el margen dice: «Menos agua. Esto parece un lago». Nadie ha querido borrar esa parte.",
+    "hint": "Calivan conserva los tachones y la receta en la montaña.",
+    "illustration": "res://gui/recipe_art/guiso_montana.png"
+  },
+  {
+    "id": "avena_fruta",
+    "dialogue": "narancio",
+    "title": "Avena con fruta",
+    "region": "Montaña",
+    "author": "Narancio",
+    "color": "c08b3f",
+    "ingredients": [
+      "Avena en hojuelas",
+      "Agua o leche natural",
+      "Fruta fresca de temporada, lavada y picada",
+      "Canela al gusto"
+    ],
+    "steps": [
+      "Pidan a una persona adulta que cocine la avena con agua o leche, siguiendo las indicaciones del paquete.",
+      "Dejen que se enfríe hasta una temperatura cómoda para comer.",
+      "Añadan fruta de temporada y un poco de canela al gusto."
+    ],
+    "note": "El título original de Narancio era tan largo que no dejaba espacio para los ingredientes.",
+    "hint": "Narancio guarda otra hoja en la montaña.",
+    "illustration": "res://gui/recipe_art/avena_fruta.png"
+  },
+  {
+    "id": "pescado_costa",
+    "dialogue": "pesado",
+    "title": "Pescado con verduras",
+    "region": "Playa",
+    "author": "Pesado y Nopalio",
+    "color": "4c8994",
+    "ingredients": [
+      "Filete de pescado sin espinas",
+      "Calabacita y zanahoria",
+      "Jitomate",
+      "Limón y un poco de aceite"
+    ],
+    "steps": [
+      "Laven las verduras y pidan ayuda a una persona adulta para picarlas.",
+      "La persona adulta revisa que el pescado no tenga espinas y lo cocina completamente con las verduras en sartén u horno.",
+      "Sirvan con limón al gusto y, si quieren, acompañen con tortillas de maíz."
+    ],
+    "note": "Pesado revisó que Nopalio no olvidara el pescado debajo de tantas verduras.",
+    "hint": "Habla con Pesado en la playa para proteger su receta.",
+    "illustration": "res://gui/recipe_art/pescado_costa.png"
+  },
+  {
+    "id": "olla_selva",
+    "dialogue": "papua",
+    "title": "Olla de la selva",
+    "region": "Selva tropical",
+    "author": "Papua y sus amigos",
+    "color": "537e4a",
+    "ingredients": [
+      "Frijoles cocidos con su caldo",
+      "Chayote",
+      "Calabacita y zanahoria",
+      "Jitomate y cilantro al gusto"
+    ],
+    "steps": [
+      "Repartan las tareas: lavar ingredientes, preparar la mesa y pedir a una persona adulta que pique las verduras.",
+      "Con su ayuda, cocinen el chayote y la zanahoria; añadan después la calabacita y el jitomate.",
+      "Agreguen los frijoles con su caldo, calienten hasta que todas las verduras estén cocidas y compartan la comida."
+    ],
+    "note": "Esta hoja tiene varias firmas. La olla también necesitó varias manos para llegar a la mesa.",
+    "hint": "Papua cuida una receta con muchas firmas en la selva.",
+    "illustration": "res://gui/recipe_art/olla_selva.png"
+  },
+  {
+    "id": "fruta_compartir",
+    "dialogue": "manguel",
+    "title": "Fruta para compartir",
+    "region": "Selva tropical",
+    "author": "Manguel y Nopalio",
+    "color": "b98032",
+    "ingredients": [
+      "Frutas frescas de temporada: mango, papaya, naranja u otras disponibles",
+      "Limón al gusto, si lo desean"
+    ],
+    "steps": [
+      "Elijan las frutas que haya de temporada y lávenlas antes de prepararlas.",
+      "Pidan a una persona adulta que ayude a pelar y cortar la fruta en trozos fáciles de comer.",
+      "Mézclenlas en un recipiente, añadan limón si les gusta y sirvan para compartir. No hace falta añadir azúcar."
+    ],
+    "note": "La firma parece una hormiga. La mancha parece mango. Manguel reconoce ambas cosas.",
+    "hint": "Manguel protege la última hoja en la selva.",
+    "illustration": "res://gui/recipe_art/fruta_compartir.png"
+  }
+]

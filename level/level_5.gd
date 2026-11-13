@@ -36,6 +36,10 @@ func _ready() -> void:
 	_status.hide()
 
 
+var _story_intro_started := false
+var _story_intro_done := false
+
+
 func _process(_delta: float) -> void:
 	_setup_camera()
 	var in_boss_stage := false
@@ -46,11 +50,15 @@ func _process(_delta: float) -> void:
 			in_boss_stage = in_boss_stage or height >= 3584.0
 			in_village = in_village or (height >= 1792.0 and height < 3584.0)
 	_update_village(in_village)
+	if in_boss_stage and not _story_intro_started:
+		_story_intro_started = true
+		_play_story_intro.call_deferred()
+	var boss_ready := in_boss_stage and _story_intro_done
 	var boss := get_node_or_null("DonutBoss") as Enemy
 	if boss and boss._state != Enemy.State.DEAD:
-		boss.visible = in_boss_stage
-		boss.process_mode = Node.PROCESS_MODE_INHERIT if in_boss_stage else Node.PROCESS_MODE_DISABLED
-		boss.collision_layer = 2 if in_boss_stage else 0
+		boss.visible = boss_ready
+		boss.process_mode = Node.PROCESS_MODE_INHERIT if boss_ready else Node.PROCESS_MODE_DISABLED
+		boss.collision_layer = 2 if boss_ready else 0
 
 
 func _update_village(active: bool) -> void:
@@ -87,3 +95,8 @@ func get_stage_destinations() -> Array:
 		{"pos": to_global(PLAYER_SPAWNS[1]), "stage_index": 1, "cave": false, "sky": true, "label": "Poblado"},
 		{"pos": to_global(PLAYER_SPAWNS[2]), "stage_index": 2, "cave": false, "sky": true, "label": "Jefe Dona"}
 	]
+
+
+func _play_story_intro() -> void:
+	await preload("res://story/story_dialogues.gd").play(self, "dona", "Dona", preload("res://enemy/portraits/enemy_jefe_level5.png"))
+	_story_intro_done = true
