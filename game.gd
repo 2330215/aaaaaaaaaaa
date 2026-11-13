@@ -14,7 +14,6 @@ var _victory_screen: VictoryScreen
 var _game_over_screen: GameOverScreen
 var _victory_active := false
 var _game_over_active := false
-var _music: AudioStreamPlayer
 
 
 func _ready() -> void:
@@ -22,7 +21,6 @@ func _ready() -> void:
 	GameState.remember_level(scene_file_path)
 	_apply_level_skin()
 
-	_music = get_node_or_null("/root/Music") as AudioStreamPlayer
 
 	_victory_screen = VICTORY_SCREEN_SCENE.instantiate() as VictoryScreen
 	add_child(_victory_screen)
@@ -142,8 +140,7 @@ func _on_game_over() -> void:
 
 
 func _set_music_paused(paused: bool) -> void:
-	if _music:
-		_music.stream_paused = paused
+	Music.set_music_paused(paused)
 
 
 ## Fundido desde negro al entrar al nivel (también sirve tras AVANZAR).

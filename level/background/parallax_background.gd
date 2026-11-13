@@ -15,7 +15,7 @@ class_name LevelBackground extends ParallaxBackground
 const STAGE_TEXTURES: Array[Texture2D] = [
 	preload("res://level/background/Sky.webp"),
 	preload("res://level/background/Sky.webp"),
-	preload("res://level/background/cueva_1.webp")
+	null
 ]
 
 var _current_stage: int = -1
@@ -74,6 +74,12 @@ func set_stage(stage_index: int) -> void:
 func _layout_sprites() -> void:
 	_last_viewport_size = get_viewport().get_visible_rect().size
 	var texture := _get_stage_textures()[_current_stage]
+	if texture == null:
+		_background_height = 0.0
+		for child in $Sky.get_children():
+			if child is Sprite2D:
+				child.visible = false
+		return
 	var texture_size := texture.get_size()
 	var factor := maxf(_last_viewport_size.x / texture_size.x, _last_viewport_size.y * vertical_overscan / texture_size.y)
 	_background_height = texture_size.y * factor

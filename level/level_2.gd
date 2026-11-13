@@ -24,18 +24,13 @@ func _setup_camera() -> void:
 		if player == null or player.get_world_2d() != get_world_2d():
 			continue
 		var height := to_local(player.global_position).y
-		var bounds := Rect2(-4, -192, 3896, 1088)
+		var bounds := Rect2(-12, -192, 3840, 1088)
 		if height >= 2944.0:
-			bounds = Rect2(-4, 2944, 2360, 1063)
+			bounds = Rect2(-12, 2944, 2304, 1063)
 		elif height >= 1792.0:
-			bounds = Rect2(-4, 1792, 3896, 1088)
+			bounds = Rect2(-12, 1792, 3840, 1088)
 		var camera := player.camera
-		var viewport_size := player.get_viewport_rect().size
-		var zoom := maxf(0.7, maxf(viewport_size.x / bounds.size.x, viewport_size.y / bounds.size.y))
-		camera.zoom = Vector2.ONE * zoom
+		camera.offset = Vector2(0, -90)
 		camera.position_smoothing_enabled = false
 		camera.limit_smoothed = false
-		camera.limit_left = roundi(to_global(bounds.position).x - camera.offset.x)
-		camera.limit_top = roundi(to_global(bounds.position).y - camera.offset.y)
-		camera.limit_right = roundi(to_global(bounds.end).x - camera.offset.x)
-		camera.limit_bottom = roundi(to_global(bounds.end).y - camera.offset.y)
+		_apply_camera_bounds(camera, bounds)
