@@ -39,6 +39,9 @@ var _fade_rect: ColorRect
 
 
 func _ready() -> void:
+	ControlSettings.changed.connect(_apply_control_layout)
+	get_viewport().size_changed.connect(_apply_control_layout)
+	_apply_control_layout()
 	if special_button:
 		if "action" in special_button:
 			special_button.action = "special_attack"
@@ -394,9 +397,9 @@ func set_special_ready(is_ready: bool) -> void:
 	if special_button:
 		special_button.disabled = not is_ready
 		if is_ready:
-			special_button.modulate = Color(1.5, 1.3, 0.4, 1.0)
+			special_button.modulate = Color(1.5, 1.3, 0.4, ControlSettings.opacity)
 		else:
-			special_button.modulate = Color(0.4, 0.4, 0.4, 0.5)
+			special_button.modulate = Color(0.65, 0.65, 0.65, ControlSettings.opacity * 0.6)
 
 
 func _on_pause_pressed() -> void:
@@ -414,3 +417,23 @@ func _process(_delta: float) -> void:
 		aerial = level.to_local(_player.global_position).y >= 3584.0
 	$Joystick.set_aerial_mode(aerial)
 	$TextureButtonJump.visible = not aerial
+
+
+func _apply_control_layout() -> void:
+	for index in range(ControlSettings.IDS.size()):
+		var control := get_node(ControlSettings.IDS[index]) as Control
+		var rect := ControlSettings.control_rect(index, get_viewport().get_visible_rect().size)
+		control.set_anchors_preset(Control.PRESET_TOP_LEFT)
+		control.position = rect.position
+		control.size = rect.size
+		control.modulate.a = ControlSettings.opacity
+		var icon := control.get_node_or_null("Icon") as TextureRect
+		if icon:
+			icon.rotation = 0.0
+			icon.set_offsets_preset(Control.PRESET_FULL_RECT)
+			var inset := rect.size.x * 0.28
+			icon.offset_left = inset
+			icon.offset_top = inset
+			icon.offset_right = -inset
+			icon.offset_bottom = -inset
+	set_special_ready(not special_button.disabled)

@@ -19,15 +19,14 @@ var _background_fade: ColorRect
 var _backdrop_label: Label
 var _main: VBoxContainer
 var _levels: VBoxContainer
+var _audio: VBoxContainer
 var _options: VBoxContainer
 var _continue_button: Button
 var _level_buttons: Array[Button] = []
-var _mode: OptionButton
 var _music_slider: HSlider
 var _effects_slider: HSlider
 var _music_value: Label
 var _effects_value: Label
-var _fullscreen: CheckButton
 var _transitioning: bool = false
 
 
@@ -141,12 +140,6 @@ func _build_interface() -> void:
 
 	_levels = _box(content)
 	_levels.add_child(_label("SELECCIÓN DE NIVEL", 17))
-	_mode = OptionButton.new()
-	_mode.custom_minimum_size.y = 36
-	_mode.add_item("Un jugador")
-	_mode.add_item("Dos jugadores · pantalla dividida")
-	_mode.item_selected.connect(_update_level_buttons)
-	_levels.add_child(_mode)
 	var grid := GridContainer.new()
 	grid.columns = 3
 	grid.add_theme_constant_override("h_separation", 8)
@@ -160,13 +153,14 @@ func _build_interface() -> void:
 
 	_options = _box(content)
 	_options.add_child(_label("OPCIONES", 17))
-	_music_slider = _volume_control(_options, "Música", true)
-	_effects_slider = _volume_control(_options, "Efectos de sonido", false)
-	_fullscreen = CheckButton.new()
-	_fullscreen.text = "Pantalla completa"
-	_fullscreen.toggled.connect(_set_fullscreen)
-	_options.add_child(_fullscreen)
+	_button(_options, "Audio", _open_audio)
+	_button(_options, "Controles", _open_controls)
 	_button(_options, "Volver", _close_options)
+	_audio = _box(content)
+	_audio.add_child(_label("AUDIO", 17))
+	_music_slider = _volume_control(_audio, "Música", true)
+	_effects_slider = _volume_control(_audio, "Efectos de sonido", false)
+	_button(_audio, "Volver", _open_options)
 
 	_backdrop_label = _label("", 12)
 	_backdrop_label.add_theme_color_override("font_outline_color", Color.BLACK)
@@ -227,7 +221,7 @@ func _volume_control(parent: Node, text: String, music: bool) -> HSlider:
 
 
 func _show_panel(panel: VBoxContainer) -> void:
-	for box: VBoxContainer in [_main, _levels, _options]:
+	for box: VBoxContainer in [_main, _levels, _options, _audio]:
 		box.visible = box == panel
 	for child in panel.get_children():
 		if child is BaseButton and not child.disabled:
@@ -237,25 +231,17 @@ func _show_panel(panel: VBoxContainer) -> void:
 
 func _open_levels() -> void:
 	_show_panel(_levels)
-	_update_level_buttons(_mode.selected)
-	_mode.grab_focus()
 
 
 func _open_collectibles() -> void:
 	RecipeCollection.open_notebook(self)
 
 
-func _update_level_buttons(mode: int) -> void:
-	for index in range(_level_buttons.size()):
-		_level_buttons[index].disabled = mode == 1 and index >= GameState.SPLITSCREEN_LEVELS.size()
-
-
 func _start_selected_level(index: int) -> void:
 	if _transitioning:
 		return
 	_transitioning = true
-	var scenes := GameState.SPLITSCREEN_LEVELS if _mode.selected == 1 else GameState.SINGLEPLAYER_LEVELS
-	GameState.start_level(scenes[index])
+	GameState.start_level(GameState.SINGLEPLAYER_LEVELS[index])
 
 
 func _on_continue() -> void:
@@ -266,14 +252,20 @@ func _on_continue() -> void:
 
 
 func _open_options() -> void:
+	AudioSettings.save_settings()
+	_show_panel(_options)
+
+
+func _open_controls() -> void:
+	preload("res://gui/control_editor.gd").open(self)
+
+
+func _open_audio() -> void:
 	_music_slider.set_value_no_signal(AudioSettings.music_volume * 100.0)
 	_effects_slider.set_value_no_signal(AudioSettings.effects_volume * 100.0)
 	_music_value.text = "%d%%" % roundi(_music_slider.value)
 	_effects_value.text = "%d%%" % roundi(_effects_slider.value)
-	_fullscreen.set_pressed_no_signal(DisplayServer.window_get_mode() in [
-		DisplayServer.WINDOW_MODE_FULLSCREEN, DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN
-	])
-	_show_panel(_options)
+	_show_panel(_audio)
 	_music_slider.grab_focus()
 
 
@@ -288,7 +280,6 @@ func _on_volume_changed(value: float, music: bool) -> void:
 
 func _set_fullscreen(enabled: bool) -> void:
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN if enabled else DisplayServer.WINDOW_MODE_WINDOWED)
-	_fullscreen.set_pressed_no_signal(enabled)
 
 
 func _close_options() -> void:
@@ -303,7 +294,10 @@ func _quit_game() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("toggle_pause") or event.is_action_pressed("ui_cancel"):
-		_close_options()
+		if _audio.visible:
+			_open_options()
+		else:
+			_close_options()
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("toggle_fullscreen"):
 		_set_fullscreen(DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_WINDOWED)

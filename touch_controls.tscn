@@ -210,13 +210,11 @@ offset_top = 23.0
 offset_right = -23.0
 offset_bottom = -23.0
 mouse_filter = 2
-texture = ExtResource("ui_jump")
+texture = ExtResource("ui_arrow")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Icon" type="TextureRect" parent="TextureButtonJump"]
-rotation = -1.5707964
-pivot_offset = Vector2(15, 15)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -226,7 +224,7 @@ offset_top = 23.0
 offset_right = -23.0
 offset_bottom = -23.0
 mouse_filter = 2
-texture = ExtResource("ui_arrow")
+texture = ExtResource("ui_jump")
 expand_mode = 1
 stretch_mode = 5
 

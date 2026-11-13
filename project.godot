@@ -30,6 +30,7 @@ config/icon="res://icon.webp"
 [autoload]
 
 AudioSettings="*res://audio_settings.gd"
+ControlSettings="*res://gui/control_settings.gd"
 GameState="*res://game_state.gd"
 Music="*res://music.tscn"
 RecipeCollection="*res://story/recipe_collection.gd"

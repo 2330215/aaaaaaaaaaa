@@ -18,6 +18,8 @@ const SCENE_SS_L1 := "res://game_splitscreen.tscn"
 const SCENE_SS_L2 := "res://game_splitscreen_level2.tscn"
 
 
+var _categories: VBoxContainer
+
 @onready var main_options: VBoxContainer = center_cont.get_node("VBoxContainer")
 @onready var settings_panel: PanelContainer = center_cont.get_node("AudioSettings")
 @onready var settings_content: VBoxContainer = settings_panel.get_node("Margin/Content")
@@ -29,6 +31,18 @@ const SCENE_SS_L2 := "res://game_splitscreen_level2.tscn"
 
 func _ready() -> void:
 	hide()
+	_categories = VBoxContainer.new()
+	center_cont.add_child(_categories)
+	_categories.hide()
+	for text: String in ["Audio", "Controles", "Volver"]:
+		var button := Button.new()
+		button.text = text
+		button.custom_minimum_size = Vector2(260, 39)
+		_categories.add_child(button)
+		match text:
+			"Audio": button.pressed.connect(_open_audio)
+			"Controles": button.pressed.connect(func() -> void: preload("res://gui/control_editor.gd").open(self))
+			"Volver": button.pressed.connect(_show_main_options)
 	# Colocar Ajustes junto a Reanudar también en las escenas heredadas.
 	main_options.move_child(main_options.get_node("SettingsButton"), 3)
 	var collection_button := Button.new()
@@ -40,7 +54,7 @@ func _ready() -> void:
 	main_options.move_child(collection_button, 1)
 	music_slider.value_changed.connect(_on_music_volume_changed)
 	effects_slider.value_changed.connect(_on_effects_volume_changed)
-	settings_content.get_node("BackButton").pressed.connect(_show_main_options)
+	settings_content.get_node("BackButton").pressed.connect(_on_settings_button_pressed)
 
 
 func close() -> void:
@@ -155,6 +169,15 @@ func _on_goto_level5_pressed() -> void:
 
 
 func _on_settings_button_pressed() -> void:
+	AudioSettings.save_settings()
+	main_options.hide()
+	settings_panel.hide()
+	_categories.show()
+	(_categories.get_child(0) as Button).grab_focus()
+
+
+func _open_audio() -> void:
+	_categories.hide()
 	music_slider.set_value_no_signal(AudioSettings.music_volume * 100.0)
 	effects_slider.set_value_no_signal(AudioSettings.effects_volume * 100.0)
 	_update_volume_labels()
@@ -164,6 +187,7 @@ func _on_settings_button_pressed() -> void:
 
 
 func _show_main_options() -> void:
+	_categories.hide()
 	if settings_panel.visible:
 		AudioSettings.save_settings()
 	settings_panel.hide()
