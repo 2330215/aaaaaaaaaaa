@@ -97,7 +97,7 @@ func _show_boss_dialogue() -> void:
 		dlg.queue_free()
 	)
 
-	dlg.start_dialogue("JEFE FINAL", BOSS_PORTRAIT, ["texto de prueba"])
+	dlg.start_dialogue("Chocolate", preload("res://enemy/portraits/enemy_jefe.png"), preload("res://story/story_dialogues.gd").lines("chocolate"))
 
 
 func _physics_process(delta: float) -> void:

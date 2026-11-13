@@ -133,6 +133,7 @@ func _build_interface() -> void:
 	_continue_button.disabled = not GameState.has_continue()
 	_continue_button.tooltip_text = "Reanuda la partida actual o abre el último nivel jugado."
 	_button(_main, "Elegir nivel", _open_levels)
+	_button(_main, "Coleccionables", _open_collectibles)
 	_button(_main, "Opciones", _open_options)
 	_button(_main, "Salir del juego", _quit_game)
 
@@ -236,6 +237,10 @@ func _open_levels() -> void:
 	_show_panel(_levels)
 	_update_level_buttons(_mode.selected)
 	_mode.grab_focus()
+
+
+func _open_collectibles() -> void:
+	RecipeCollection.open_notebook(self)
 
 
 func _update_level_buttons(mode: int) -> void:

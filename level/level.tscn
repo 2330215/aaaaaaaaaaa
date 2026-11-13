@@ -1362,16 +1362,19 @@ position = Vector2(1728, 2304)
 respawn_position = Vector2(128, 416)
 
 [node name="Nopalio" parent="." unique_id=392847561 instance=ExtResource("9_cw150")]
+story_dialogue_id = "nopalio"
 position = Vector2(3403, 453)
 speaker_name = "Nopalio"
 dialogue_lines = ["Hola, soy Nopalio. Este es un diálogo de ejemplo."]
 
 [node name="Tuniliana" parent="." unique_id=584930217 instance=ExtResource("17_tuni")]
+story_dialogue_id = "tuniliana"
 position = Vector2(3216, 1729)
 speaker_name = "Tuniliana"
 dialogue_lines = ["Hola, soy Tuniliana. Este es un diálogo de ejemplo."]
 
 [node name="Maizano" parent="." unique_id=1265064969 instance=ExtResource("19_maizano")]
+story_dialogue_id = "maizano"
 position = Vector2(781, 2242)
 collision_layer = 1
 speaker_name = "Maizano"

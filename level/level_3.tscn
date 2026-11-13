@@ -1669,15 +1669,19 @@ position = Vector2(2875, 2450)
 position = Vector2(3002, 2390)
 
 [node name="Trolelo" parent="." unique_id=1666350313 instance=ExtResource("npc_trolelo")]
+story_dialogue_id = "trolelo"
 position = Vector2(420, 405)
 
 [node name="Papos" parent="." unique_id=871035104 instance=ExtResource("npc_papos")]
+story_dialogue_id = "papos"
 position = Vector2(1260, 405)
 
 [node name="Calivan" parent="." unique_id=2113421127 instance=ExtResource("npc_calivan")]
+story_dialogue_id = "calivan"
 position = Vector2(600, 2389)
 
 [node name="Narancio" parent="." unique_id=737715649 instance=ExtResource("npc_narancio")]
+story_dialogue_id = "narancio"
 position = Vector2(2260, 2261)
 
 [node name="BridgePlatform1" parent="." unique_id=14657690 instance=ExtResource("32_1s7sw")]

@@ -7,6 +7,10 @@ const FLOOR_HEIGHTS: Array[float] = [448.0, 2496.0, 4288.0]
 const PLAYER_SPAWNS: Array[Vector2] = [Vector2(128, 400), Vector2(260, 2440), Vector2(1520, 4240)]
 
 
+var _story_intro_started := false
+var _story_intro_done := false
+
+
 func _process(_delta: float) -> void:
 	_setup_camera()
 	var in_boss_stage := false
@@ -14,11 +18,15 @@ func _process(_delta: float) -> void:
 		if node is Player and node.get_world_2d() == get_world_2d():
 			var height := to_local(node.global_position).y
 			in_boss_stage = in_boss_stage or height >= 3584.0
+	if in_boss_stage and not _story_intro_started:
+		_story_intro_started = true
+		_play_story_intro.call_deferred()
+	var boss_ready := in_boss_stage and _story_intro_done
 	var boss := get_node_or_null("PizzaBoss") as Enemy
 	if boss and boss._state != Enemy.State.DEAD:
-		boss.visible = in_boss_stage
-		boss.process_mode = Node.PROCESS_MODE_INHERIT if in_boss_stage else Node.PROCESS_MODE_DISABLED
-		boss.collision_layer = 2 if in_boss_stage else 0
+		boss.visible = boss_ready
+		boss.process_mode = Node.PROCESS_MODE_INHERIT if boss_ready else Node.PROCESS_MODE_DISABLED
+		boss.collision_layer = 2 if boss_ready else 0
 	# El segundo escenario ahora es una batalla naval; conservar la escena de Dona inactiva.
 	var donut := get_node_or_null("DonutBoss") as Enemy
 	if donut:
@@ -52,3 +60,8 @@ func get_stage_destinations() -> Array:
 		{"pos": to_global(PLAYER_SPAWNS[1]), "stage_index": 1, "cave": false, "sky": true, "label": "Batalla naval"},
 		{"pos": to_global(PLAYER_SPAWNS[2]), "stage_index": 2, "cave": false, "sky": true, "label": "Jefe Pizza"}
 	]
+
+
+func _play_story_intro() -> void:
+	await preload("res://story/story_dialogues.gd").play(self, "pizza", "Pizza", preload("res://enemy/portraits/enemy_jefe_level4.png"))
+	_story_intro_done = true

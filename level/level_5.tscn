@@ -148,15 +148,19 @@ position = Vector2(2592, 4128)
 shape = SubResource("WallShape")
 
 [node name="Papua" parent="." unique_id=234454617 instance=ExtResource("npc_papua")]
+story_dialogue_id = "papua"
 position = Vector2(3540, 445)
 
 [node name="Michigan" parent="." unique_id=1653895020 instance=ExtResource("npc_michigan")]
+story_dialogue_id = "michigan"
 position = Vector2(260, 445)
 
 [node name="Chay" parent="." unique_id=156933727 instance=ExtResource("npc_chay")]
+story_dialogue_id = "chay"
 position = Vector2(3450, 2493)
 
 [node name="Manguel" parent="." unique_id=1229546830 instance=ExtResource("npc_manguel")]
+story_dialogue_id = "manguel"
 position = Vector2(330, 4285)
 
 [node name="CanopyTree1" type="Sprite2D" parent="."]
@@ -770,6 +774,7 @@ scale = Vector2(0.45, 0.45)
 texture = ExtResource("selva_22")
 
 [node name="Jaguar" parent="." instance=ExtResource("selva_jaguar")]
+story_dialogue_id = "jaguar"
 position = Vector2(300, 2490)
 
 [node name="VillageEnemies" type="Node2D" parent="."]

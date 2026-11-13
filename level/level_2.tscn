@@ -1864,6 +1864,7 @@ target_stage_index = 2
 switch_to_cave = true
 
 [node name="Mazorquino" parent="." unique_id=168995502 instance=ExtResource("9_cw150")]
+story_dialogue_id = "mazorquino"
 collision_layer = 0
 collision_mask = 0
 position = Vector2(724, 390)
@@ -2003,31 +2004,37 @@ one_way_collision = true
 one_way_collision_margin = 8.0
 
 [node name="MatoEscenario1" parent="." instance=ExtResource("npc_mato")]
+story_dialogue_id = "mato_1"
 collision_layer = 0
 collision_mask = 0
 position = Vector2(448, 379)
 
 [node name="WebiEscenario1" parent="." instance=ExtResource("npc_webi")]
+story_dialogue_id = "webi_1"
 collision_layer = 0
 collision_mask = 0
 position = Vector2(1800, 379)
 
 [node name="ZanorioEscenario1" parent="." instance=ExtResource("npc_zanorio")]
+story_dialogue_id = "zanorio_1"
 collision_layer = 0
 collision_mask = 0
 position = Vector2(2800, 379)
 
 [node name="MatoEscenario2" parent="." instance=ExtResource("npc_mato")]
+story_dialogue_id = "mato_2"
 collision_layer = 0
 collision_mask = 0
 position = Vector2(448, 2427)
 
 [node name="WebiEscenario2" parent="." instance=ExtResource("npc_webi")]
+story_dialogue_id = "webi_2"
 collision_layer = 0
 collision_mask = 0
 position = Vector2(1800, 2427)
 
 [node name="ZanorioEscenario2" parent="." instance=ExtResource("npc_zanorio")]
+story_dialogue_id = "zanorio_2"
 collision_layer = 0
 collision_mask = 0
 position = Vector2(2800, 2235)

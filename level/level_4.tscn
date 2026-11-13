@@ -104,12 +104,15 @@ position = Vector2(3872, 4128)
 shape = SubResource("WallShape")
 
 [node name="Pesado" parent="." unique_id=2118981421 instance=ExtResource("npc_pesado")]
+story_dialogue_id = "pesado"
 position = Vector2(450, 450)
 
 [node name="Platanael" parent="." unique_id=957584116 instance=ExtResource("npc_platanael")]
+story_dialogue_id = "platanael"
 position = Vector2(1100, 450)
 
 [node name="Huevike" parent="." unique_id=519709957 instance=ExtResource("npc_huevike")]
+story_dialogue_id = "huevike"
 position = Vector2(1790, 4290)
 
 [node name="BeachPalm1" type="Sprite2D" parent="." unique_id=131067043]
@@ -320,4 +323,5 @@ position = Vector2(2770, 2360)
 position = Vector2(1870, 4275)
 
 [node name="Bistevin" parent="." unique_id=1546468413 instance=ExtResource("npc_bistevin")]
+story_dialogue_id = "bistevin"
 position = Vector2(420, 2457)
