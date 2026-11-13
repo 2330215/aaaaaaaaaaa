@@ -27,7 +27,7 @@ var _jump_timer: float = 1.5
 var _shoot_timer: float = 2.5
 var _player: Node2D = null
 
-var _health: int = 6
+var _health: int = 10
 var _is_hurt: bool = false  # invencibilidad temporal entre golpes
 var _activated: bool = false  # true cuando el jefe ha sido activado
 var _defeated: bool = false  # evita avisar más de una vez de la victoria

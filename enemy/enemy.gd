@@ -8,6 +8,7 @@ enum State {
 
 ## Los enemigos del tutorial pueden seguir quietos.
 @export var stationary: bool = false
+@export var hit_points: int = 1
 @export var patrol_speed: float = 100.0
 @export var chase_speed: float = 160.0
 ## Distancia que recorre a cada lado de su posicion inicial.
@@ -20,6 +21,9 @@ enum State {
 var _state := State.WALKING
 var facing_direction: float = -1.0
 var _patrol_origin_x: float
+var _damage_tween: Tween
+var _damage_rest_position: Vector2
+var _damage_rest_color: Color
 
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var platform_detector: RayCast2D = get_node_or_null(^"PlatformDetector")
@@ -31,6 +35,8 @@ var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _ready() -> void:
 	_patrol_origin_x = global_position.x
+	_damage_rest_position = sprite.position
+	_damage_rest_color = sprite.self_modulate
 	# Colocar los detectores fuera del cuerpo, incluso si se escala la colision.
 	var collider := get_node_or_null("CollisionShape2D") as CollisionShape2D
 	if collider and collider.shape:
@@ -104,9 +110,35 @@ func _find_nearby_player() -> Player:
 func destroy() -> void:
 	if _state == State.DEAD:
 		return
+	hit_points -= 1
+	if hit_points > 0:
+		_play_damage_feedback()
+		return
+	_reset_damage_feedback()
 	_state = State.DEAD
 	GameState.record_enemy_defeated()
 	velocity = Vector2.ZERO
+
+
+func _reset_damage_feedback() -> void:
+	if _damage_tween:
+		_damage_tween.kill()
+		sprite.position = _damage_rest_position
+		sprite.self_modulate = _damage_rest_color
+
+
+func _play_damage_feedback() -> void:
+	_reset_damage_feedback()
+	var hit_sound := get_node_or_null(^"Hit") as AudioStreamPlayer2D
+	if hit_sound:
+		hit_sound.play()
+	sprite.self_modulate = Color(1.0, 0.25, 0.25, _damage_rest_color.a)
+	sprite.position = _damage_rest_position + Vector2(5.0, 0.0)
+	_damage_tween = create_tween().set_parallel(true)
+	_damage_tween.tween_property(sprite, "self_modulate", _damage_rest_color, 0.25)
+	_damage_tween.tween_property(sprite, "position", _damage_rest_position - Vector2(4.0, 0.0), 0.05)
+	_damage_tween.chain().tween_property(sprite, "position", _damage_rest_position + Vector2(2.0, 0.0), 0.05)
+	_damage_tween.chain().tween_property(sprite, "position", _damage_rest_position, 0.05)
 
 
 func get_new_animation() -> StringName:

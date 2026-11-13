@@ -5,7 +5,7 @@ extends Enemy
 @export var flight_change_interval: float = 1.5
 @export var screen_margin: float = 16.0
 @export var attack_interval: float = 1.0
-@export var max_health: int = 8
+@export var max_health: int = 20
 @onready var projectile_spawn: Marker2D = $proyectil
 
 const PROJECTILE_SCENE = preload("res://enemy/jefe3_proyectil.tscn")
