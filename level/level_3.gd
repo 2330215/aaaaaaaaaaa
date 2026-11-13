@@ -226,6 +226,8 @@ func _spawn_enemy(scene: PackedScene, point: Vector2) -> Enemy:
 
 
 func _start_air_intro() -> void:
+	if not await SceneFlow.wait_for_dialogue(self):
+		return
 	# Preparar el cielo antes de pausar, incluso al entrar por teletransporte.
 	$ParallaxBackground.set_stage(2)
 	$ParallaxBackground._process(0.0)
@@ -243,6 +245,7 @@ func _finish_air_intro() -> void:
 		_intro.queue_free()
 		_intro = null
 	get_tree().paused = false
+	SceneFlow.release_dialogue(self)
 	_cotton = COTTON_SCENE.instantiate() as Enemy
 	_cotton.name = "CottonBoss"
 	_cotton.position = Vector2(980, 3880)

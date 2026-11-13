@@ -75,7 +75,7 @@ func _process(_delta: float) -> void:
 func _activate() -> void:
 	_activated = true
 	set_process(false)        # ya no necesitamos vigilar la posición del jugador
-	set_physics_process(true)
+	set_physics_process(false)
 	# Restaurar capas de colisión (valores originales del .tscn)
 	collision_layer = 2
 	collision_mask = 24
@@ -86,6 +86,8 @@ func _activate() -> void:
 
 
 func _show_boss_dialogue() -> void:
+	if not await SceneFlow.wait_for_dialogue(self):
+		return
 	var dlg := DIALOGUE_BOX_SCENE.instantiate() as DialogueBox
 	get_tree().current_scene.add_child(dlg)
 
@@ -93,6 +95,8 @@ func _show_boss_dialogue() -> void:
 
 	dlg.dialogue_finished.connect(func() -> void:
 		get_tree().paused = false
+		SceneFlow.release_dialogue(self)
+		set_physics_process(true)
 		await get_tree().process_frame
 		dlg.queue_free()
 	)

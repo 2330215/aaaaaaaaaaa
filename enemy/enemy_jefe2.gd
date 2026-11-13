@@ -166,11 +166,14 @@ func _activate() -> void:
 
 
 func _show_boss_dialogue() -> void:
+	if not await SceneFlow.wait_for_dialogue(self):
+		return
 	var dlg := DIALOGUE_BOX_SCENE.instantiate() as DialogueBox
 	get_tree().current_scene.add_child(dlg)
 	get_tree().paused = true
 	dlg.dialogue_finished.connect(func() -> void:
 		get_tree().paused = false
+		SceneFlow.release_dialogue(self)
 		set_physics_process(true)
 		await get_tree().process_frame
 		dlg.queue_free()

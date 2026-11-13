@@ -20,6 +20,7 @@ const DIALOGUE_BOX_SCENE := preload("res://level/dialogue_box.tscn")
 var _player_in_range: CharacterBody2D = null
 var _dialogue_box: DialogueBox         = null
 var _first_time: bool                 = true   # controla el auto-trigger inicial
+var _dialogue_pending := false
 
 
 func _ready() -> void:
@@ -67,7 +68,7 @@ func _on_body_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -
 		if not is_instance_valid(_player_in_range) or get_tree().paused:
 			return
 		get_viewport().set_input_as_handled()
-		_open_dialogue()
+		_open_dialogue(true)
 
 
 func _on_interaction_body_entered(body: Node2D) -> void:
@@ -78,8 +79,7 @@ func _on_interaction_body_entered(body: Node2D) -> void:
 		prompt_label.visible = true
 	# Solo auto-abrir la primera vez que el jugador entra en rango
 	if _first_time:
-		_first_time = false
-		_open_dialogue()
+		_open_dialogue(true)
 
 
 func _on_interaction_body_exited(body: Node2D) -> void:
@@ -89,10 +89,21 @@ func _on_interaction_body_exited(body: Node2D) -> void:
 			prompt_label.visible = false
 
 
-func _open_dialogue() -> void:
+func _open_dialogue(require_in_range: bool = false) -> void:
 	# No abrir si ya hay un diálogo activo
-	if _dialogue_box and _dialogue_box._active:
+	if _dialogue_pending or (_dialogue_box and _dialogue_box._active):
 		return
+	_dialogue_pending = true
+	if not await SceneFlow.wait_for_dialogue(self):
+		_dialogue_pending = false
+		return
+	# A player may have left this NPC while the screen was transitioning.
+	if require_in_range and (not is_instance_valid(_player_in_range) or _player_in_range._is_dead):
+		SceneFlow.release_dialogue(self)
+		_dialogue_pending = false
+		return
+	_dialogue_pending = false
+	_first_time = false
 
 	# Crear el DialogueBox si no existe
 	if _dialogue_box == null:
@@ -100,6 +111,7 @@ func _open_dialogue() -> void:
 		get_tree().current_scene.add_child(_dialogue_box)
 
 	if _dialogue_box == null:
+		SceneFlow.release_dialogue(self)
 		return
 
 	# Pausar el juego
@@ -122,6 +134,7 @@ func _open_dialogue() -> void:
 
 func _on_dialogue_finished() -> void:
 	get_tree().paused = false
+	SceneFlow.release_dialogue(self)
 	RecipeCollection.complete_dialogue(story_dialogue_id)
 	# Mostrar el prompt de nuevo si el jugador sigue cerca (indica que puede re-tocar)
 	if prompt_label and _player_in_range:

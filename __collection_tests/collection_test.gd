@@ -19,6 +19,8 @@ func _run() -> void:
 	npc.story_dialogue_id = "tuniliana"
 	add_child(npc)
 	npc._open_dialogue()
+	for _frame in range(4):
+		await get_tree().process_frame
 	assert(get_tree().paused)
 	assert(not RecipeCollection.is_unlocked("ensalada_desierto"))
 	npc._dialogue_box._finish_dialogue()

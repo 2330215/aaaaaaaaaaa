@@ -86,6 +86,7 @@ func show_game_over_and_reload() -> void:
 	if _triggered:
 		return
 	_triggered = true
+	SceneFlow.begin_transition(self)
 
 	get_tree().paused = true
 

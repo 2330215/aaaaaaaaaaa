@@ -84,7 +84,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func toggle_pause() -> void:
 	# Compartido por Escape y el botón táctil.
-	if _victory_active or _game_over_active:
+	if _victory_active or _game_over_active or SceneFlow.has_active_dialogue():
 		return
 	var tree := get_tree()
 	tree.paused = not tree.paused
@@ -145,6 +145,7 @@ func _set_music_paused(paused: bool) -> void:
 
 ## Fundido desde negro al entrar al nivel (también sirve tras AVANZAR).
 func _play_fade_in() -> void:
+	var transition_token := SceneFlow.begin_transition(self)
 	var fade_layer := CanvasLayer.new()
 	fade_layer.layer = 300
 	# Pausable: si el menú se abre durante el fade, este se detiene
@@ -164,4 +165,6 @@ func _play_fade_in() -> void:
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_STOP)
 	tween.tween_property(fade_rect, "color:a", 0.0, 0.8)
 	await tween.finished
+	fade_rect.visible = false
 	fade_layer.queue_free()
+	SceneFlow.end_transition(transition_token)

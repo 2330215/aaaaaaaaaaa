@@ -21,11 +21,12 @@ func _ready() -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	if _triggered:
+	if _triggered or get_tree().paused:
 		return
 	if not (body is Player):
 		return
 	_triggered = true
+	var transition_token := SceneFlow.begin_transition(self)
 	GameState.record_special_coin()
 	set_deferred("monitoring", false)
 
@@ -73,3 +74,4 @@ func _on_body_entered(body: Node2D) -> void:
 	#    La puerta NUNCA desaparece, siempre puede usarse de nuevo.
 	set_deferred("monitoring", true)
 	_triggered = false
+	SceneFlow.end_transition(transition_token)

@@ -33,6 +33,7 @@ AudioSettings="*res://audio_settings.gd"
 GameState="*res://game_state.gd"
 Music="*res://music.tscn"
 RecipeCollection="*res://story/recipe_collection.gd"
+SceneFlow="*res://story/scene_flow.gd"
 
 [display]
 

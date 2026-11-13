@@ -44,6 +44,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if get_tree().paused:
 		return
 	_triggered = true
+	var transition_token := SceneFlow.begin_transition(self)
 	GameState.record_special_coin()
 	set_deferred("monitoring", false)
 
@@ -100,3 +101,4 @@ func _on_body_entered(body: Node2D) -> void:
 	# 6. Rearmar: el pasillo siempre puede usarse de nuevo
 	set_deferred("monitoring", true)
 	_triggered = false
+	SceneFlow.end_transition(transition_token)

@@ -263,7 +263,7 @@ func _update_stage_label() -> void:
 
 
 func _on_stage_pressed() -> void:
-	if _teleporting:
+	if _teleporting or get_tree().paused:
 		return
 	_teleporting = true
 	_stage_btn.disabled = true
@@ -277,6 +277,7 @@ func _on_stage_pressed() -> void:
 
 	_next_stage_idx = (_next_stage_idx + 1) % stages.size()
 	_update_stage_label()
+	var transition_token := SceneFlow.begin_transition(self)
 
 	_fade_rect.color   = Color(0, 0, 0, 0)
 	_fade_rect.visible = true
@@ -314,6 +315,7 @@ func _on_stage_pressed() -> void:
 	_fade_rect.visible  = false
 	_stage_btn.disabled = false
 	_teleporting        = false
+	SceneFlow.end_transition(transition_token)
 
 
 func _on_speed_pressed() -> void:
