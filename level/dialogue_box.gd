@@ -14,6 +14,15 @@ const WIPE_OUT_DURATION: float = 0.35
 const FADE_IN_DURATION: float = 0.4
 const FADE_OUT_DURATION: float = 0.3
 
+const PLAYER_PORTRAITS: Dictionary = {
+	Player.CharacterSkin.ROBOT: preload("res://player/portraits/robot.png"),
+	Player.CharacterSkin.AGUACATE: preload("res://player/portraits/aguacate.png"),
+	Player.CharacterSkin.LIMONES: preload("res://player/portraits/limones.png"),
+	Player.CharacterSkin.GLOBO: preload("res://player/portraits/globo.png"),
+	Player.CharacterSkin.ELOTE: preload("res://player/portraits/elote.png"),
+	Player.CharacterSkin.CEBOLLA: preload("res://player/portraits/cebolla.png"),
+}
+
 @onready var panel: Control = $Panel
 @onready var portrait_rect: TextureRect = $Panel/HBox/Portrait
 @onready var name_label: Label = $Panel/HBox/VBox/NameLabel
@@ -23,6 +32,7 @@ const FADE_OUT_DURATION: float = 0.3
 var _lines: Array[Dictionary] = []
 var _default_speaker: String = ""
 var _default_portrait: Texture2D
+var _dialogue_player: Player
 var _current_line_index := 0
 var _is_typing := false
 var _active := false
@@ -40,7 +50,7 @@ func _ready() -> void:
 		panel.modulate.a = 0.0
 
 
-func start_dialogue(speaker_name: String, portrait_tex: Texture2D, lines: Array) -> void:
+func start_dialogue(speaker_name: String, portrait_tex: Texture2D, lines: Array, player: Player = null) -> void:
 	if lines.is_empty():
 		return
 
@@ -48,6 +58,7 @@ func start_dialogue(speaker_name: String, portrait_tex: Texture2D, lines: Array)
 	_lines.clear()
 	_default_speaker = speaker_name
 	_default_portrait = portrait_tex
+	_dialogue_player = player
 	for line_item in lines:
 		var turn: Dictionary = line_item if line_item is Dictionary else {"speaker": speaker_name, "text": str(line_item)}
 		for page in _paginate(str(turn.get("text", ""))):
@@ -164,8 +175,9 @@ func _show_current_line() -> void:
 	var current_speaker: String = turn.get("speaker", _default_speaker)
 	var line_text: String = turn.get("text", "")
 	name_label.text = current_speaker
-	portrait_rect.texture = _default_portrait
-	portrait_rect.visible = current_speaker != "Jugador" and _default_portrait != null
+	var player_turn := current_speaker.strip_edges().to_lower() == "jugador"
+	portrait_rect.texture = _player_portrait() if player_turn else _default_portrait
+	portrait_rect.visible = portrait_rect.texture != null
 	text_label.text = line_text
 	text_label.visible_characters = 0
 
@@ -176,6 +188,33 @@ func _show_current_line() -> void:
 	var duration := line_text.length() * 0.03
 	_type_tween.tween_property(text_label, "visible_characters", line_text.length(), duration)
 	_type_tween.finished.connect(func(): _is_typing = false)
+
+
+func _player_portrait() -> Texture2D:
+	# NPCs supply the player who interacted, including the second player.
+	# Boss intros resolve the player through their active viewport/camera.
+	if not is_instance_valid(_dialogue_player):
+		var camera := get_viewport().get_camera_2d()
+		if camera and camera.get_parent() is Player:
+			_dialogue_player = camera.get_parent() as Player
+		else:
+			var fallback: Player
+			for node in get_tree().get_nodes_in_group("player"):
+				if not (node is Player) or not node.is_inside_tree() or node.is_queued_for_deletion():
+					continue
+				if fallback == null:
+					fallback = node as Player
+				if node.get_viewport() == get_viewport():
+					_dialogue_player = node as Player
+					break
+			if _dialogue_player == null:
+				_dialogue_player = fallback
+	if is_instance_valid(_dialogue_player):
+		return PLAYER_PORTRAITS.get(_dialogue_player.current_skin)
+	# Isolated previews without a Player still show the level's usual character.
+	var level_skins: Array[int] = [Player.CharacterSkin.ROBOT, Player.CharacterSkin.AGUACATE,
+		Player.CharacterSkin.LIMONES, Player.CharacterSkin.ELOTE, Player.CharacterSkin.CEBOLLA]
+	return PLAYER_PORTRAITS[level_skins[clampi(GameState.current_level - 1, 0, 4)]]
 
 
 func _finish_dialogue() -> void:

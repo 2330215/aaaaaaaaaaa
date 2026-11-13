@@ -126,7 +126,7 @@ func _open_dialogue(require_in_range: bool = false) -> void:
 	if port_tex == null and sprite:
 		port_tex = sprite.texture
 	var lines: Array = STORY.lines(story_dialogue_id) if not story_dialogue_id.is_empty() else dialogue_lines
-	_dialogue_box.start_dialogue(speaker_name, port_tex, lines)
+	_dialogue_box.start_dialogue(speaker_name, port_tex, lines, _player_in_range as Player)
 
 	if prompt_label:
 		prompt_label.visible = false
