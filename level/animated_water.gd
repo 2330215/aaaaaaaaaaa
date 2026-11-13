@@ -6,6 +6,9 @@ extends Node2D
 @export var water_width: float = 3840.0
 @export var water_depth: float = 640.0
 @export var breaking_waves: bool = false
+@export var surface_color := Color(0.015, 0.62, 0.72)
+@export var deep_color := Color(0.015, 0.36, 0.51)
+@export var crest_color := Color.WHITE
 
 @export var frames_per_second: float = 7.0
 
@@ -24,6 +27,7 @@ func _ready() -> void:
 	if breaking_waves:
 		_wave_field = WaveField.new()
 		_wave_field.position.y = -8.0
+		_wave_field.modulate = crest_color
 		add_child(_wave_field)
 		_wave_field.configure(Vector2(water_width, minf(water_depth, 320.0)), 1.4, 1.5)
 
@@ -84,7 +88,7 @@ func _draw_sea_body() -> void:
 	while y < water_depth:
 		var height := minf(4.0, water_depth - y)
 		var depth := y / maxf(water_depth, 1.0)
-		var color := Color(0.015, 0.62, 0.72).lerp(Color(0.015, 0.36, 0.51), depth)
+		var color := surface_color.lerp(deep_color, depth)
 		color.a = smoothstep(0.0, 72.0, y)
 		draw_rect(Rect2(0, y, water_width, height), color)
 		y += height

@@ -9,9 +9,11 @@ const LEVEL4_TEXTURES: Array[Texture2D] = [
 
 const SeasideLayer = preload("res://level/background/moving_seaside_background.gd")
 const AircraftLayer = preload("res://level/background/occasional_aircraft.gd")
+const StormLayer = preload("res://level/background/moving_storm_background.gd")
 
 var _seaside: SeasideLayer
 var _aircraft: AircraftLayer
+var _storm: StormLayer
 
 
 func _ready() -> void:
@@ -23,6 +25,10 @@ func _ready() -> void:
 	_aircraft = AircraftLayer.new()
 	_aircraft.name = "OccasionalAircraft"
 	add_child(_aircraft)
+	_storm = StormLayer.new()
+	_storm.name = "MovingStorm"
+	$Sky.add_child(_storm)
+	_sync_storm()
 
 
 func _process(delta: float) -> void:
@@ -30,6 +36,14 @@ func _process(delta: float) -> void:
 	_sync_seaside()
 	_seaside.animate(delta)
 	_aircraft.update_aircraft(delta, _current_stage)
+	_sync_storm()
+	_storm.animate(delta)
+
+
+func _sync_storm() -> void:
+	_storm.visible = _current_stage == 2
+	if _storm.visible:
+		_storm.configure(($Sky as ParallaxLayer).motion_mirroring.x, _background_height)
 
 
 func _sync_seaside() -> void:
