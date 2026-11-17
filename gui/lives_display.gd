@@ -1,6 +1,6 @@
 extends CanvasLayer
 ## HUD de vidas estilo contador: icono - x - número de vidas.
-## Se conecta a GameState.life_lost y GameState.life_gained para actualizarse.
+## Se conecta a GameState.lives_changed para actualizarse.
 
 @export var starting_portrait: Texture2D = preload("res://player/portraits/robot.png")
 
@@ -24,8 +24,7 @@ func _ready() -> void:
 
 	call_deferred("_bind_player")
 
-	GameState.life_lost.connect(_on_lives_changed)
-	GameState.life_gained.connect(_on_lives_changed)
+	GameState.lives_changed.connect(_on_lives_changed)
 
 	_refresh(GameState.lives)
 

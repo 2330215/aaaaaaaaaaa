@@ -35,6 +35,8 @@ func _input(event: InputEvent) -> void:
 	elif event is InputEventScreenDrag and event.index == _finger:
 		_update_direction(event.position)
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.device == InputEvent.DEVICE_ID_EMULATION:
+			return
 		if event.pressed and _inside(event.position) and _finger == -1:
 			_mouse_drag = true
 			_update_direction(event.position)

@@ -1,8 +1,8 @@
 [gd_resource type="AudioStreamRandomizer" format=3 uid="uid://cn7j4mrvwklx5"]
 
-[ext_resource type="AudioStream" uid="uid://dotsfers16dpb" path="res://foley_128_efectos/efecto_105.wav" id="1_clip"]
+[ext_resource type="AudioStream" uid="uid://dotsfers16dpb" path="res://sfx/explosión.wav" id="1_clip"]
 
 [resource]
-resource_name = "Explosión (Foley provisional)"
+resource_name = "Explosión"
 streams_count = 1
 stream_0/stream = ExtResource("1_clip")

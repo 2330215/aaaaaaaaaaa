@@ -34,7 +34,7 @@ func _ready() -> void:
 	_categories = VBoxContainer.new()
 	center_cont.add_child(_categories)
 	_categories.hide()
-	for text: String in ["Audio", "Controles", "Volver"]:
+	for text: String in ["Audio", "Controles", "Borrar partida local", "Volver"]:
 		var button := Button.new()
 		button.text = text
 		button.custom_minimum_size = Vector2(260, 39)
@@ -42,7 +42,11 @@ func _ready() -> void:
 		match text:
 			"Audio": button.pressed.connect(_open_audio)
 			"Controles": button.pressed.connect(func() -> void: preload("res://gui/control_editor.gd").open(self))
+			"Borrar partida local": button.pressed.connect(_open_delete_save)
 			"Volver": button.pressed.connect(_show_main_options)
+	_categories.add_child(ControlSettings.create_cheats_button())
+	_categories.move_child(_categories.get_child(-1), 2)
+	ControlSettings.cheats_changed.connect(_refresh_level_buttons)
 	# Colocar Ajustes junto a Reanudar también en las escenas heredadas.
 	main_options.move_child(main_options.get_node("SettingsButton"), 3)
 	var collection_button := Button.new()
@@ -51,10 +55,12 @@ func _ready() -> void:
 	collection_button.custom_minimum_size.y = 34
 	collection_button.pressed.connect(_open_collectibles)
 	main_options.add_child(collection_button)
-	main_options.move_child(collection_button, 1)
+	main_options.move_child(collection_button, main_options.get_node("SettingsButton").get_index() + 1)
 	music_slider.value_changed.connect(_on_music_volume_changed)
 	effects_slider.value_changed.connect(_on_effects_volume_changed)
 	settings_content.get_node("BackButton").pressed.connect(_on_settings_button_pressed)
+	GameState.progress_changed.connect(_refresh_level_buttons)
+	_refresh_level_buttons()
 
 
 func close() -> void:
@@ -77,10 +83,15 @@ func close() -> void:
 
 
 func _open_collectibles() -> void:
-	RecipeCollection.open_notebook(self)
+	AudioSettings.save_settings()
+	hide()
+	# La libreta mantiene su propia pausa y al cerrarse reanuda la partida.
+	get_tree().paused = false
+	RecipeCollection.open_notebook(get_parent())
 
 
 func open() -> void:
+	_refresh_level_buttons()
 	_show_main_options()
 	show()
 	resume_button.grab_focus()
@@ -112,14 +123,12 @@ func _on_resume_button_pressed() -> void:
 
 func _on_singleplayer_button_pressed() -> void:
 	if visible:
-		get_tree().paused = false
-		get_tree().change_scene_to_file("res://game_singleplayer.tscn")
+		GameState.start_level(SCENE_SP_L1)
 
 
 func _on_splitscreen_button_pressed() -> void:
 	if visible:
-		get_tree().paused = false
-		get_tree().change_scene_to_file("res://game_splitscreen.tscn")
+		GameState.start_level(SCENE_SS_L1)
 
 
 func _on_quit_button_pressed() -> void:
@@ -127,45 +136,54 @@ func _on_quit_button_pressed() -> void:
 		GameState.return_to_title()
 
 
-func _on_goto_level1_pressed() -> void:
-	if not visible:
+func _refresh_level_buttons() -> void:
+	for node_name: String in ["HSeparatorLevels", "LevelLabel"]:
+		var heading := main_options.get_node_or_null(node_name) as Control
+		if heading:
+			heading.visible = ControlSettings.cheats_enabled
+	for number in range(1,6):
+		var button := main_options.get_node_or_null("Level%dButton" % number) as Button
+		if button == null:
+			continue
+		button.visible = ControlSettings.cheats_enabled
+		var unlocked := GameState.is_level_unlocked(number)
+		button.disabled = not unlocked
+		button.text = "Nivel %d" % number if unlocked else "Nivel %d · Bloqueado" % number
+		button.tooltip_text = "" if unlocked else "Completa el nivel %d para desbloquearlo." % (number-1)
+
+
+func _go_to_level(number: int) -> void:
+	if not ControlSettings.cheats_enabled or not visible or not GameState.is_level_unlocked(number):
 		return
-	get_tree().paused = false
+	var path: String = GameState.SINGLEPLAYER_LEVELS[number-1]
 	var scene := get_tree().current_scene
-	var is_split := scene != null and scene.name.to_lower().contains("splitscreen")
-	get_tree().change_scene_to_file(SCENE_SS_L1 if is_split else SCENE_SP_L1)
+	if scene and scene.scene_file_path in GameState.SPLITSCREEN_LEVELS and number <= GameState.SPLITSCREEN_LEVELS.size():
+		path = GameState.SPLITSCREEN_LEVELS[number-1]
+	GameState.start_level(path)
+
+
+func _on_goto_level1_pressed() -> void:
+	_go_to_level(1)
 
 
 func _on_goto_level2_pressed() -> void:
-	if not visible:
-		return
-	get_tree().paused = false
-	var scene := get_tree().current_scene
-	var is_split := scene != null and scene.name.to_lower().contains("splitscreen")
-	get_tree().change_scene_to_file(SCENE_SS_L2 if is_split else SCENE_SP_L2)
+	_go_to_level(2)
 
 
 func _on_goto_level3_pressed() -> void:
-	if not visible:
-		return
-	get_tree().paused = false
-	var scene := get_tree().current_scene
-	var is_split := scene != null and scene.name.to_lower().contains("splitscreen")
-	get_tree().change_scene_to_file(SCENE_SP_L3)
+	_go_to_level(3)
 
 
 func _on_goto_level4_pressed() -> void:
-	if not visible:
-		return
-	get_tree().paused = false
-	get_tree().change_scene_to_file(SCENE_SP_L4)
+	_go_to_level(4)
 
 
 func _on_goto_level5_pressed() -> void:
-	if not visible:
-		return
-	get_tree().paused = false
-	get_tree().change_scene_to_file(SCENE_SP_L5)
+	_go_to_level(5)
+
+
+func _open_delete_save() -> void:
+	preload("res://gui/delete_save_dialog.gd").open(self)
 
 
 func _on_settings_button_pressed() -> void:

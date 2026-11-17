@@ -6,6 +6,8 @@ class_name Gun extends Marker2D
 const BULLET_VELOCITY = 850.0
 const BULLET_SCENE = preload("res://player/bullet.tscn")
 
+var bullet_texture: Texture2D
+
 @onready var sound_shoot := $Shoot as AudioStreamPlayer2D
 @onready var timer := $Cooldown as Timer
 
@@ -17,6 +19,7 @@ func shoot(direction: float = 1.0) -> bool:
 	var bullet := BULLET_SCENE.instantiate() as Bullet
 	bullet.top_level = true
 	add_child(bullet)
+	_apply_bullet_texture(bullet)
 	bullet.global_position = global_position
 	bullet.linear_velocity = Vector2(direction * BULLET_VELOCITY, 0.0)
 	GameState.record_shot()
@@ -32,6 +35,7 @@ func shoot_special(direction: float = 1.0, count: int = 5) -> bool:
 		var bullet := BULLET_SCENE.instantiate() as Bullet
 		bullet.top_level = true
 		add_child(bullet)
+		_apply_bullet_texture(bullet)
 		bullet.global_position = global_position + Vector2(0, randf_range(-4, 4))
 		bullet.linear_velocity = Vector2(direction * (BULLET_VELOCITY + randf_range(-30, 50)), randf_range(-25, 25))
 		GameState.record_shot()
@@ -39,3 +43,11 @@ func shoot_special(direction: float = 1.0, count: int = 5) -> bool:
 		await get_tree().create_timer(0.06).timeout
 	return true
 
+
+
+func _apply_bullet_texture(bullet: Bullet) -> void:
+	if bullet_texture == null:
+		return
+	var sprite := bullet.get_node("Sprite2D") as Sprite2D
+	sprite.texture = bullet_texture
+	sprite.scale = Vector2(26.0, 28.0) / bullet_texture.get_size()

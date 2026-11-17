@@ -1,0 +1,115 @@
+[gd_scene format=4]
+
+[ext_resource type="Script" path="res://survival/survival.gd" id="1_mm5ju"]
+[ext_resource type="PackedScene" path="res://level/background/parallax_background.tscn" id="2_ysp13"]
+[ext_resource type="Script" path="res://level/background/parallax_background_level1.gd" id="3_68tmo"]
+[ext_resource type="TileSet" path="res://level/tileset.tres" id="4_5glph"]
+[ext_resource type="PackedScene" path="res://player/player.tscn" id="5_vxunq"]
+[ext_resource type="Script" path="res://player/player.gd" id="6_mbrn5"]
+[ext_resource type="PackedScene" path="res://touch_controls.tscn" id="7_2xqde"]
+[ext_resource type="Script" path="res://gui/touch_controls.gd" id="8_eia3w"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2iwc6"]
+size = Vector2(32, 1080)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cyoea"]
+size = Vector2(32, 1080)
+
+[node name="Supervivencia" type="Node2D" unique_id=622266243]
+script = ExtResource("1_mm5ju")
+
+[node name="FondoDesierto" type="ParallaxBackground" parent="." unique_id=91308733 instance=ExtResource("2_ysp13")]
+process_mode = 1
+scroll_base_scale = Vector2(0.1, 0)
+scroll_ignore_camera_zoom = true
+script = ExtResource("3_68tmo")
+stage_vertical_offsets = Array[float]([0.0, 0.0, 0.0])
+stage_vertical_motion = Array[float]([0.12, 0.12, 0.0])
+vertical_overscan = 1.15
+mirror_horizontal_tiles = true
+
+[node name="Level" type="Node2D" parent="." unique_id=1918704701]
+process_mode = 1
+
+[node name="Suelo" type="TileMapLayer" parent="Level" unique_id=442599609]
+position = Vector2(0, 680)
+tile_map_data = PackedByteArray("AAAAAAAAFQABAAAAAAABAAAAFQABAAAAAAACAAAAFQABAAAAAAADAAAAFQABAAAAAAAEAAAAFQABAAAAAAAFAAAAFQABAAAAAAAGAAAAFQABAAAAAAAHAAAAFQABAAAAAAAIAAAAFQABAAAAAAAJAAAAFQABAAAAAAAKAAAAFQABAAAAAAALAAAAFQABAAAAAAAMAAAAFQABAAAAAAANAAAAFQABAAAAAAAOAAAAFQABAAAAAAAPAAAAFQABAAAAAAAQAAAAFQABAAAAAAARAAAAFQABAAAAAAASAAAAFQABAAAAAAATAAAAFQABAAAAAAAUAAAAFQABAAAAAAAVAAAAFQABAAAAAAAWAAAAFQABAAAAAAAXAAAAFQABAAAAAAAYAAAAFQABAAAAAAAAAAEAFQABAAEAAAABAAEAFQABAAEAAAACAAEAFQABAAEAAAADAAEAFQABAAEAAAAEAAEAFQABAAEAAAAFAAEAFQABAAEAAAAGAAEAFQABAAEAAAAHAAEAFQABAAEAAAAIAAEAFQABAAEAAAAJAAEAFQABAAEAAAAKAAEAFQABAAEAAAALAAEAFQABAAEAAAAMAAEAFQABAAEAAAANAAEAFQABAAEAAAAOAAEAFQABAAEAAAAPAAEAFQABAAEAAAAQAAEAFQABAAEAAAARAAEAFQABAAEAAAASAAEAFQABAAEAAAATAAEAFQABAAEAAAAUAAEAFQABAAEAAAAVAAEAFQABAAEAAAAWAAEAFQABAAEAAAAXAAEAFQABAAEAAAAYAAEAFQABAAEAAAA=")
+tile_set = ExtResource("4_5glph")
+
+[node name="SpawnIzquierda" type="Marker2D" parent="Level/Suelo" unique_id=1162101887]
+position = Vector2(65, -30)
+
+[node name="SpawnDerecha" type="Marker2D" parent="Level/Suelo" unique_id=1087362106]
+position = Vector2(1535, -30)
+
+[node name="Plataforma1" type="TileMapLayer" parent="Level" unique_id=493625174]
+position = Vector2(100, 555)
+tile_map_data = PackedByteArray("AAAAAAAAFQABAAAAAAABAAAAFQABAAAAAAACAAAAFQABAAAAAAADAAAAFQABAAAAAAAEAAAAFQABAAAAAAA=")
+tile_set = ExtResource("4_5glph")
+
+[node name="SpawnPlataforma1" type="Marker2D" parent="Level/Plataforma1" unique_id=1587386860]
+position = Vector2(50, -25)
+
+[node name="Plataforma2" type="TileMapLayer" parent="Level" unique_id=304492835]
+position = Vector2(610, 555)
+tile_map_data = PackedByteArray("AAAAAAAAFQABAAAAAAABAAAAFQABAAAAAAACAAAAFQABAAAAAAADAAAAFQABAAAAAAAEAAAAFQABAAAAAAAFAAAAFQABAAAAAAA=")
+tile_set = ExtResource("4_5glph")
+
+[node name="Plataforma3" type="TileMapLayer" parent="Level" unique_id=308017264]
+position = Vector2(1220, 555)
+tile_map_data = PackedByteArray("AAAAAAAAFQABAAAAAAABAAAAFQABAAAAAAACAAAAFQABAAAAAAADAAAAFQABAAAAAAAEAAAAFQABAAAAAAA=")
+tile_set = ExtResource("4_5glph")
+
+[node name="SpawnPlataforma3" type="Marker2D" parent="Level/Plataforma3" unique_id=1246551916]
+position = Vector2(230, -25)
+
+[node name="Plataforma4" type="TileMapLayer" parent="Level" unique_id=1599201221]
+position = Vector2(340, 435)
+tile_map_data = PackedByteArray("AAAAAAAAFQABAAAAAAABAAAAFQABAAAAAAACAAAAFQABAAAAAAADAAAAFQABAAAAAAAEAAAAFQABAAAAAAA=")
+tile_set = ExtResource("4_5glph")
+
+[node name="SpawnPlataforma4" type="Marker2D" parent="Level/Plataforma4" unique_id=561744126]
+position = Vector2(70, -25)
+
+[node name="Plataforma5" type="TileMapLayer" parent="Level" unique_id=1746573784]
+position = Vector2(980, 435)
+tile_map_data = PackedByteArray("AAAAAAAAFQABAAAAAAABAAAAFQABAAAAAAACAAAAFQABAAAAAAADAAAAFQABAAAAAAAEAAAAFQABAAAAAAA=")
+tile_set = ExtResource("4_5glph")
+
+[node name="SpawnPlataforma5" type="Marker2D" parent="Level/Plataforma5" unique_id=477120268]
+position = Vector2(210, -25)
+
+[node name="Plataforma6" type="TileMapLayer" parent="Level" unique_id=1468344984]
+position = Vector2(660, 315)
+tile_map_data = PackedByteArray("AAAAAAAAFQABAAAAAAABAAAAFQABAAAAAAACAAAAFQABAAAAAAADAAAAFQABAAAAAAAEAAAAFQABAAAAAAA=")
+tile_set = ExtResource("4_5glph")
+
+[node name="SpawnPlataforma6" type="Marker2D" parent="Level/Plataforma6" unique_id=1484018847]
+position = Vector2(140, -25)
+
+[node name="LimiteIzquierdo" type="StaticBody2D" parent="Level" unique_id=19966604]
+position = Vector2(-16, 240)
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/LimiteIzquierdo" unique_id=1665529185]
+shape = SubResource("RectangleShape2D_2iwc6")
+
+[node name="LimiteDerecho" type="StaticBody2D" parent="Level" unique_id=1290083252]
+position = Vector2(1616, 240)
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/LimiteDerecho" unique_id=1541281029]
+shape = SubResource("RectangleShape2D_cyoea")
+
+[node name="Player" type="CharacterBody2D" parent="Level" unique_id=1467610487 instance=ExtResource("5_vxunq")]
+position = Vector2(800, 650)
+scale = Vector2(0.8, 0.8)
+collision_mask = 30
+floor_constant_speed = true
+platform_on_leave = 2
+script = ExtResource("6_mbrn5")
+
+[node name="TouchControls" type="CanvasLayer" parent="Level" unique_id=1351327736 instance=ExtResource("7_2xqde")]
+script = ExtResource("8_eia3w")

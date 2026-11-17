@@ -57,6 +57,8 @@ func _ready() -> void:
 
 	$PauseButton.pressed.connect(_on_pause_pressed)
 	_build_cheat_panel()
+	ControlSettings.cheats_changed.connect(_refresh_cheats)
+	_refresh_cheats()
 	_build_fade_rect()
 	call_deferred("_connect_to_player")
 
@@ -104,7 +106,7 @@ func _build_cheat_panel() -> void:
 	var sep := HSeparator.new()
 	vbox.add_child(sep)
 
-	_skin_btn  = _make_btn("Personaje: Robot")
+	_skin_btn  = _make_btn("Personaje: Frijol")
 	_skin_btn.pressed.connect(_on_skin_pressed)
 	vbox.add_child(_skin_btn)
 
@@ -190,6 +192,8 @@ func _build_fade_rect() -> void:
 #  TOGGLE DEL PANEL
 # ─────────────────────────────────────────────────────────────────────────────
 func _toggle_panel() -> void:
+	if not ControlSettings.cheats_enabled:
+		return
 	_panel_open = not _panel_open
 	if _panel_open:
 		_panel.modulate.a = 0.0
@@ -209,16 +213,22 @@ func _toggle_panel() -> void:
 #  ACCIONES
 # ─────────────────────────────────────────────────────────────────────────────
 func _on_skin_pressed() -> void:
+	if not ControlSettings.cheats_enabled:
+		return
 	if _player and _player.has_method("toggle_skin"):
 		_player.toggle_skin()
 
 
 func _on_limon_pressed() -> void:
+	if not ControlSettings.cheats_enabled:
+		return
 	if _player and _player.has_method("toggle_limon_skin"):
 		_player.toggle_limon_skin()
 
 
 func _on_character_pressed(skin: Player.CharacterSkin) -> void:
+	if not ControlSettings.cheats_enabled:
+		return
 	if _player and _player.has_method("set_skin"):
 		_player.set_skin(skin)
 
@@ -229,12 +239,12 @@ func _update_skin_label(skin_name: String) -> void:
 	if _cebolla_btn:
 		_cebolla_btn.text = "Personaje: Cebolla" + (" [ACTIVO]" if skin_name == "Cebolla" else "")
 	if _skin_btn:
-		# El botón de Robot/Aguacate solo muestra esas skins
-		if skin_name in ["Robot", "Aguacate"]:
+		# El botón de Frijol/Aguacate solo muestra esas skins
+		if skin_name in ["Frijol", "Aguacate"]:
 			_skin_btn.text = "Personaje: " + skin_name
 			_skin_btn.remove_theme_color_override("font_color")
 		else:
-			_skin_btn.text = "Personaje: Robot"
+			_skin_btn.text = "Personaje: Frijol"
 			_skin_btn.remove_theme_color_override("font_color")
 	if _limon_btn:
 		if skin_name == "Limón":
@@ -266,6 +276,8 @@ func _update_stage_label() -> void:
 
 
 func _on_stage_pressed() -> void:
+	if not ControlSettings.cheats_enabled:
+		return
 	if _teleporting or get_tree().paused:
 		return
 	_teleporting = true
@@ -322,6 +334,8 @@ func _on_stage_pressed() -> void:
 
 
 func _on_speed_pressed() -> void:
+	if not ControlSettings.cheats_enabled:
+		return
 	_speed_cheat = not _speed_cheat
 	_apply_cheats()
 	if _speed_cheat:
@@ -333,6 +347,8 @@ func _on_speed_pressed() -> void:
 
 
 func _on_jump_pressed() -> void:
+	if not ControlSettings.cheats_enabled:
+		return
 	_jump_cheat = not _jump_cheat
 	_apply_cheats()
 	if _jump_cheat:
@@ -437,3 +453,17 @@ func _apply_control_layout() -> void:
 			icon.offset_right = -inset
 			icon.offset_bottom = -inset
 	set_special_ready(not special_button.disabled)
+
+
+func _refresh_cheats() -> void:
+	trucos_button.visible = ControlSettings.cheats_enabled
+	if not ControlSettings.cheats_enabled:
+		_panel_open = false
+		_panel.hide()
+		_speed_cheat = false
+		_jump_cheat = false
+		_apply_cheats()
+		_speed_btn.text = "Velocidad: Normal"
+		_jump_btn.text = "Salto: Normal"
+		_speed_btn.remove_theme_color_override("font_color")
+		_jump_btn.remove_theme_color_override("font_color")

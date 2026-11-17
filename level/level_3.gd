@@ -4,15 +4,16 @@ extends "res://level/level.gd"
 @export var horde_duration: float = 30.0
 @export var reinforcement_interval: float = 5.0
 @export var intro_duration: float = 1.5
-@export var horde_spawn_interval_min: float = 0.75
-@export var horde_spawn_interval_max: float = 1.25
-@export var max_horde_enemies: int = 16
+@export var horde_spawn_interval_min: float = 1.6
+@export var horde_spawn_interval_max: float = 2.3
+@export var max_horde_enemies: int = 10
 
-const ARENA_WIDTH: float = 1664.0
+const ARENA_WIDTH: float = 2048.0
 const CAMERA_OFFSET := Vector2(0, -10)
 const DEFENSE_FLOOR_Y: float = 449.0
-const DEFENSE_BOUNDS := Rect2(0, -192, 1664, 1088)
-const SECOND_STAGE_BOUNDS := Rect2(0, 1792, 3840, 1088)
+const DEFENSE_BOUNDS := Rect2(0, -192, ARENA_WIDTH, 1088)
+const SECOND_STAGE_WIDTH: float = 4480.0
+const SECOND_STAGE_BOUNDS := Rect2(0, 1792, SECOND_STAGE_WIDTH, 1088)
 const AIR_BOUNDS := Rect2(0, 3584, 1280, 704)
 const HORDE_SCENES: Array[PackedScene] = [
 	preload("res://enemy/enemy_redbull.tscn"),
@@ -40,6 +41,7 @@ var _intro: DialogueBox
 
 func _ready() -> void:
 	_time_left = horde_duration
+	_set_defense_npc_active(false)
 	_reinforcement_timer = reinforcement_interval
 	_build_defense_boundaries()
 	$StageGateway1.set_enabled(false)
@@ -47,6 +49,19 @@ func _ready() -> void:
 	$StageGateway3.hide()
 	_build_status()
 	super._ready()
+
+
+func _set_defense_npc_active(active: bool) -> void:
+	var npc := $Trolelo as DialogueEnemy
+	npc.visible = active
+	npc.process_mode = Node.PROCESS_MODE_INHERIT if active else Node.PROCESS_MODE_DISABLED
+	npc.input_pickable = active
+	# También impedir diálogos automáticos y clics mientras sigue la defensa.
+	var interaction := npc.get_node("InteractionArea") as Area2D
+	interaction.set_deferred("monitoring", active)
+	var click_area := npc.get_node_or_null("ClickArea") as Area2D
+	if click_area:
+		click_area.input_pickable = active
 
 
 func _build_defense_boundaries() -> void:
@@ -195,6 +210,7 @@ func _update_horde(delta: float) -> void:
 		_status.text = "Elimina a los enemigos restantes: %d" % remaining
 		if remaining == 0:
 			_horde_complete = true
+			_set_defense_npc_active(true)
 			_status.text = "¡Defensa completada!  Puerta abierta →"
 			$StageGateway1.set_enabled(true)
 

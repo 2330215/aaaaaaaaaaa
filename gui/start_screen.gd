@@ -22,6 +22,8 @@ var _levels: VBoxContainer
 var _audio: VBoxContainer
 var _options: VBoxContainer
 var _continue_button: Button
+var _new_game_button: Button
+var _save_status: Label
 var _level_buttons: Array[Button] = []
 var _music_slider: HSlider
 var _effects_slider: HSlider
@@ -34,6 +36,8 @@ func _ready() -> void:
 	get_tree().paused = false
 	Music.stream_paused = false
 	_build_interface()
+	GameState.progress_changed.connect(_refresh_progress)
+	_refresh_progress()
 	for level in range(BACKGROUNDS.size()):
 		for stage in range(3):
 			# Los dos primeros escenarios del nivel 1 comparten la misma imagen.
@@ -124,12 +128,13 @@ func _build_interface() -> void:
 	var content := VBoxContainer.new()
 	content.add_theme_constant_override("separation", 12)
 	panel.add_child(content)
-	var title := _label("PLATFORMER 2D", 27)
+	var title := _label("Ruta 28", 27)
 	title.add_theme_color_override("font_color", Color(0.93, 0.8, 0.44))
 	content.add_child(title)
 	content.add_child(HSeparator.new())
 
 	_main = _box(content)
+	_new_game_button = _button(_main, "Nueva partida", _start_selected_level.bind(0))
 	_continue_button = _button(_main, "Continuar", _on_continue)
 	_continue_button.disabled = not GameState.has_continue()
 	_continue_button.tooltip_text = "Reanuda la partida actual o abre el último nivel jugado."
@@ -148,6 +153,7 @@ func _build_interface() -> void:
 	for index in range(5):
 		var button := _button(grid, "Nivel %d" % (index + 1), _start_selected_level.bind(index))
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.custom_minimum_size.y = 54
 		_level_buttons.append(button)
 	_button(_levels, "Volver", _show_panel.bind(_main))
 
@@ -155,6 +161,11 @@ func _build_interface() -> void:
 	_options.add_child(_label("OPCIONES", 17))
 	_button(_options, "Audio", _open_audio)
 	_button(_options, "Controles", _open_controls)
+	_options.add_child(ControlSettings.create_cheats_button())
+	_button(_options, "Borrar partida local", _open_delete_save)
+	_save_status = _label("", 13)
+	_save_status.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_options.add_child(_save_status)
 	_button(_options, "Volver", _close_options)
 	_audio = _box(content)
 	_audio.add_child(_label("AUDIO", 17))
@@ -229,7 +240,26 @@ func _show_panel(panel: VBoxContainer) -> void:
 			break
 
 
+func _refresh_progress() -> void:
+	var continuing := GameState.has_continue()
+	_continue_button.visible = continuing
+	_continue_button.disabled = not continuing
+	_new_game_button.visible = not continuing
+	for index in range(_level_buttons.size()):
+		var number := index+1
+		var unlocked := GameState.is_level_unlocked(number)
+		_level_buttons[index].disabled = not unlocked
+		_level_buttons[index].text = "Nivel %d" % number if unlocked else "Nivel %d\nBloqueado" % number
+		_level_buttons[index].tooltip_text = "Jugar nivel %d" % number if unlocked else "Completa el nivel %d para desbloquearlo." % index
+	_save_status.text = "El progreso se guarda automáticamente\nen este dispositivo." if GameState.last_save_error == OK else "No se pudo guardar el progreso en este dispositivo."
+
+
+func _open_delete_save() -> void:
+	preload("res://gui/delete_save_dialog.gd").open(self)
+
+
 func _open_levels() -> void:
+	_refresh_progress()
 	_show_panel(_levels)
 
 
@@ -238,10 +268,9 @@ func _open_collectibles() -> void:
 
 
 func _start_selected_level(index: int) -> void:
-	if _transitioning:
+	if _transitioning or not GameState.is_level_unlocked(index+1):
 		return
-	_transitioning = true
-	GameState.start_level(GameState.SINGLEPLAYER_LEVELS[index])
+	_transitioning = GameState.start_level(GameState.SINGLEPLAYER_LEVELS[index])
 
 
 func _on_continue() -> void:

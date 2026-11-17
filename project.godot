@@ -14,7 +14,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="Platformer 2D"
+config/name="Ruta 28"
 config/description="This demo is a pixel art 2D platformer with graphics and sound.
 
 It shows you how to code characters and physics-based objects

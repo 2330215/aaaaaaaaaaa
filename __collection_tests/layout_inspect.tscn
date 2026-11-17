@@ -1,0 +1,4 @@
+[gd_scene format=3]
+[ext_resource type="Script" path="res://__collection_tests/layout_inspect.gd" id="1"]
+[node name="LayoutInspect" type="Node"]
+script = ExtResource("1")

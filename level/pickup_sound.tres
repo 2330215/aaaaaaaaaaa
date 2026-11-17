@@ -1,8 +1,8 @@
 [gd_resource type="AudioStreamRandomizer" format=3 uid="uid://pmyxt28b0s3l"]
 
-[ext_resource type="AudioStream" uid="uid://mvp68j7r50jd" path="res://foley_128_efectos/efecto_106.wav" id="1_clip"]
+[ext_resource type="AudioStream" uid="uid://mvp68j7r50jd" path="res://sfx/recoger.wav" id="1_clip"]
 
 [resource]
-resource_name = "Recogida de objetos (Foley provisional)"
+resource_name = "Recoger"
 streams_count = 1
 stream_0/stream = ExtResource("1_clip")

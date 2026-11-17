@@ -1,8 +1,8 @@
 [gd_resource type="AudioStreamRandomizer" format=3 uid="uid://dndk0irsis8iu"]
 
-[ext_resource type="AudioStream" uid="uid://dyqnt2tectc5a" path="res://foley_128_efectos/efecto_017.wav" id="1_clip"]
+[ext_resource type="AudioStream" uid="uid://dyqnt2tectc5a" path="res://sfx/golpe.wav" id="1_clip"]
 
 [resource]
-resource_name = "Impacto (Foley provisional)"
+resource_name = "Golpe"
 streams_count = 1
 stream_0/stream = ExtResource("1_clip")

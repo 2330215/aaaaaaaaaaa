@@ -6,6 +6,10 @@ extends Enemy
 @export var ground_patrol_distance: float = 280.0
 @export var ground_jump_velocity: float = -520.0
 @export var ground_jump_interval: float = 3.5
+@export var gap_jump_velocity: float = -820.0
+@export var gap_jump_speed: float = 520.0
+
+var _gap_velocity_x: float = 0.0
 
 var _ground_origin_x: float
 var _ground_direction: float = -1.0
@@ -123,17 +127,37 @@ func _physics_process(delta: float) -> void:
 
 func _process_grounded(delta: float, player: Player) -> void:
 	_jump_timer = maxf(0.0, _jump_timer - delta)
-	if global_position.x <= _ground_origin_x - ground_patrol_distance:
-		_ground_direction = 1.0
-	elif global_position.x >= _ground_origin_x + ground_patrol_distance:
-		_ground_direction = -1.0
-	elif is_on_wall():
-		_ground_direction = signf(get_wall_normal().x)
+	if is_on_floor():
+		_gap_velocity_x = 0.0
+		if global_position.x <= _ground_origin_x - ground_patrol_distance:
+			_ground_direction = 1.0
+		elif global_position.x >= _ground_origin_x + ground_patrol_distance:
+			_ground_direction = -1.0
+		elif is_on_wall():
+			_ground_direction = signf(get_wall_normal().x)
 	velocity.x = 0.0 if _attacking else _ground_direction * ground_speed
-	# Saltar solo desde el suelo; nunca reiniciar el impulso en el aire.
-	if not _attacking and is_on_floor() and _jump_timer <= 0.0:
-		velocity.y = ground_jump_velocity
-		_jump_timer = maxf(0.5, ground_jump_interval)
+	if not _attacking and is_on_floor():
+		var bounds: Rect2 = $CollisionShape2D.global_transform * $CollisionShape2D.shape.get_rect()
+		var front := Vector2(bounds.get_center().x + _ground_direction * (bounds.size.x * 0.5 + 24.0), bounds.end.y)
+		if not _has_ground(front):
+			var landing_distance := _find_gap_landing(bounds)
+			if landing_distance > 0.0:
+				var flight_time := 2.0 * absf(gap_jump_velocity) / maxf(gravity, 1.0)
+				_gap_velocity_x = _ground_direction * landing_distance / flight_time
+				velocity.y = gap_jump_velocity
+				_jump_timer = ground_jump_interval
+			else:
+				_ground_direction *= -1.0
+				velocity.x = _ground_direction * ground_speed
+		elif _jump_timer <= 0.0:
+			var flight_time := 2.0 * absf(ground_jump_velocity) / maxf(gravity, 1.0)
+			var landing := Vector2(bounds.get_center().x + _ground_direction * ground_speed * flight_time, bounds.end.y)
+			# No iniciar un salto de patrulla que termine sobre un foso.
+			if _has_ground(landing) and _has_ground(landing + Vector2(_ground_direction * bounds.size.x * 0.5, 0)):
+				velocity.y = ground_jump_velocity
+			_jump_timer = maxf(0.5, ground_jump_interval)
+	if not is_zero_approx(_gap_velocity_x):
+		velocity.x = _gap_velocity_x
 	# La gravedad sigue activa durante el salto y las animaciones de ataque.
 	velocity.y += gravity * delta
 	move_and_slide()
@@ -149,6 +173,24 @@ func _process_grounded(delta: float, player: Player) -> void:
 			var movement_animation: StringName = &"walk" if not is_zero_approx(velocity.x) else &"idle"
 			if animation_player.current_animation != movement_animation:
 				animation_player.play(movement_animation)
+
+
+func _has_ground(point: Vector2) -> bool:
+	var query := PhysicsRayQueryParameters2D.create(point + Vector2(0, -24), point + Vector2(0, 40), 24, [get_rid()])
+	return not get_world_2d().direct_space_state.intersect_ray(query).is_empty()
+
+
+func _find_gap_landing(bounds: Rect2) -> float:
+	var flight_time := 2.0 * absf(gap_jump_velocity) / maxf(gravity, 1.0)
+	var reach := gap_jump_speed * flight_time
+	var distance := bounds.size.x * 0.5 + 40.0
+	while distance <= reach:
+		var center := Vector2(bounds.get_center().x + _ground_direction * distance, bounds.end.y)
+		var half_width := Vector2(bounds.size.x * 0.5 + 8.0, 0)
+		if _has_ground(center) and _has_ground(center - half_width) and _has_ground(center + half_width):
+			return distance
+		distance += 8.0
+	return -1.0
 
 
 func _process(_delta: float) -> void:

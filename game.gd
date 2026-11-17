@@ -17,6 +17,9 @@ var _game_over_active := false
 
 
 func _ready() -> void:
+	if not GameState.can_play_scene(scene_file_path):
+		GameState.return_to_title(false)
+		return
 	GameState.begin_level(level_number)
 	GameState.remember_level(scene_file_path)
 	_apply_level_skin()
@@ -126,8 +129,7 @@ func _on_victory_advance_requested() -> void:
 	_set_music_paused(false)
 	_victory_active = false
 
-	var error := get_tree().change_scene_to_file(next_level_scene)
-	if error != OK:
+	if not GameState.start_level(next_level_scene):
 		push_error("No se pudo cargar el siguiente nivel: %s" % next_level_scene)
 
 

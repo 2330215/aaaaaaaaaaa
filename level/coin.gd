@@ -16,8 +16,8 @@ func _ready() -> void:
 	if special_recharge:
 		sprite.self_modulate = Color(0.25, 0.9, 1.0, 1.0)
 		sprite.scale *= 1.35
-		if recharge_label:
-			recharge_label.visible = true
+	if recharge_label:
+		recharge_label.hide()
 
 
 func _on_body_entered(body: Node2D) -> void:

@@ -1,8 +1,8 @@
 [gd_resource type="AudioStreamRandomizer" format=3 uid="uid://dhoe5r7ndyy73"]
 
-[ext_resource type="AudioStream" uid="uid://fu7k4xuqxiep" path="res://foley_128_efectos/efecto_027.wav" id="1_clip"]
+[ext_resource type="AudioStream" uid="uid://fu7k4xuqxiep" path="res://sfx/disparo.wav" id="1_clip"]
 
 [resource]
-resource_name = "Disparo y ráfaga especial (Foley provisional)"
+resource_name = "Disparo"
 streams_count = 1
 stream_0/stream = ExtResource("1_clip")

@@ -13,6 +13,10 @@ const TEXTURE_GLOBO    = preload("res://player/globo.png")
 const TEXTURE_ELOTE = preload("res://player/elote_sprite.png")
 const TEXTURE_CEBOLLA = preload("res://player/cebolla_sprite.png")
 
+const AGUACATE_BULLET = preload("res://player/aguacate_bullet.png")
+const MAIZ_BULLET = preload("res://player/maiz_bullet.png")
+const CEBOLLA_BULLET = preload("res://player/cebolla_bullet.png")
+
 const LIMON_BULLET_SCENE = preload("res://player/limon_bullet.tscn")
 const BALLOON_BULLET_VELOCITY = 800.0
 
@@ -49,6 +53,7 @@ var special_charge := 0
 @onready var camera := $Camera as Camera2D
 @onready var invincibility_timer := $InvincibilityTimer as Timer
 @onready var collision_shape := $CollisionShape2D as CollisionShape2D
+@onready var enemy_contact := $EnemyContact as Area2D
 
 var _double_jump_charged := false
 ## Estado de muerte: bloquea input y física
@@ -112,11 +117,8 @@ func _physics_process(delta: float) -> void:
 			sprite.scale.x = sign(velocity.x)
 		move_and_slide()
 		# Daño por contacto (igual que modo normal)
-		if not _invincible:
-			for i in get_slide_collision_count():
-				if get_slide_collision(i).get_collider() is Enemy:
-					take_damage()
-					return
+		if _check_enemy_contact():
+			return
 		# ── Disparo en modo globo ────────────────────────────────────────────
 		var balloon_shooting := false
 		if Input.is_action_just_pressed("shoot" + action_suffix):
@@ -162,11 +164,8 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 	# Daño por contacto con enemigo (ignorar si es invencible)
-	if not _invincible:
-		for i in get_slide_collision_count():
-			if get_slide_collision(i).get_collider() is Enemy:
-				take_damage()
-				return
+	if _check_enemy_contact():
+		return
 
 	var is_shooting := false
 	if Input.is_action_just_pressed("special_attack" + action_suffix) or Input.is_action_just_pressed("special_attack"):
@@ -184,6 +183,17 @@ func _physics_process(delta: float) -> void:
 		if is_shooting:
 			shoot_timer.start()
 		animation_player.play(animation)
+
+
+# Detectar contacto sin usar al enemigo como suelo, techo o plataforma movil.
+func _check_enemy_contact() -> bool:
+	if _is_dead or _invincible or shield_time_left > 0.0:
+		return false
+	for body in enemy_contact.get_overlapping_bodies():
+		if body is Enemy and body._state != Enemy.State.DEAD:
+			take_damage()
+			return true
+	return false
 
 
 func get_new_animation(is_shooting := false) -> StringName:
@@ -320,6 +330,11 @@ func set_skin(new_skin: CharacterSkin) -> void:
 	animation_player.stop()
 	sprite.frame = 0
 	current_skin = new_skin
+	gun.bullet_texture = {
+		CharacterSkin.AGUACATE: AGUACATE_BULLET,
+		CharacterSkin.ELOTE: MAIZ_BULLET,
+		CharacterSkin.CEBOLLA: CEBOLLA_BULLET,
+	}.get(current_skin, null)
 	# Activar / desactivar modo globo
 	_balloon_mode = (current_skin == CharacterSkin.GLOBO)
 	if _balloon_mode:
@@ -465,7 +480,7 @@ func _shoot_limon_bullet(direction: float = 1.0) -> void:
 func get_skin_name() -> String:
 	match current_skin:
 		CharacterSkin.ROBOT:
-			return "Robot"
+			return "Frijol"
 		CharacterSkin.AGUACATE:
 			return "Aguacate"
 		CharacterSkin.LIMONES:
@@ -477,11 +492,11 @@ func get_skin_name() -> String:
 		CharacterSkin.CEBOLLA:
 			return "Cebolla"
 		_:
-			return "Robot"
+			return "Frijol"
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and not event.echo:
+	if ControlSettings.cheats_enabled and event is InputEventKey and event.pressed and not event.echo:
 		if event.keycode == KEY_V:
 			toggle_skin()
 

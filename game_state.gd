@@ -5,7 +5,9 @@ extends Node
 signal boss_defeated()
 signal life_lost(lives_remaining: int)
 signal life_gained(lives_remaining: int)
+signal lives_changed(lives_remaining: int)
 signal game_over()
+signal progress_changed()
 
 ## Conjunto de nombres de special coins que ya han sido usadas.
 var used_special_coins: Dictionary = {}
@@ -32,6 +34,9 @@ const SPLITSCREEN_LEVELS: Array[String] = [
 	"res://game_splitscreen.tscn", "res://game_splitscreen_level2.tscn"
 ]
 
+var save_path: String = PROGRESS_PATH
+var highest_completed_level: int = 0
+var last_save_error: Error = OK
 var last_played_scene: String = ""
 var _suspended_game: Node
 var _changing_scene: bool = false
@@ -48,26 +53,76 @@ var _boss_defeated: bool = false
 
 
 func _ready() -> void:
+	load_progress()
+
+
+func load_progress() -> void:
+	highest_completed_level = 0
+	last_played_scene = ""
 	var config := ConfigFile.new()
-	if config.load(PROGRESS_PATH) == OK:
-		var path := str(config.get_value("progress", "last_scene", ""))
-		if path in SINGLEPLAYER_LEVELS or path in SPLITSCREEN_LEVELS:
-			last_played_scene = path
+	if config.load(save_path) != OK:
+		return
+	var path := str(config.get_value("progress", "last_scene", ""))
+	# Las partidas anteriores solo guardaban el último nivel visitado.
+	var legacy_completed := maxi(0, level_for_scene(path) - 1)
+	highest_completed_level = clampi(int(config.get_value("progress", "highest_completed", legacy_completed)), 0, SINGLEPLAYER_LEVELS.size())
+	if can_play_scene(path):
+		last_played_scene = path
+
+
+func level_for_scene(path: String) -> int:
+	var index := SINGLEPLAYER_LEVELS.find(path)
+	if index < 0:
+		index = SPLITSCREEN_LEVELS.find(path)
+	return index + 1
+
+
+func is_level_unlocked(level_number: int) -> bool:
+	return level_number >= 1 and level_number <= mini(SINGLEPLAYER_LEVELS.size(), highest_completed_level + 1)
+
+
+func can_play_scene(path: String) -> bool:
+	return is_level_unlocked(level_for_scene(path))
+
+
+func save_progress() -> Error:
+	var config := ConfigFile.new()
+	config.set_value("progress", "version", 2)
+	config.set_value("progress", "highest_completed", highest_completed_level)
+	config.set_value("progress", "last_scene", last_played_scene)
+	var temporary := save_path + ".tmp"
+	last_save_error = config.save(temporary)
+	if last_save_error == OK:
+		last_save_error = DirAccess.rename_absolute(temporary, save_path)
+	if last_save_error != OK:
+		push_warning("No se pudo guardar la partida local: %s" % error_string(last_save_error))
+	return last_save_error
 
 
 func remember_level(path: String) -> void:
-	if path not in SINGLEPLAYER_LEVELS and path not in SPLITSCREEN_LEVELS:
+	if not can_play_scene(path):
 		return
 	last_played_scene = path
-	var config := ConfigFile.new()
-	config.set_value("progress", "last_scene", path)
-	var error := config.save(PROGRESS_PATH)
-	if error != OK:
-		push_warning("No se pudo guardar el último nivel: %s" % error_string(error))
+	save_progress()
+	progress_changed.emit()
+
+
+func _complete_current_level() -> void:
+	if not is_level_unlocked(current_level):
+		return
+	highest_completed_level = maxi(highest_completed_level, current_level)
+	# Guardar la próxima etapa incluso si se cierra el juego en la victoria.
+	if current_level < SINGLEPLAYER_LEVELS.size():
+		if last_played_scene in SPLITSCREEN_LEVELS and current_level < SPLITSCREEN_LEVELS.size():
+			last_played_scene = SPLITSCREEN_LEVELS[current_level]
+		else:
+			last_played_scene = SINGLEPLAYER_LEVELS[current_level]
+	save_progress()
+	progress_changed.emit()
 
 
 func has_continue() -> bool:
-	return is_instance_valid(_suspended_game) or not last_played_scene.is_empty()
+	return is_instance_valid(_suspended_game) or can_play_scene(last_played_scene)
 
 
 func return_to_title(keep_game: bool = true) -> void:
@@ -82,6 +137,8 @@ func _return_to_title(keep_game: bool) -> void:
 	_level_timer_running = false
 	AudioSettings.save_settings()
 	_release_gameplay_input()
+	if not keep_game:
+		_discard_suspended_game()
 	if keep_game and tree.current_scene:
 		_discard_suspended_game()
 		_suspended_game = tree.current_scene
@@ -127,13 +184,12 @@ func _restore_game() -> void:
 	_changing_scene = false
 
 
-func start_level(path: String) -> void:
-	if _changing_scene:
-		return
-	if path not in SINGLEPLAYER_LEVELS and path not in SPLITSCREEN_LEVELS:
-		return
+func start_level(path: String) -> bool:
+	if _changing_scene or not can_play_scene(path):
+		return false
 	_changing_scene = true
 	call_deferred("_start_level", path)
+	return true
 
 
 func _start_level(path: String) -> void:
@@ -182,6 +238,7 @@ func begin_level(level_number: int) -> void:
 	_deaths = 0
 	_boss_defeated = false
 	lives = MAX_LIVES
+	lives_changed.emit(lives)
 
 
 func record_shot(count: int = 1) -> void:
@@ -208,6 +265,7 @@ func record_death() -> void:
 func lose_life() -> bool:
 	record_death()
 	lives = max(0, lives - 1)
+	lives_changed.emit(lives)
 	life_lost.emit(lives)
 	if lives <= 0:
 		game_over.emit()
@@ -218,6 +276,7 @@ func lose_life() -> bool:
 ## Añade una vida (hasta MAX_STORED_LIVES). Usada por las manzanas.
 func gain_life() -> void:
 	lives = min(MAX_STORED_LIVES, lives + 1)
+	lives_changed.emit(lives)
 	life_gained.emit(lives)
 
 
@@ -227,6 +286,7 @@ func notify_boss_defeated() -> void:
 		return
 	_boss_defeated = true
 	_level_timer_running = false
+	_complete_current_level()
 	boss_defeated.emit()
 
 
@@ -264,3 +324,48 @@ func reset() -> void:
 	## Llama esto si reinicias el juego desde el principio.
 	used_special_coins.clear()
 	begin_level(1)
+
+
+## Solo se llama después de confirmar el borrado en ajustes.
+func erase_local_progress() -> Error:
+	if _changing_scene:
+		return ERR_BUSY
+	# Conservar copias en memoria para restaurar si falla alguno de los borrados.
+	var backups: Dictionary = {}
+	for path: String in [save_path, RecipeCollection.save_path, save_path + ".tmp", RecipeCollection.save_path + ".tmp"]:
+		if not FileAccess.file_exists(path):
+			continue
+		var file := FileAccess.open(path, FileAccess.READ)
+		if file == null:
+			return FileAccess.get_open_error()
+		backups[path] = file.get_buffer(file.get_length())
+		file.close()
+	var removed: Array[String] = []
+	for path: String in backups:
+		var error := DirAccess.remove_absolute(path)
+		if error != OK:
+			for previous: String in removed:
+				var file := FileAccess.open(previous, FileAccess.WRITE)
+				if file:
+					file.store_buffer(backups[previous])
+					file.close()
+			return error
+		removed.append(path)
+	_discard_suspended_game()
+	_release_gameplay_input()
+	used_special_coins.clear()
+	begin_level(1)
+	_level_timer_running = false
+	highest_completed_level = 0
+	last_played_scene = ""
+	last_save_error = OK
+	RecipeCollection.clear_runtime_progress()
+	progress_changed.emit()
+	return OK
+
+
+func erase_save_and_restart() -> Error:
+	var error := erase_local_progress()
+	if error == OK:
+		return_to_title(false)
+	return error

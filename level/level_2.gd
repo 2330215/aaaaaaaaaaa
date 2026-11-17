@@ -24,7 +24,7 @@ func _setup_camera() -> void:
 		if player == null or player.get_world_2d() != get_world_2d():
 			continue
 		var height := to_local(player.global_position).y
-		var bounds := Rect2(-12, -192, 3840, 1088)
+		var bounds := Rect2(-12, -640, 3840, 1536)
 		if height >= 2944.0:
 			bounds = Rect2(-12, 2944, 2304, 1063)
 		elif height >= 1792.0:

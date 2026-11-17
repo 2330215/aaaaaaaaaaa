@@ -1,6 +1,7 @@
 extends Node
 ## Distribución relativa al área visible; compartida por el juego y el editor.
 signal changed
+signal cheats_changed
 
 const PATH := "user://controls.cfg"
 const IDS := ["Joystick", "TextureButtonJump", "TextureButtonAttack1", "TextureButtonAttack2"]
@@ -9,11 +10,15 @@ const SIZES := [Vector2(128, 128), Vector2(64, 64), Vector2(86, 86), Vector2(64,
 const DEFAULTS := [Vector2(0.12, 0.81), Vector2(0.77, 0.86), Vector2(0.89, 0.69), Vector2(0.93, 0.88)]
 var positions: Array[Vector2] = []
 var opacity: float = 0.65
+var icon_scale: float = 1.0
+var cheats_enabled: bool = true
 
 func _ready() -> void:
 	positions.assign(DEFAULTS)
 	var config := ConfigFile.new()
 	if config.load(PATH) == OK:
+		cheats_enabled = bool(config.get_value("gameplay", "cheats_enabled", true))
+		icon_scale = clampf(float(config.get_value("controls", "icon_scale", 1.0)), 0.6, 1.6)
 		opacity = clampf(float(config.get_value("controls", "opacity", 0.65)), 0.2, 1.0)
 		for index in range(IDS.size()):
 			var value: Variant = config.get_value("controls", IDS[index], DEFAULTS[index])
@@ -21,7 +26,7 @@ func _ready() -> void:
 				positions[index] = value.clamp(Vector2.ZERO, Vector2.ONE)
 
 func control_rect(index: int, area: Vector2) -> Rect2:
-	var extent: Vector2 = SIZES[index] * minf(1.0, minf(area.x / 800.0, area.y / 480.0))
+	var extent: Vector2 = SIZES[index] * icon_scale * minf(1.0, minf(area.x / 800.0, area.y / 480.0))
 	var origin := (positions[index] * area - extent * 0.5).clamp(Vector2(8, 8), (area - extent - Vector2(8, 8)).max(Vector2(8, 8)))
 	return Rect2(origin, extent)
 
@@ -33,16 +38,49 @@ func update_opacity(value: float) -> void:
 	opacity = clampf(value, 0.2, 1.0)
 	changed.emit()
 
+func update_icon_scale(value: float) -> void:
+	icon_scale = clampf(value, 0.6, 1.6)
+	changed.emit()
+
 func reset() -> void:
 	positions.assign(DEFAULTS)
 	opacity = 0.65
+	icon_scale = 1.0
 	changed.emit()
 
 func save() -> void:
 	var config := ConfigFile.new()
+	config.set_value("gameplay", "cheats_enabled", cheats_enabled)
 	config.set_value("controls", "opacity", opacity)
+	config.set_value("controls", "icon_scale", icon_scale)
 	for index in range(IDS.size()):
 		config.set_value("controls", IDS[index], positions[index])
 	var error := config.save(PATH)
 	if error != OK:
 		push_warning("No se pudieron guardar los controles: %s" % error_string(error))
+
+
+func set_cheats_enabled(enabled: bool) -> void:
+	if cheats_enabled == enabled:
+		return
+	cheats_enabled = enabled
+	save()
+	cheats_changed.emit()
+
+
+func create_cheats_button() -> CheckButton:
+	var button := CheckButton.new()
+	button.text = "Activar trucos"
+	button.button_pressed = cheats_enabled
+	button.toggled.connect(set_cheats_enabled)
+	var reference: WeakRef = weakref(button)
+	var sync := func() -> void: _sync_cheats_button(reference)
+	cheats_changed.connect(sync)
+	button.tree_exiting.connect(func() -> void: cheats_changed.disconnect(sync), CONNECT_ONE_SHOT)
+	return button
+
+
+func _sync_cheats_button(reference: WeakRef) -> void:
+	var button := reference.get_ref() as CheckButton
+	if button:
+		button.set_pressed_no_signal(cheats_enabled)

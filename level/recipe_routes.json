@@ -1,0 +1,222 @@
+{
+  "level": {
+    "routes": [
+      {
+        "npc": "Tuniliana",
+        "recipe": "ensalada_desierto",
+        "entry": [
+          736,
+          2304
+        ],
+        "platforms": [
+          [
+            448,
+            2208,
+            3
+          ],
+          [
+            256,
+            2112,
+            3
+          ],
+          [
+            64,
+            2016,
+            3
+          ]
+        ],
+        "standing": [
+          160,
+          2016
+        ],
+        "hint": "En el segundo tramo del desierto, sube por los salientes que regresan hacia la izquierda. Tuniliana se apartó del camino."
+      }
+    ]
+  },
+  "level_2": {
+    "routes": [
+      {
+        "npc": "MatoEscenario1",
+        "recipe": "tacos_mercado",
+        "entry": [
+          1920,
+          431
+        ],
+        "platforms": [
+          [
+            2016,
+            335,
+            3
+          ],
+          [
+            2208,
+            239,
+            3
+          ],
+          [
+            2400,
+            143,
+            3
+          ]
+        ],
+        "standing": [
+          2496,
+          143
+        ],
+        "hint": "En el primer tramo de la ciudad, mira por encima de la calle. Un camino de tejados lleva al puesto de Mato."
+      }
+    ]
+  },
+  "level_3": {
+    "routes": [
+      {
+        "npc": "Calivan",
+        "recipe": "guiso_montana",
+        "entry": [
+          224,
+          2497
+        ],
+        "platforms": [
+          [
+            320,
+            2401,
+            3
+          ],
+          [
+            128,
+            2305,
+            3
+          ],
+          [
+            352,
+            2209,
+            3
+          ]
+        ],
+        "standing": [
+          448,
+          2209
+        ],
+        "hint": "Después de resistir la oleada, explora las rocas altas del lado izquierdo. Calivan tiene un rincón lejos de los puentes."
+      },
+      {
+        "npc": "Narancio",
+        "recipe": "avena_fruta",
+        "entry": [
+          3216,
+          2369
+        ],
+        "platforms": [
+          [
+            2976,
+            2273,
+            3
+          ],
+          [
+            2784,
+            2177,
+            3
+          ]
+        ],
+        "standing": [
+          2880,
+          2177
+        ],
+        "hint": "Antes de dejar el tramo de los puentes, busca un desvío que sube hacia la izquierda. Narancio espera en el mirador alto."
+      }
+    ]
+  },
+  "level_4": {
+    "routes": [
+      {
+        "npc": "Pesado",
+        "recipe": "pescado_costa",
+        "entry": [
+          2336,
+          494.5
+        ],
+        "platforms": [
+          [
+            2432,
+            384,
+            3
+          ],
+          [
+            2624,
+            288,
+            3
+          ],
+          [
+            2816,
+            192,
+            3
+          ]
+        ],
+        "standing": [
+          2912,
+          192
+        ],
+        "hint": "Antes de embarcarte, busca un camino por encima de las casas de la playa. Pesado encontró un rincón entre los tejados y las palmeras."
+      }
+    ]
+  },
+  "level_5": {
+    "routes": [
+      {
+        "npc": "Papua",
+        "recipe": "olla_selva",
+        "entry": [
+          1648,
+          375
+        ],
+        "platforms": [
+          [
+            1760,
+            279,
+            3
+          ],
+          [
+            1568,
+            183,
+            3
+          ]
+        ],
+        "standing": [
+          1664,
+          183
+        ],
+        "hint": "En las copas de la selva, una rama se aparta del recorrido y vuelve hacia la izquierda. Papua está más arriba de lo que parece."
+      },
+      {
+        "npc": "Manguel",
+        "recipe": "fruta_compartir",
+        "entry": [
+          2672,
+          2543
+        ],
+        "platforms": [
+          [
+            2768,
+            2465.5,
+            3
+          ],
+          [
+            2960,
+            2369.5,
+            3
+          ],
+          [
+            3152,
+            2273.5,
+            3
+          ]
+        ],
+        "standing": [
+          3248,
+          2273.5
+        ],
+        "hint": "En el poblado de la selva, mira por encima del camino antes de ir con Dona. Manguel guarda la última hoja en un desvío elevado."
+      }
+    ]
+  }
+}

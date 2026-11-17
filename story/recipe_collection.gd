@@ -11,6 +11,8 @@ var last_save_error: Error = OK
 var _notebook: CanvasLayer
 var _notifications: Array[String] = []
 var _notification_running := false
+var _notification_generation: int = 0
+var _active_toast: CanvasLayer
 
 
 func _ready() -> void:
@@ -109,10 +111,32 @@ func _show_notifications() -> void:
 	if _notification_running:
 		return
 	_notification_running = true
-	while not _notifications.is_empty():
+	var generation := _notification_generation
+	while not _notifications.is_empty() and generation == _notification_generation:
 		var id: String = _notifications.pop_front()
 		var toast = load("res://gui/recipe_toast.gd").new()
+		_active_toast = toast
 		add_child(toast)
 		await toast.present(id)
 		toast.queue_free()
+		if _active_toast == toast:
+			_active_toast = null
+	if generation == _notification_generation:
+		_notification_running = false
+
+
+## GameState ya ha eliminado los archivos de la partida antes de limpiar la sesión.
+func clear_runtime_progress() -> void:
+	notebook_owned = false
+	unlocked.clear()
+	last_save_error = OK
+	_notifications.clear()
+	_notification_generation += 1
 	_notification_running = false
+	if is_instance_valid(_active_toast):
+		_active_toast.hide()
+	_active_toast = null
+	if is_instance_valid(_notebook):
+		_notebook.free()
+	_notebook = null
+	collection_changed.emit()

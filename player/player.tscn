@@ -187,7 +187,7 @@ size = Vector2(83.75, 92.50003)
 
 [node name="Player" type="CharacterBody2D" unique_id=1467610487]
 scale = Vector2(0.8, 0.8)
-collision_mask = 30
+collision_mask = 28
 floor_constant_speed = true
 platform_on_leave = 2
 script = ExtResource("3")
@@ -241,6 +241,16 @@ drag_top_margin = 1.0
 editor_draw_drag_margin = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1344710521]
+position = Vector2(-0.62500346, -2.5000036)
+scale = Vector2(0.99999946, 0.99999946)
+shape = SubResource("11")
+
+[node name="EnemyContact" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyContact"]
 position = Vector2(-0.62500346, -2.5000036)
 scale = Vector2(0.99999946, 0.99999946)
 shape = SubResource("11")

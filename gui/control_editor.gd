@@ -13,6 +13,7 @@ var _dragging: bool = false
 var _finger: int = -1
 var _grab_offset := Vector2.ZERO
 var _panel: PanelContainer
+var _scale_slider: HSlider
 var _alpha: HSlider
 var _values: Array[Label] = []
 var _preview: Array[TextureRect] = []
@@ -54,6 +55,8 @@ func _ready() -> void:
 	box.add_child(hint)
 	_alpha = _slider(box, "Transparencia", 0, 80)
 	_alpha.value_changed.connect(func(value: float) -> void: ControlSettings.update_opacity(1.0 - value / 100.0))
+	_scale_slider = _slider(box, "Tamaño de iconos", 60, 160)
+	_scale_slider.value_changed.connect(func(value: float) -> void: ControlSettings.update_icon_scale(value / 100.0))
 	var actions := HBoxContainer.new()
 	box.add_child(actions)
 	for text: String in ["Restablecer", "Guardar y volver"]:
@@ -84,7 +87,7 @@ func _slider(parent: Node, text: String, minimum: float, maximum: float) -> HSli
 	slider.min_value = minimum
 	slider.max_value = maximum
 	slider.step = 1
-	slider.custom_minimum_size.y = 20
+	slider.custom_minimum_size.y = 32
 	parent.add_child(slider)
 	return slider
 
@@ -148,6 +151,8 @@ func _sync() -> void:
 	if not is_instance_valid(_alpha):
 		return
 	_alpha.set_value_no_signal((1.0 - ControlSettings.opacity) * 100.0)
+	_scale_slider.set_value_no_signal(ControlSettings.icon_scale * 100.0)
+	_values[1].text = "%d%%" % roundi(_scale_slider.value)
 	_values[0].text = "%d%%" % roundi(_alpha.value)
 	for index in range(_preview.size()):
 		var rect := ControlSettings.control_rect(index, size)
