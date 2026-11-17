@@ -61,6 +61,39 @@ func _ready() -> void:
 	settings_content.get_node("BackButton").pressed.connect(_on_settings_button_pressed)
 	GameState.progress_changed.connect(_refresh_level_buttons)
 	_refresh_level_buttons()
+	resized.connect(_update_responsive_layout)
+	_update_responsive_layout()
+
+
+func _update_responsive_layout() -> void:
+	if not is_node_ready():
+		return
+	# Usar el área lógica: Godot ya aplica el escalado de la ventana.
+	var ui_scale := minf(size.x / 800.0, size.y / 480.0)
+	var button_width := minf(size.x * 0.8, 306.0 * ui_scale)
+	for box: VBoxContainer in [main_options, _categories]:
+		var button_count := 0
+		var heading_count := 0
+		for child in box.get_children():
+			if child is Control and child.visible:
+				if child is Button:
+					button_count += 1
+				elif child is Label or child is HSeparator:
+					heading_count += 1
+		var gap := 8.0 * ui_scale
+		var available_height := size.y * 0.86 - heading_count * 32.0 * ui_scale
+		var button_height := minf(43.0 * ui_scale, (available_height - gap * (button_count + heading_count)) / maxi(button_count, 1))
+		var font_size := maxi(1, roundi(minf(23.0 * ui_scale, button_height * 0.65)))
+		box.add_theme_constant_override("separation", roundi(gap))
+		for child in box.get_children():
+			if child is Button:
+				child.custom_minimum_size = Vector2(button_width, button_height)
+				child.size_flags_horizontal = Control.SIZE_FILL
+				child.add_theme_font_size_override("font_size", font_size)
+			elif child is Label:
+				child.add_theme_font_size_override("font_size", font_size)
+	settings_panel.custom_minimum_size.x = minf(size.x * 0.9, 420.0 * ui_scale)
+	settings_panel.add_theme_font_size_override("font_size", maxi(1, roundi(22.0 * ui_scale)))
 
 
 func close() -> void:
@@ -150,6 +183,7 @@ func _refresh_level_buttons() -> void:
 		button.disabled = not unlocked
 		button.text = "Nivel %d" % number if unlocked else "Nivel %d · Bloqueado" % number
 		button.tooltip_text = "" if unlocked else "Completa el nivel %d para desbloquearlo." % (number-1)
+	_update_responsive_layout()
 
 
 func _go_to_level(number: int) -> void:
