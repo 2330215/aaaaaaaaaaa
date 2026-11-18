@@ -56,11 +56,6 @@ func _on_body_entered(body: Node2D) -> void:
 	# 4. Teleport player while screen is black
 	body.global_position = target_position
 
-	if body.get_parent():
-		for sibling in body.get_parent().get_children():
-			if sibling is Player and sibling != body:
-				sibling.global_position = target_position + Vector2(25, 0)
-
 	await get_tree().process_frame
 
 	# 5. Fade back in from black over 1 second

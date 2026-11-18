@@ -31,7 +31,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	# La camara actualiza scroll_offset; descartar siempre su componente vertical.
 	scroll_offset.y = 0.0
-	# Cada fondo sigue la camara de su viewport, incluso en pantalla dividida.
+	# Cada fondo sigue la camara de su viewport.
 	var camera := get_viewport().get_camera_2d()
 	if camera:
 		var height := camera.global_position.y

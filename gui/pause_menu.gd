@@ -8,15 +8,6 @@ class_name PauseMenu extends Control
 @onready var resume_button := center_cont.get_node(^"VBoxContainer/ResumeButton") as Button
 @onready var coins_counter := $ColorRect/CoinsCounter as CoinsCounter
 
-## Escenas disponibles en el selector de niveles.
-const SCENE_SP_L1 := "res://game_singleplayer.tscn"
-const SCENE_SP_L2 := "res://game_singleplayer_level2.tscn"
-const SCENE_SP_L3 := "res://game_singleplayer_level3.tscn"
-const SCENE_SP_L4 := "res://game_singleplayer_level4.tscn"
-const SCENE_SP_L5 := "res://game_singleplayer_level5.tscn"
-const SCENE_SS_L1 := "res://game_splitscreen.tscn"
-const SCENE_SS_L2 := "res://game_splitscreen_level2.tscn"
-
 
 var _categories: VBoxContainer
 
@@ -154,16 +145,6 @@ func _on_resume_button_pressed() -> void:
 	close()
 
 
-func _on_singleplayer_button_pressed() -> void:
-	if visible:
-		GameState.start_level(SCENE_SP_L1)
-
-
-func _on_splitscreen_button_pressed() -> void:
-	if visible:
-		GameState.start_level(SCENE_SS_L1)
-
-
 func _on_quit_button_pressed() -> void:
 	if visible:
 		GameState.return_to_title()
@@ -189,11 +170,7 @@ func _refresh_level_buttons() -> void:
 func _go_to_level(number: int) -> void:
 	if not ControlSettings.cheats_enabled or not visible or not GameState.is_level_unlocked(number):
 		return
-	var path: String = GameState.SINGLEPLAYER_LEVELS[number-1]
-	var scene := get_tree().current_scene
-	if scene and scene.scene_file_path in GameState.SPLITSCREEN_LEVELS and number <= GameState.SPLITSCREEN_LEVELS.size():
-		path = GameState.SPLITSCREEN_LEVELS[number-1]
-	GameState.start_level(path)
+	GameState.start_level(GameState.SINGLEPLAYER_LEVELS[number - 1])
 
 
 func _on_goto_level1_pressed() -> void:

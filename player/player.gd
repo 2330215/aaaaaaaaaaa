@@ -37,10 +37,6 @@ const TERMINAL_VELOCITY = 700
 var speed_mult: float = 1.0
 var jump_mult: float = 1.0
 
-## The player listens for input actions appended with this suffix.[br]
-## Used to separate controls for multiple players in splitscreen.
-@export var action_suffix := ""
-
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 var special_charge := 0
 
@@ -108,9 +104,9 @@ func _physics_process(delta: float) -> void:
 	# ── Modo globo: subir con Jump, bajar con move_down, horizontal normal ────
 	if _balloon_mode:
 		var bspeed := BASE_WALK_SPEED * speed_mult
-		var dir_x  := Input.get_axis("move_left" + action_suffix, "move_right" + action_suffix)
+		var dir_x  := Input.get_axis("move_left", "move_right")
 		# Subir: botón de salto (hold). Bajar: move_down
-		var dir_y := Input.get_axis("jump" + action_suffix, "move_down" + action_suffix)
+		var dir_y := Input.get_axis("jump", "move_down")
 		velocity.x = move_toward(velocity.x, dir_x * bspeed, bspeed * 6.0 * delta)
 		velocity.y = move_toward(velocity.y, dir_y * bspeed * 0.75, bspeed * 4.0 * delta)
 		if not is_zero_approx(velocity.x):
@@ -121,7 +117,7 @@ func _physics_process(delta: float) -> void:
 			return
 		# ── Disparo en modo globo ────────────────────────────────────────────
 		var balloon_shooting := false
-		if Input.is_action_just_pressed("shoot" + action_suffix):
+		if Input.is_action_just_pressed("shoot"):
 			if gun.timer.is_stopped():
 				balloon_shooting = true
 				_shoot_limon_bullet(sprite.scale.x)
@@ -142,16 +138,16 @@ func _physics_process(delta: float) -> void:
 
 	if is_on_floor():
 		_double_jump_charged = true
-	if Input.is_action_just_pressed("jump" + action_suffix):
+	if Input.is_action_just_pressed("jump"):
 		try_jump()
-	elif Input.is_action_just_released("jump" + action_suffix) and velocity.y < 0.0:
+	elif Input.is_action_just_released("jump") and velocity.y < 0.0:
 		# The player let go of jump early, reduce vertical momentum.
 		velocity.y *= 0.6
 	# Fall.
 	velocity.y = minf(TERMINAL_VELOCITY, velocity.y + gravity * delta)
 
 	var walk_speed := BASE_WALK_SPEED * speed_mult
-	var direction := Input.get_axis("move_left" + action_suffix, "move_right" + action_suffix) * walk_speed
+	var direction := Input.get_axis("move_left", "move_right") * walk_speed
 	velocity.x = move_toward(velocity.x, direction, walk_speed * 6.0 * delta)
 
 	if not is_zero_approx(velocity.x):
@@ -168,14 +164,14 @@ func _physics_process(delta: float) -> void:
 		return
 
 	var is_shooting := false
-	if Input.is_action_just_pressed("special_attack" + action_suffix) or Input.is_action_just_pressed("special_attack"):
+	if Input.is_action_just_pressed("special_attack"):
 		if special_charge >= MAX_SPECIAL_CHARGE:
 			special_charge = 0
 			special_charge_changed.emit(special_charge, MAX_SPECIAL_CHARGE)
 			special_attack_ready.emit(false)
 			is_shooting = true
 			gun.shoot_special(sprite.scale.x)
-	elif Input.is_action_just_pressed("shoot" + action_suffix):
+	elif Input.is_action_just_pressed("shoot"):
 		is_shooting = gun.shoot(sprite.scale.x)
 
 	var animation := get_new_animation(is_shooting)

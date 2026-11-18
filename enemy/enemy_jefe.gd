@@ -105,7 +105,7 @@ func _show_boss_dialogue() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	# Actualizar referencia al jugador si cambia (splitscreen, respawn, etc.)
+	# Actualizar referencia al jugador si cambia tras reaparecer.
 	if not is_instance_valid(_player):
 		_player = _find_player()
 

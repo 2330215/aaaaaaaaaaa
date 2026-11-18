@@ -30,9 +30,6 @@ const SINGLEPLAYER_LEVELS: Array[String] = [
 	"res://game_singleplayer_level3.tscn", "res://game_singleplayer_level4.tscn",
 	"res://game_singleplayer_level5.tscn"
 ]
-const SPLITSCREEN_LEVELS: Array[String] = [
-	"res://game_splitscreen.tscn", "res://game_splitscreen_level2.tscn"
-]
 
 var save_path: String = PROGRESS_PATH
 var highest_completed_level: int = 0
@@ -63,6 +60,12 @@ func load_progress() -> void:
 	if config.load(save_path) != OK:
 		return
 	var path := str(config.get_value("progress", "last_scene", ""))
+	# Convertir rutas retiradas solo al cargar partidas antiguas.
+	match path:
+		"res://game_splitscreen.tscn":
+			path = SINGLEPLAYER_LEVELS[0]
+		"res://game_splitscreen_level2.tscn":
+			path = SINGLEPLAYER_LEVELS[1]
 	# Las partidas anteriores solo guardaban el último nivel visitado.
 	var legacy_completed := maxi(0, level_for_scene(path) - 1)
 	highest_completed_level = clampi(int(config.get_value("progress", "highest_completed", legacy_completed)), 0, SINGLEPLAYER_LEVELS.size())
@@ -71,10 +74,7 @@ func load_progress() -> void:
 
 
 func level_for_scene(path: String) -> int:
-	var index := SINGLEPLAYER_LEVELS.find(path)
-	if index < 0:
-		index = SPLITSCREEN_LEVELS.find(path)
-	return index + 1
+	return SINGLEPLAYER_LEVELS.find(path) + 1
 
 
 func is_level_unlocked(level_number: int) -> bool:
@@ -113,10 +113,7 @@ func _complete_current_level() -> void:
 	highest_completed_level = maxi(highest_completed_level, current_level)
 	# Guardar la próxima etapa incluso si se cierra el juego en la victoria.
 	if current_level < SINGLEPLAYER_LEVELS.size():
-		if last_played_scene in SPLITSCREEN_LEVELS and current_level < SPLITSCREEN_LEVELS.size():
-			last_played_scene = SPLITSCREEN_LEVELS[current_level]
-		else:
-			last_played_scene = SINGLEPLAYER_LEVELS[current_level]
+		last_played_scene = SINGLEPLAYER_LEVELS[current_level]
 	save_progress()
 	progress_changed.emit()
 
@@ -145,8 +142,6 @@ func _return_to_title(keep_game: bool) -> void:
 		var pause_menu := _suspended_game.get_node_or_null("InterfaceLayer/PauseMenu")
 		if pause_menu:
 			pause_menu.hide()
-		if _suspended_game.has_method("prepare_for_title"):
-			_suspended_game.prepare_for_title()
 		tree.root.remove_child(_suspended_game)
 		tree.current_scene = null
 	tree.paused = false
@@ -176,8 +171,6 @@ func _restore_game() -> void:
 	_suspended_game = null
 	tree.root.add_child(game)
 	tree.current_scene = game
-	if game.has_method("resume_from_title"):
-		game.resume_from_title()
 	tree.paused = false
 	Music.stream_paused = false
 	_level_timer_running = true
@@ -205,10 +198,8 @@ func _start_level(path: String) -> void:
 
 
 func _release_gameplay_input() -> void:
-	for suffix: String in ["", "_p1", "_p2"]:
-		for action: String in ["move_left", "move_right", "jump", "move_down", "shoot", "special_attack"]:
-			if InputMap.has_action(action + suffix):
-				Input.action_release(action + suffix)
+	for action: String in ["move_left", "move_right", "jump", "move_down", "shoot", "special_attack"]:
+		Input.action_release(action)
 
 
 func _discard_suspended_game() -> void:

@@ -73,13 +73,8 @@ func _on_body_entered(body: Node2D) -> void:
 		if bg.has_method("align_to_stage"):
 			bg.align_to_stage(target_stage_index)
 
-	# 4. Teletransportar al jugador (y al compañero en splitscreen)
+	# 4. Teletransportar al jugador
 	body.global_position = target_position
-	if body.get_parent():
-		for sibling in body.get_parent().get_children():
-			if sibling is Player and sibling != body:
-				sibling.global_position = target_position + Vector2(25, 0)
-
 	var game := get_tree().current_scene
 	if game and game.has_method("apply_stage_skin"):
 		game.apply_stage_skin()

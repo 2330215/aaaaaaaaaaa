@@ -86,14 +86,15 @@ func _run() -> void:
 	var migrated := ConfigFile.new()
 	assert(migrated.load(GameState.save_path) == OK)
 	assert(migrated.get_value("progress", "highest_completed") == 2)
-	# El progreso es compartido por individual y pantalla dividida.
-	GameState.highest_completed_level = 0
-	GameState.begin_level(1)
-	GameState.remember_level(GameState.SPLITSCREEN_LEVELS[0])
-	GameState.notify_boss_defeated()
-	assert(GameState.can_play_scene(GameState.SPLITSCREEN_LEVELS[1]))
-	assert(GameState.last_played_scene == GameState.SPLITSCREEN_LEVELS[1])
-	print("PROGRESSION_LEGACY_AND_SPLITSCREEN_OK")
+	# Una ruta retirada se convierte al nivel de campaña equivalente al cargar.
+	var retired_scene := "res://game_splitscreen_level2.tscn"
+	legacy.set_value("progress", "last_scene", retired_scene)
+	assert(legacy.save(GameState.save_path) == OK)
+	GameState.load_progress()
+	assert(GameState.highest_completed_level == 1)
+	assert(GameState.last_played_scene == GameState.SINGLEPLAYER_LEVELS[1])
+	assert(GameState.has_continue() and not GameState.can_play_scene(retired_scene))
+	print("PROGRESSION_LEGACY_MIGRATION_OK")
 
 	assert(RecipeCollection.unlock_recipe(str(RecipeCollection.recipes()[0].id)))
 	await get_tree().process_frame
@@ -175,15 +176,13 @@ func _check_real_scene_navigation() -> void:
 	await get_tree().scene_changed
 	assert(get_tree().current_scene.scene_file_path == GameState.SINGLEPLAYER_LEVELS[1])
 	assert(GameState.highest_completed_level == 1)
-	assert(GameState.start_level(GameState.SPLITSCREEN_LEVELS[1]))
-	await get_tree().scene_changed
 	var pause = get_tree().current_scene.get_node("InterfaceLayer/PauseMenu")
 	pause.show()
 	assert(pause.main_options.get_node("Level3Button").disabled)
 	pause._on_goto_level1_pressed()
 	await get_tree().scene_changed
-	assert(get_tree().current_scene.scene_file_path == GameState.SPLITSCREEN_LEVELS[0])
-	print("PROGRESSION_REAL_SCENE_GUARDS_VICTORY_AND_MODES_OK")
+	assert(get_tree().current_scene.scene_file_path == GameState.SINGLEPLAYER_LEVELS[0])
+	print("PROGRESSION_REAL_SCENE_GUARDS_VICTORY_AND_SELECTION_OK")
 	pause = get_tree().current_scene.get_node("InterfaceLayer/PauseMenu")
 	get_tree().paused = true
 	pause.show()
@@ -194,4 +193,4 @@ func _check_real_scene_navigation() -> void:
 	assert(not get_tree().paused and not GameState.has_continue())
 	assert(not GameState.is_level_unlocked(2))
 	assert(not FileAccess.file_exists(GameState.save_path))
-	print("PROGRESSION_ERASE_ACTIVE_SPLITSCREEN_OK")
+	print("PROGRESSION_ERASE_ACTIVE_GAME_OK")

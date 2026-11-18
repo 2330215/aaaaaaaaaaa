@@ -376,8 +376,6 @@ func _connect_to_player() -> void:
 		return
 	var player := parent.find_child("Player", true, false)
 	if not player:
-		player = parent.find_child("Player1", true, false)
-	if not player:
 		return
 	_player = player
 	if player.has_signal("special_charge_changed"):

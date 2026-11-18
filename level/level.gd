@@ -48,10 +48,7 @@ func _apply_camera_bounds(camera: Camera2D, bounds: Rect2) -> void:
 	# Excluir los muros laterales y dejar margen para el redondeo de pixeles.
 	bounds.position.x += CAMERA_EDGE_INSET
 	bounds.size.x -= CAMERA_EDGE_INSET * 2.0
-	var viewport := camera.custom_viewport as Viewport
-	if viewport == null:
-		viewport = camera.get_viewport()
-	var viewport_size := viewport.get_visible_rect().size
+	var viewport_size := camera.get_viewport().get_visible_rect().size
 	var zoom := maxf(0.7, maxf(viewport_size.x / bounds.size.x, viewport_size.y / bounds.size.y))
 	camera.zoom = Vector2.ONE * zoom
 	# El offset se aplica despues de los limites en Camera2D.
