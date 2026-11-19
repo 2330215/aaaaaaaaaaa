@@ -30,6 +30,8 @@ const MAX_SPECIAL_CHARGE = 5
 ## Valores base de movimiento
 const BASE_WALK_SPEED: float = 300.0
 const BASE_JUMP_VELOCITY: float = -725.0
+const DOUBLE_JUMP_ASCENT_CARRY: float = 0.45
+const MAX_DOUBLE_JUMP_ASCENT_CARRY: float = 180.0
 ## Maximum speed at which the player can fall.
 const TERMINAL_VELOCITY = 700
 
@@ -140,8 +142,8 @@ func _physics_process(delta: float) -> void:
 		_double_jump_charged = true
 	if Input.is_action_just_pressed("jump"):
 		try_jump()
-	elif Input.is_action_just_released("jump") and velocity.y < 0.0:
-		# The player let go of jump early, reduce vertical momentum.
+	elif Input.is_action_just_released("jump") and velocity.y < 0.0 and _double_jump_charged:
+		# Solo el primer salto se acorta al soltar el botón.
 		velocity.y *= 0.6
 	# Fall.
 	velocity.y = minf(TERMINAL_VELOCITY, velocity.y + gravity * delta)
@@ -295,15 +297,18 @@ func die() -> void:
 
 
 func try_jump() -> void:
+	var jump_velocity := BASE_JUMP_VELOCITY * jump_mult
 	if is_on_floor():
 		jump_sound.pitch_scale = 1.0
 	elif _double_jump_charged:
 		_double_jump_charged = false
 		velocity.x *= 2.5
+		# Conserva parte del ascenso si el segundo toque llega antes del punto más alto.
+		jump_velocity += clampf(velocity.y * DOUBLE_JUMP_ASCENT_CARRY, -MAX_DOUBLE_JUMP_ASCENT_CARRY * jump_mult, 0.0)
 		jump_sound.pitch_scale = 1.5
 	else:
 		return
-	velocity.y = BASE_JUMP_VELOCITY * jump_mult
+	velocity.y = jump_velocity
 	jump_sound.play()
 
 
