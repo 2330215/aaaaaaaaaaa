@@ -54,7 +54,7 @@ func _on_body_entered(body: Node2D) -> void:
 			bg.align_to_stage(target_stage_index)
 
 	# 4. Teleport player while screen is black
-	body.global_position = target_position
+	(body as Player).enter_stage(target_position, target_stage_index)
 
 	await get_tree().process_frame
 

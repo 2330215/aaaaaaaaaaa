@@ -9,6 +9,7 @@ const FADE_DURATION := 0.35
 const BLACK_SCREEN_HOLD := 2.0
 
 @onready var panel: Control = $VictoryPanel
+@onready var title_label: Label = $VictoryPanel/CenterContainer/VBoxContainer/TitleLabel
 @onready var subtitle_label: Label = $VictoryPanel/CenterContainer/VBoxContainer/SubtitleLabel
 @onready var stats_grid: GridContainer = $VictoryPanel/CenterContainer/VBoxContainer/StatsGrid
 @onready var buttons: HBoxContainer = $VictoryPanel/CenterContainer/VBoxContainer/Buttons
@@ -34,15 +35,19 @@ func show_victory(stats: Dictionary, can_advance: bool) -> void:
 	if _shown:
 		return
 	_shown = true
-	if int(stats.get("level_number", 1)) == 5:
+	var level_number := int(stats.get("level_number", 1))
+	if level_number == 5:
 		await preload("res://story/story_dialogues.gd").play(self, "epilogo", "Nopalio", preload("res://enemy/portraits/nopalio.png"), true)
 
 	panel.visible = true
 	panel.modulate.a = 0.0
-	subtitle_label.text = "NIVEL %d COMPLETADO" % int(stats.get("level_number", 1))
+	title_label.text = "GANASTE" if can_advance else "AVENTURA TERMINADA"
+	subtitle_label.text = "NIVEL %d COMPLETADO" % level_number
 	_populate_stats(stats.get("rows", []))
 
-	advance_button.text = "AVANZAR" if can_advance else "FIN DE LA DEMO"
+	if not can_advance:
+		exit_button.text = "VOLVER AL MENÚ"
+	advance_button.visible = can_advance
 	advance_button.disabled = not can_advance
 	buttons.visible = false
 	buttons.modulate.a = 0.0

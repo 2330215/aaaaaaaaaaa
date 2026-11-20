@@ -104,16 +104,16 @@ position = Vector2(3872, 4128)
 shape = SubResource("WallShape")
 
 [node name="Pesado" parent="." unique_id=2118981421 instance=ExtResource("npc_pesado")]
-story_dialogue_id = "pesado"
 position = Vector2(450, 450)
+story_dialogue_id = "pesado"
 
 [node name="Platanael" parent="." unique_id=957584116 instance=ExtResource("npc_platanael")]
-story_dialogue_id = "platanael"
 position = Vector2(1100, 450)
+story_dialogue_id = "platanael"
 
 [node name="Huevike" parent="." unique_id=519709957 instance=ExtResource("npc_huevike")]
+position = Vector2(1091, 4276)
 story_dialogue_id = "huevike"
-position = Vector2(1790, 4290)
 
 [node name="BeachPalm1" type="Sprite2D" parent="." unique_id=131067043]
 z_index = -2
@@ -257,6 +257,7 @@ crest_color = Color(0.55, 0.7, 0.8, 0.85)
 [node name="NavalWater" parent="." unique_id=67920918 instance=ExtResource("33_duj7j")]
 position = Vector2(1920, 2720)
 script = ExtResource("34_od2s0")
+water_bounds = Rect2(0, 0, 0, 0)
 safe_respawn_points = Array[Vector2]([Vector2(260, 2460), Vector2(1150, 2390), Vector2(2010, 2375), Vector2(2920, 2390)])
 respawn_position = Vector2(260, 2460)
 
@@ -325,8 +326,8 @@ position = Vector2(1920, 2360)
 position = Vector2(2770, 2360)
 
 [node name="IslandApple" parent="." unique_id=787208233 instance=ExtResource("43_fcpa2")]
-position = Vector2(1870, 4275)
+position = Vector2(1263, 4283)
 
 [node name="Bistevin" parent="." unique_id=1546468413 instance=ExtResource("npc_bistevin")]
-story_dialogue_id = "bistevin"
 position = Vector2(420, 2457)
+story_dialogue_id = "bistevin"

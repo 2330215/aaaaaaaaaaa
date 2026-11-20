@@ -2,10 +2,10 @@ extends "res://level/level.gd"
 ## Arenas de defensa y combate aereo exclusivas del nivel 3.
 
 @export var horde_duration: float = 30.0
-@export var reinforcement_interval: float = 5.0
+@export var reinforcement_interval: float = 1.75
 @export var intro_duration: float = 1.5
-@export var horde_spawn_interval_min: float = 1.6
-@export var horde_spawn_interval_max: float = 2.3
+@export var horde_spawn_interval_min: float = 2.6
+@export var horde_spawn_interval_max: float = 3.3
 @export var max_horde_enemies: int = 10
 
 const ARENA_WIDTH: float = 2048.0
@@ -15,9 +15,13 @@ const DEFENSE_BOUNDS := Rect2(0, -192, ARENA_WIDTH, 1088)
 const SECOND_STAGE_WIDTH: float = 4480.0
 const SECOND_STAGE_BOUNDS := Rect2(0, 1792, SECOND_STAGE_WIDTH, 1088)
 const AIR_BOUNDS := Rect2(0, 3584, 1280, 704)
+const AIR_SPAWN_MARGIN := 120.0
+const PICKUP_RESPAWN_DELAY := 5.0
+const APPLE_RESPAWN_DELAY := 10.0
+const HAMBURGER_SCENE := preload("res://enemy/enemy.tscn")
 const HORDE_SCENES: Array[PackedScene] = [
 	preload("res://enemy/enemy_redbull.tscn"),
-	preload("res://enemy/enemy.tscn"),
+	HAMBURGER_SCENE,
 	preload("res://enemy/enemy_papa.tscn"),
 	preload("res://enemy/enemy_coca.tscn")
 ]
@@ -34,6 +38,7 @@ var _horde_complete: bool = false
 var _air_started: bool = false
 var _cotton: Enemy
 var _reinforcement_timer: float
+var _reinforcement_side: int = 0
 var _reinforcements: Array[Enemy] = []
 var _status: Label
 var _intro: DialogueBox
@@ -48,7 +53,49 @@ func _ready() -> void:
 	$StageGateway3.set_enabled(false)
 	$StageGateway3.hide()
 	_build_status()
+	for node in find_children("*", "Area2D"):
+		var pickup := node as Area2D
+		if not DEFENSE_BOUNDS.has_point(to_local(pickup.global_position)):
+			continue
+		if pickup is Coin or pickup is ShieldPickup or pickup is Apple:
+			_watch_pickup(pickup)
 	super._ready()
+
+
+func _watch_pickup(pickup: Area2D) -> void:
+	var animation := pickup.get_node("AnimationPlayer") as AnimationPlayer
+	var delay := APPLE_RESPAWN_DELAY if pickup is Apple else PICKUP_RESPAWN_DELAY
+	animation.animation_started.connect(_on_pickup_animation.bind(
+		load(pickup.scene_file_path) as PackedScene, pickup.get_parent(), pickup.transform, delay))
+
+
+func _defense_pickups_active() -> bool:
+	if _time_left <= 0.0 or _horde_complete:
+		return false
+	var player := get_tree().get_first_node_in_group("player") as Node2D
+	return player != null and to_local(player.global_position).y < SECOND_STAGE_BOUNDS.position.y
+
+
+func get_stage_destinations() -> Array:
+	return [
+		{"pos": to_global(Vector2(128, 448)), "stage_index": 0, "cave": false, "sky": true, "label": "Defensa"},
+		{"pos": $StageGateway1.target_position, "stage_index": 1, "cave": false, "sky": true, "label": "Bosque"},
+		{"pos": $StageGateway2.target_position, "stage_index": 2, "cave": true, "sky": true, "label": "Jefe"}
+	]
+
+
+func _on_pickup_animation(animation: StringName, scene: PackedScene, parent: Node, placement: Transform2D, delay: float) -> void:
+	if animation != &"picked" or not _defense_pickups_active():
+		return
+	await get_tree().create_timer(delay, false).timeout
+	if not is_inside_tree() or not _defense_pickups_active():
+		return
+	if not is_instance_valid(parent) or not parent.is_inside_tree() or parent.is_queued_for_deletion():
+		return
+	var pickup := scene.instantiate() as Area2D
+	pickup.transform = placement
+	parent.add_child(pickup)
+	_watch_pickup(pickup)
 
 
 func _set_defense_npc_active(active: bool) -> void:
@@ -115,7 +162,7 @@ func _process(delta: float) -> void:
 	if is_instance_valid(_cotton) and _cotton._state != Enemy.State.DEAD and height >= AIR_BOUNDS.position.y:
 		_reinforcement_timer -= delta
 		if _reinforcement_timer <= 0.0:
-			_spawn_reinforcements()
+			_spawn_reinforcement()
 			_reinforcement_timer = reinforcement_interval
 	elif is_instance_valid(_cotton) and _cotton._state == Enemy.State.DEAD:
 		_clear_reinforcements()
@@ -235,6 +282,7 @@ func _spawn_enemy(scene: PackedScene, point: Vector2) -> Enemy:
 	enemy.position = point
 	enemy.detection_radius = 2000.0
 	enemy.detection_height = 1000.0
+	enemy.can_jump_down = scene == HAMBURGER_SCENE
 	if "detection_range" in enemy:
 		enemy.set("detection_range", 2000.0)
 	add_child(enemy)
@@ -269,18 +317,26 @@ func _finish_air_intro() -> void:
 	_reinforcement_timer = reinforcement_interval
 
 
-func _spawn_reinforcements() -> void:
-	if not is_instance_valid(_cotton) or _cotton._state == Enemy.State.DEAD:
-		return
-	var right_edge := AIR_BOUNDS.end.x
+func _spawn_reinforcement() -> void:
+	_reinforcements = _reinforcements.filter(func(enemy) -> bool: return is_instance_valid(enemy))
+	var visible_area := AIR_BOUNDS
 	if get_viewport().get_camera_2d():
-		var inverse := get_viewport().get_canvas_transform().affine_inverse()
-		right_edge = maxf(right_edge, to_local(inverse * get_viewport_rect().end).x)
-	# Nacen fuera de cámara, separados en profundidad para entrar escalonados.
-	for index in range(3):
-		var point := Vector2(right_edge + 120.0 + index * 80.0,
-			randf_range(AIR_BOUNDS.position.y + 120.0, AIR_BOUNDS.end.y - 120.0))
-		_reinforcements.append(_spawn_enemy(HORDE_SCENES[0], point))
+		var screen_to_level := global_transform.affine_inverse() * get_viewport().get_canvas_transform().affine_inverse()
+		visible_area = screen_to_level * get_viewport_rect()
+	var along_edge := randf_range(0.18, 0.82)
+	var point: Vector2
+	match _reinforcement_side:
+		0:
+			point = Vector2(visible_area.end.x + AIR_SPAWN_MARGIN,
+				visible_area.position.y + visible_area.size.y * along_edge)
+		1:
+			point = Vector2(visible_area.position.x + visible_area.size.x * along_edge,
+				visible_area.position.y - AIR_SPAWN_MARGIN)
+		_:
+			point = Vector2(visible_area.position.x + visible_area.size.x * along_edge,
+				visible_area.end.y + AIR_SPAWN_MARGIN)
+	_reinforcement_side = (_reinforcement_side + 1) % 3
+	_reinforcements.append(_spawn_enemy(HORDE_SCENES[0], point))
 
 
 func _clear_reinforcements() -> void:

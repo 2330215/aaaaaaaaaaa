@@ -11,7 +11,6 @@
 [ext_resource type="PackedScene" uid="uid://bprlvl3n8x1at" path="res://level/background/parallax_background3.tscn" id="8_qhnra"]
 [ext_resource type="Texture2D" uid="uid://c675t24ir45dt" path="res://level/background/level3_parte2.png" id="10_drhu7"]
 [ext_resource type="PackedScene" uid="uid://dfm8821ubqi5q" path="res://enemy/enemy_coca.tscn" id="16_7jqyl"]
-[ext_resource type="PackedScene" uid="uid://6mtip3ruyn" path="res://enemy/enemy.tscn" id="17_drhu7"]
 [ext_resource type="PackedScene" path="res://gui/lives_display.tscn" id="18_lives"]
 [ext_resource type="PackedScene" uid="uid://d1jwvahwnb1h5" path="res://level/shield_pickup.tscn" id="18_qg0ee"]
 [ext_resource type="PackedScene" uid="uid://c3dh7xb6ef76q" path="res://level/coin.tscn" id="19_vpspb"]
@@ -1637,8 +1636,9 @@ target_position = Vector2(128, 5300)
 target_stage_index = 2
 switch_to_sky = true
 
-[node name="Enemy" parent="." unique_id=91234316 instance=ExtResource("17_drhu7")]
+[node name="SecondStageSoda" parent="." unique_id=91234316 instance=ExtResource("16_7jqyl")]
 position = Vector2(900, 2300)
+stay_on_platform = true
 
 [node name="Coin" parent="." unique_id=2049719167 instance=ExtResource("18_qg0ee")]
 position = Vector2(1085, 300)
@@ -1652,8 +1652,12 @@ position = Vector2(686, 401)
 [node name="Coin4" parent="." unique_id=923375329 instance=ExtResource("19_vpspb")]
 position = Vector2(791, 401)
 
+[node name="DefenseApple" parent="." instance=ExtResource("37_tmwyn")]
+position = Vector2(1512, 401)
+
 [node name="Enemy7" parent="." unique_id=821515093 instance=ExtResource("16_7jqyl")]
 position = Vector2(3200, 2185)
+stay_on_platform = true
 
 [node name="Coin10" parent="." unique_id=1239046954 instance=ExtResource("19_vpspb")]
 position = Vector2(736, 2320)
@@ -1723,11 +1727,13 @@ safe_respawn_points = Array[Vector2]([Vector2(448, 2448), Vector2(930, 2320), Ve
 water_bounds = Rect2(-1920, 0, 4480, 80)
 respawn_position = Vector2(448, 2448)
 
-[node name="SecondStageEnemy2" parent="." unique_id=1375059055 instance=ExtResource("17_drhu7")]
+[node name="SecondStageFries" parent="." unique_id=1375059055 instance=ExtResource("35_mimcb")]
 position = Vector2(1664, 2315)
+stay_on_platform = true
 
 [node name="SecondStagePapa" parent="." unique_id=1528977312 instance=ExtResource("35_mimcb")]
 position = Vector2(2819, 2450)
+stay_on_platform = true
 
 [node name="JumpCoin0" parent="." unique_id=1650519256 instance=ExtResource("19_vpspb")]
 position = Vector2(1100, 2240)

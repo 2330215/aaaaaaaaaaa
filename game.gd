@@ -9,6 +9,7 @@ const VICTORY_SCREEN_SCENE := preload("res://gui/victory_screen.tscn")
 const GAME_OVER_SCREEN_SCENE := preload("res://gui/game_over_screen.tscn")
 
 @onready var _pause_menu := $InterfaceLayer/PauseMenu as PauseMenu
+@onready var _player := $Level/Player as Player
 
 var _victory_screen: VictoryScreen
 var _game_over_screen: GameOverScreen
@@ -23,7 +24,9 @@ func _ready() -> void:
 	GameState.begin_level(level_number)
 	GameState.remember_level(scene_file_path)
 	_apply_level_skin()
-
+	var retry_stage := GameState.take_retry_stage(scene_file_path)
+	if not retry_stage.is_empty():
+		_restore_retry_stage(retry_stage)
 
 	_victory_screen = VICTORY_SCREEN_SCENE.instantiate() as VictoryScreen
 	add_child(_victory_screen)
@@ -137,8 +140,22 @@ func _on_game_over() -> void:
 	if _game_over_active:
 		return
 	_game_over_active = true
+	var stage_position := _player.stage_start_position
+	var background_index := _player.stage_background_index
 	_set_music_paused(true)
-	_game_over_screen.show_game_over()
+	await _game_over_screen.show_game_over()
+	GameState.retry_level(scene_file_path, stage_position, background_index)
+
+
+func _restore_retry_stage(stage: Dictionary) -> void:
+	var background_index: int = stage["background_index"]
+	_player.enter_stage(stage["position"], background_index)
+	apply_stage_skin()
+	for background in get_tree().get_nodes_in_group("level_background"):
+		if background.has_method("set_stage"):
+			background.set_stage(background_index)
+		if background.has_method("align_to_stage"):
+			background.align_to_stage(background_index)
 
 
 func _set_music_paused(paused: bool) -> void:

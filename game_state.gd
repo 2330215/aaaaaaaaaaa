@@ -37,6 +37,7 @@ var last_save_error: Error = OK
 var last_played_scene: String = ""
 var _suspended_game: Node
 var _changing_scene: bool = false
+var _retry_stage: Dictionary = {}
 
 var _level_elapsed: float = 0.0
 var _level_timer_running: bool = false
@@ -185,6 +186,19 @@ func start_level(path: String) -> bool:
 	return true
 
 
+func retry_level(path: String, stage_position: Vector2, background_index: int) -> bool:
+	if not start_level(path):
+		return false
+	_retry_stage = {"path": path, "position": stage_position, "background_index": background_index}
+	return true
+
+
+func take_retry_stage(path: String) -> Dictionary:
+	var stage := _retry_stage
+	_retry_stage = {}
+	return stage if stage.get("path") == path else {}
+
+
 func _start_level(path: String) -> void:
 	_discard_suspended_game()
 	used_special_coins.clear()
@@ -193,6 +207,7 @@ func _start_level(path: String) -> void:
 	Music.stream_paused = false
 	var error := get_tree().change_scene_to_file(path)
 	if error != OK:
+		_retry_stage.clear()
 		push_error("No se pudo abrir el nivel: %s" % error_string(error))
 	_changing_scene = false
 
@@ -252,9 +267,11 @@ func record_death() -> void:
 	_deaths += 1
 
 
-## Descuenta una vida. Retorna true si quedan vidas, false si es Game Over.
+## Registra la muerte y retorna true si el jugador puede reaparecer.
 func lose_life() -> bool:
 	record_death()
+	if ControlSettings.cheats_enabled and ControlSettings.infinite_lives_enabled:
+		return true
 	lives = max(0, lives - 1)
 	lives_changed.emit(lives)
 	life_lost.emit(lives)

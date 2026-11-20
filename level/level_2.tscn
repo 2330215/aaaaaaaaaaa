@@ -1933,6 +1933,7 @@ dialogue_lines = [".."]
 
 [node name="EnemyJefe" parent="." unique_id=1566113503 instance=ExtResource("10_jefe")]
 position = Vector2(1413, 3480)
+scale = Vector2(0.84, 0.84)
 activation_y_threshold = 2944.0
 
 [node name="Enemy2" parent="." unique_id=46466502 instance=ExtResource("15_fm1jd")]

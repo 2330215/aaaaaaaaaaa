@@ -13,6 +13,7 @@ var opacity: float = 0.65
 var icon_scale: float = 1.0
 # Los trucos se activan por sesión, incluso si una versión anterior los guardó.
 var cheats_enabled: bool = false
+var infinite_lives_enabled: bool = false
 
 func _ready() -> void:
 	positions.assign(DEFAULTS)
@@ -63,6 +64,8 @@ func set_cheats_enabled(enabled: bool) -> void:
 	if cheats_enabled == enabled:
 		return
 	cheats_enabled = enabled
+	if not enabled:
+		infinite_lives_enabled = false
 	cheats_changed.emit()
 
 

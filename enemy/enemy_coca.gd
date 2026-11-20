@@ -18,6 +18,7 @@ var _patrol_dir: float = 1.0
 
 
 func _ready() -> void:
+	super._ready()
 	if not animation_player.animation_finished.is_connected(_on_animation_finished):
 		animation_player.animation_finished.connect(_on_animation_finished)
 
@@ -30,11 +31,12 @@ func _physics_process(delta: float) -> void:
 
 	# Gravedad
 	if not is_on_floor():
+		if stay_on_platform:
+			velocity.x = 0.0
 		velocity.y += gravity * delta
 		move_and_slide()
 		return
-	else:
-		velocity.y = 0.0
+	velocity.y = gravity * delta if stay_on_platform else 0.0
 
 	# Durante animación de ataque quedarse quieto
 	if animation_player.current_animation == &"ataque":
@@ -49,7 +51,7 @@ func _physics_process(delta: float) -> void:
 		var distancia_x := jugador.global_position.x - global_position.x
 		var dir := signf(distancia_x)
 
-		if absf(distancia_x) > stop_distance:
+		if absf(distancia_x) > stop_distance and _can_walk_toward(dir):
 			velocity.x = dir * move_speed
 			sprite.flip_h = velocity.x < 0.0
 			_play_anim(&"walk")
@@ -63,12 +65,16 @@ func _physics_process(delta: float) -> void:
 			attack_timer = attack_cooldown
 	else:
 		# ── Modo patrulla ─────────────────────────────────────────────────
-		if is_on_wall():
+		if is_on_wall() or not _can_walk_toward(_patrol_dir):
 			_patrol_dir = -_patrol_dir
 
-		velocity.x = _patrol_dir * (move_speed * 0.6)
-		sprite.flip_h = velocity.x < 0.0
-		_play_anim(&"walk")
+		if _can_walk_toward(_patrol_dir):
+			velocity.x = _patrol_dir * (move_speed * 0.6)
+			sprite.flip_h = velocity.x < 0.0
+			_play_anim(&"walk")
+		else:
+			velocity.x = 0.0
+			_play_anim(&"idle")
 
 	move_and_slide()
 
@@ -96,6 +102,7 @@ func lanzar_papa() -> void:
 	var papa = PAPA_SCENE.instantiate()
 	if papa == null:
 		return
+	_configure_platform_projectile(papa as RigidBody2D)
 	papa.global_position = lanzamiento.global_position
 	papa.direction = lanzamiento.global_position.direction_to(jugador.global_position)
 	get_tree().current_scene.add_child(papa)

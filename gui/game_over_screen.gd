@@ -1,6 +1,6 @@
 class_name GameOverScreen extends CanvasLayer
 ## Pantalla de Game Over. Muestra "PERDISTE" con fade-in, congela el juego
-## 2 segundos y luego reinicia el nivel desde el principio.
+## 2 segundos antes de que el juego reinicie el escenario.
 
 @onready var panel: Control = $GameOverPanel
 
@@ -10,7 +10,7 @@ func _ready() -> void:
 	panel.visible = false
 
 
-## Muestra la pantalla de Game Over, pausa 2 s y reinicia el nivel.
+## Muestra la pantalla de Game Over y espera 2 segundos con el juego pausado.
 func show_game_over() -> void:
 	panel.visible = true
 	panel.modulate.a = 0.0
@@ -25,8 +25,3 @@ func show_game_over() -> void:
 
 	# Esperar 2 segundos; el argumento `true` hace que el timer ignore la pausa
 	await get_tree().create_timer(2.0, true).timeout
-
-	# Descongelar, limpiar estado persistente y recargar el nivel desde cero
-	get_tree().paused = false
-	GameState.used_special_coins.clear()
-	get_tree().reload_current_scene()

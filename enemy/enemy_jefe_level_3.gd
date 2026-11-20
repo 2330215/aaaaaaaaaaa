@@ -5,10 +5,13 @@ extends Enemy
 @export var flight_change_interval: float = 1.5
 @export var screen_margin: float = 16.0
 @export var attack_interval: float = 1.0
-@export var max_health: int = 16
+@export var max_health: int = 20
 @onready var projectile_spawn: Marker2D = $proyectil
 
 const PROJECTILE_SCENE = preload("res://enemy/jefe3_proyectil.tscn")
+const FAST_ATTACK_HEALTH := 6
+const FAST_ATTACK_INTERVAL := 0.45
+const FAST_ATTACK_SPEED := 1.5
 
 var _active := false
 var _attacking := false
@@ -130,7 +133,8 @@ func attack() -> void:
 	_attacking = true
 	_shot_fired = false
 	velocity = Vector2.ZERO
-	animation_player.play(&"attack")
+	var attack_speed := FAST_ATTACK_SPEED if _health <= FAST_ATTACK_HEALTH else 1.0
+	animation_player.play(&"attack", -1.0, attack_speed)
 
 
 func _fire_attack() -> void:
@@ -146,7 +150,12 @@ func _fire_attack() -> void:
 func _on_animation_finished(animation: StringName) -> void:
 	if animation == &"attack":
 		_attacking = false
-		_attack_timer = maxf(0.1, attack_interval)
+		_attack_timer = _attack_delay()
+
+
+func _attack_delay() -> float:
+	var delay := maxf(0.1, attack_interval)
+	return minf(delay, FAST_ATTACK_INTERVAL) if _health <= FAST_ATTACK_HEALTH else delay
 
 
 func destroy() -> void:
@@ -159,6 +168,7 @@ func destroy() -> void:
 		animation_player.play(&"destroy")
 		GameState.notify_boss_defeated()
 	else:
+		_attack_timer = minf(_attack_timer, _attack_delay())
 		_hurt_timer = 0.3
 		sprite.self_modulate = Color(1.0, 0.35, 0.35)
 		create_tween().tween_property(sprite, "self_modulate", Color.WHITE, 0.25)

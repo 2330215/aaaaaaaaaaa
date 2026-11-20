@@ -33,6 +33,7 @@ var _cebolla_btn: Button
 var _stage_btn:  Button
 var _speed_btn:  Button
 var _jump_btn:   Button
+var _infinite_lives_switch: CheckButton
 
 # ─── Fade de teletransporte ───────────────────────────────────────────────────
 var _fade_rect: ColorRect
@@ -138,7 +139,20 @@ func _build_cheat_panel() -> void:
 	_jump_btn.pressed.connect(_on_jump_pressed)
 	vbox.add_child(_jump_btn)
 
+	_infinite_lives_switch = CheckButton.new()
+	_infinite_lives_switch.text = "Vidas infinitas"
+	_infinite_lives_switch.focus_mode = Control.FOCUS_NONE
+	_infinite_lives_switch.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	_infinite_lives_switch.custom_minimum_size = Vector2(0, 26)
+	_infinite_lives_switch.add_theme_font_size_override("font_size", 12)
+	_infinite_lives_switch.toggled.connect(_on_infinite_lives_toggled)
+	vbox.add_child(_infinite_lives_switch)
+
 	add_child(_panel)
+
+
+func _on_infinite_lives_toggled(enabled: bool) -> void:
+	ControlSettings.infinite_lives_enabled = enabled and ControlSettings.cheats_enabled
 
 
 func _make_btn(txt: String) -> Button:
@@ -310,14 +324,13 @@ func _on_stage_pressed() -> void:
 				bg.align_to_stage(dest["stage_index"])
 
 	if _player and is_instance_valid(_player):
-		_player.global_position = dest["pos"]
-		_player.velocity        = Vector2.ZERO
+		(_player as Player).enter_stage(dest["pos"], dest["stage_index"])
+		_player.velocity = Vector2.ZERO
 		if _player.get_parent():
 			for sib in _player.get_parent().get_children():
-				if sib != _player and sib.has_method("die"):
-					sib.global_position = dest["pos"] + Vector2(32, 0)
-					if "velocity" in sib:
-						sib.velocity = Vector2.ZERO
+				if sib != _player and sib is Player:
+					(sib as Player).enter_stage(dest["pos"] + Vector2(32, 0), dest["stage_index"])
+					(sib as Player).velocity = Vector2.ZERO
 
 	if scene and scene.has_method("apply_stage_skin"):
 		scene.apply_stage_skin()
@@ -455,6 +468,7 @@ func _apply_control_layout() -> void:
 
 func _refresh_cheats() -> void:
 	trucos_button.visible = ControlSettings.cheats_enabled
+	_infinite_lives_switch.set_pressed_no_signal(ControlSettings.infinite_lives_enabled)
 	if not ControlSettings.cheats_enabled:
 		_panel_open = false
 		_panel.hide()

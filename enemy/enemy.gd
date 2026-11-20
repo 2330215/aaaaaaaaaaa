@@ -18,6 +18,8 @@ enum State {
 @export var detection_height: float = 100.0
 @export var chase_stop_distance: float = 30.0
 @export var can_jump: bool = false
+@export var stay_on_platform: bool = false
+var can_jump_down: bool = false
 @export var jump_velocity: float = -780.0
 @export var jump_horizontal_speed: float = 360.0
 var _jump_velocity_x: float = 0.0
@@ -45,12 +47,32 @@ func _ready() -> void:
 	var collider := get_node_or_null("CollisionShape2D") as CollisionShape2D
 	if collider and collider.shape:
 		var bounds: Rect2 = collider.transform * collider.shape.get_rect()
+		var probe_depth := 4.0 if stay_on_platform else 24.0
 		if floor_detector_left:
 			floor_detector_left.position = Vector2(bounds.position.x - 8.0, bounds.get_center().y)
-			floor_detector_left.target_position = Vector2(0.0, bounds.size.y * 0.5 + 24.0)
+			floor_detector_left.target_position = Vector2(0.0, bounds.size.y * 0.5 + probe_depth)
 		if floor_detector_right:
 			floor_detector_right.position = Vector2(bounds.end.x + 8.0, bounds.get_center().y)
-			floor_detector_right.target_position = Vector2(0.0, bounds.size.y * 0.5 + 24.0)
+			floor_detector_right.target_position = Vector2(0.0, bounds.size.y * 0.5 + probe_depth)
+
+
+func _can_walk_toward(direction: float) -> bool:
+	if not stay_on_platform:
+		return true
+	var detector := floor_detector_right if direction > 0.0 else floor_detector_left
+	detector.force_raycast_update()
+	if not detector.is_colliding() or detector.get_collision_normal().y >= -0.7:
+		return false
+	var platform := get_parent() as StaticBody2D
+	return platform == null or detector.get_collider() == platform
+
+
+func _configure_platform_projectile(projectile: RigidBody2D) -> void:
+	if stay_on_platform:
+		# El proyectil puede golpear al jugador sin empujar a los guardias.
+		projectile.set_collision_layer_value(5, false)
+		projectile.set_collision_mask_value(2, false)
+		projectile.set_collision_mask_value(1, true)
 
 
 func _physics_process(delta: float) -> void:
@@ -75,14 +97,20 @@ func _physics_process(delta: float) -> void:
 			elif global_position.x >= _patrol_origin_x + patrol_distance:
 				facing_direction = -1.0
 
-		if should_move and is_on_floor():
+		var lower_target := can_jump_down and target != null and target.global_position.y > global_position.y + 40.0
+		if (should_move or lower_target) and is_on_floor():
 			var detector := floor_detector_right if facing_direction > 0.0 else floor_detector_left
 			if detector:
 				detector.force_raycast_update()
 			var at_edge := detector != null and not detector.is_colliding()
 			var against_wall := is_on_wall() and get_wall_normal().x * facing_direction < 0.0
 			var higher_target := target != null and target.global_position.y < global_position.y - 40.0
-			var jumped := can_jump and (at_edge or against_wall or higher_target) and _try_jump(target)
+			var jumped := can_jump and (at_edge or against_wall or higher_target or lower_target) and _try_jump(target, lower_target)
+			if not jumped and lower_target:
+				facing_direction = -facing_direction
+				jumped = _try_jump(target, true)
+				if not jumped:
+					facing_direction = -facing_direction
 			if jumped:
 				velocity.y = jump_velocity
 			elif at_edge or against_wall:
@@ -106,7 +134,7 @@ func _physics_process(delta: float) -> void:
 
 
 ## Busca suelo al otro lado y comprueba que el arco no atraviese paredes o techos.
-func _try_jump(target: Player) -> bool:
+func _try_jump(target: Player, descend: bool = false) -> bool:
 	var collider := get_node_or_null("CollisionShape2D") as CollisionShape2D
 	if collider == null or collider.shape == null:
 		return false
@@ -115,11 +143,14 @@ func _try_jump(target: Player) -> bool:
 	var height := jump_velocity * jump_velocity / (2.0 * gravity)
 	var max_reach := jump_horizontal_speed * 2.0 * absf(jump_velocity) / gravity
 	var first_distance := bounds.size.x * 0.5 + 24.0
+	var search_bottom := feet.y + 64.0
+	if descend:
+		search_bottom = maxf(search_bottom, target.global_position.y + bounds.size.y)
 	for distance in range(int(first_distance), int(max_reach), 16):
-		if target != null and distance > absf(target.global_position.x - global_position.x) + bounds.size.x:
+		if not descend and target != null and distance > absf(target.global_position.x - global_position.x) + bounds.size.x:
 			break
 		var x := feet.x + facing_direction * distance
-		var ray := PhysicsRayQueryParameters2D.create(Vector2(x, feet.y - height + 12.0), Vector2(x, feet.y + 64.0), collision_mask, [get_rid()])
+		var ray := PhysicsRayQueryParameters2D.create(Vector2(x, feet.y - height + 12.0), Vector2(x, search_bottom), collision_mask, [get_rid()])
 		var hit := get_world_2d().direct_space_state.intersect_ray(ray)
 		if hit.is_empty():
 			continue
@@ -135,7 +166,9 @@ func _try_jump(target: Player) -> bool:
 		if not supported:
 			continue
 		var rise := feet.y - landing.y
-		if target != null and rise < 24.0 and absf(target.global_position.y - global_position.y) > 40.0 and not is_on_wall():
+		if descend and rise > -40.0:
+			continue
+		if not descend and target != null and rise < 24.0 and absf(target.global_position.y - global_position.y) > 40.0 and not is_on_wall():
 			continue
 		var discriminant := jump_velocity * jump_velocity - 2.0 * gravity * rise
 		if discriminant <= 0.0:

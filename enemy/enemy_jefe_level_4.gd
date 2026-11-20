@@ -1,12 +1,12 @@
 extends Enemy
 ## Pizza combate en tierra: patrulla, salta y alterna proyectiles y golpes al suelo.
 
-@export var ground_speed: float = 150.0
+@export var ground_speed: float = 210.0
 @export var ground_patrol_distance: float = 280.0
 @export var jump_speed: float = 560.0
-@export var jump_interval: float = 3.0
-@export var attack_interval: float = 2
-@export var max_health: int = 16
+@export var jump_interval: float = 2.2
+@export var attack_interval: float = 1.25
+@export var max_health: int = 21
 @export var slam_jump_speed: float = 500.0
 @export var slam_gravity: float = 1800.0
 @export var bread_duration: float = 2.5
@@ -20,14 +20,24 @@ var _bread_target_x := 0.0
 @onready var projectile_spawn: Marker2D = $proyectil
 
 const PROJECTILE_SCENE = preload("res://enemy/jefe3_proyectil.tscn")
+const FAST_ATTACK_HEALTH := 6
+const FAST_ATTACK_INTERVAL := 0.55
+const ATTACK_SPEED := 1.2
+const FAST_ATTACK_SPEED := 1.8
+const FAST_MOVEMENT_MULTIPLIER := 1.25
+const BURST_SHOTS := 3
+const BURST_SHOT_FRAME := 0.4
+const BURST_INTERVAL := 0.75
+const FAST_BURST_INTERVAL := 0.5
 
 var _active := false
 var _attacking := false
-var _shot_fired := false
-var _attack_timer := 1.0
+var _shots_remaining: int = 0
+var _shot_timer: float = 0.0
+var _attack_timer := 0.75
 var _ground_origin_x: float
 var _patrol_direction: float = -1.0
-var _jump_timer: float = 1.8
+var _jump_timer: float = 1.4
 var _health: int
 var _hurt_timer := 0.0
 
@@ -88,16 +98,15 @@ func _physics_process(delta: float) -> void:
 		_patrol_direction = -1.0
 	elif is_on_wall():
 		_patrol_direction = signf(get_wall_normal().x)
-	velocity.x = 0.0 if _attacking else _patrol_direction * ground_speed
+	var movement_multiplier := FAST_MOVEMENT_MULTIPLIER if _health <= FAST_ATTACK_HEALTH else 1.0
+	velocity.x = 0.0 if _attacking else _patrol_direction * ground_speed * movement_multiplier
 	if not _attacking and is_on_floor() and _jump_timer <= 0.0:
 		velocity.y = -jump_speed
-		_jump_timer = maxf(0.5, jump_interval)
+		_jump_timer = maxf(0.5, jump_interval / movement_multiplier)
 	velocity.y += gravity * delta
 	move_and_slide()
 	if _attacking:
-		if not _shot_fired and animation_player.current_animation_position >= 0.4:
-			_shot_fired = true
-			_fire_attack()
+		_update_burst(delta)
 	else:
 		_attack_timer -= delta
 		if player and is_on_floor() and _attack_timer <= 0.0:
@@ -128,9 +137,26 @@ func attack() -> void:
 		return
 	_next_slam = true
 	_attacking = true
-	_shot_fired = false
+	_shots_remaining = BURST_SHOTS
 	velocity = Vector2.ZERO
-	animation_player.play(&"attack")
+	animation_player.play(&"attack", -1.0, _attack_speed())
+
+
+func _update_burst(delta: float) -> void:
+	if _shots_remaining == 0:
+		return
+	if _shots_remaining == BURST_SHOTS:
+		if animation_player.current_animation_position < BURST_SHOT_FRAME:
+			return
+	else:
+		_shot_timer -= delta
+		if _shot_timer > 0.0:
+			return
+		animation_player.play(&"attack", -1.0, _attack_speed())
+		animation_player.seek(BURST_SHOT_FRAME, true)
+	_shots_remaining -= 1
+	_shot_timer = FAST_BURST_INTERVAL if _health <= FAST_ATTACK_HEALTH else BURST_INTERVAL
+	_fire_attack()
 
 
 func _fire_attack() -> void:
@@ -144,9 +170,18 @@ func _fire_attack() -> void:
 
 
 func _on_animation_finished(animation: StringName) -> void:
-	if animation == &"attack":
+	if animation == &"attack" and _shots_remaining == 0:
 		_attacking = false
-		_attack_timer = maxf(0.1, attack_interval)
+		_attack_timer = _attack_delay()
+
+
+func _attack_delay() -> float:
+	var delay := maxf(0.1, attack_interval)
+	return minf(delay, FAST_ATTACK_INTERVAL) if _health <= FAST_ATTACK_HEALTH else delay
+
+
+func _attack_speed() -> float:
+	return FAST_ATTACK_SPEED if _health <= FAST_ATTACK_HEALTH else ATTACK_SPEED
 
 
 func destroy() -> void:
@@ -160,6 +195,7 @@ func destroy() -> void:
 		animation_player.play(&"destroy")
 		GameState.notify_boss_defeated()
 	else:
+		_attack_timer = minf(_attack_timer, _attack_delay())
 		_hurt_timer = 0.3
 		sprite.self_modulate = Color(1.0, 0.35, 0.35)
 		create_tween().tween_property(sprite, "self_modulate", Color.WHITE, 0.25)
@@ -193,10 +229,11 @@ func _update_slam(delta: float) -> void:
 	move_and_slide()
 	if falling and is_on_floor():
 		velocity = Vector2.ZERO
-		animation_player.play(&"attack2")
+		var attack_speed := _attack_speed()
+		animation_player.play(&"attack2", -1.0, attack_speed)
 		animation_player.seek(0.6, true)
 		_spawn_bread()
-		_impact_wait = 0.5
+		_impact_wait = 0.5 / attack_speed
 	elif _slam_elapsed > 0.25:
 		animation_player.seek(minf(0.5, _slam_elapsed * 0.5), true)
 	# Cancelar con seguridad si el salto se hizo sobre un pozo.
@@ -209,7 +246,7 @@ func _finish_slam() -> void:
 	_attacking = false
 	motion_mode = CharacterBody2D.MOTION_MODE_GROUNDED
 	velocity = Vector2.ZERO
-	_attack_timer = maxf(0.1, attack_interval)
+	_attack_timer = _attack_delay()
 	animation_player.play(&"idle")
 
 

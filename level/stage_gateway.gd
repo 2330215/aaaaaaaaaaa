@@ -74,7 +74,7 @@ func _on_body_entered(body: Node2D) -> void:
 			bg.align_to_stage(target_stage_index)
 
 	# 4. Teletransportar al jugador
-	body.global_position = target_position
+	(body as Player).enter_stage(target_position, target_stage_index)
 	var game := get_tree().current_scene
 	if game and game.has_method("apply_stage_skin"):
 		game.apply_stage_skin()

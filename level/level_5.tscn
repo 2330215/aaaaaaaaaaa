@@ -35,6 +35,7 @@
 [ext_resource type="Texture2D" uid="uid://bbjhndqrs87fj" path="res://level/props/selvacoso1.png" id="selva_21"]
 [ext_resource type="Texture2D" uid="uid://df16jg03fi5os" path="res://level/props/tronco1.png" id="selva_22"]
 [ext_resource type="PackedScene" uid="uid://wmx0c3ciqptt" path="res://level/apple.tscn" id="selva_apple"]
+[ext_resource type="PackedScene" uid="uid://dfm8821ubqi5q" path="res://enemy/enemy_coca.tscn" id="selva_coca"]
 [ext_resource type="PackedScene" uid="uid://c3dh7xb6ef76q" path="res://level/coin.tscn" id="selva_coin"]
 [ext_resource type="PackedScene" uid="uid://6mtip3ruyn" path="res://enemy/enemy.tscn" id="selva_enemy"]
 [ext_resource type="PackedScene" path="res://enemy/npc_jaguar.tscn" id="selva_jaguar"]
@@ -76,7 +77,7 @@ fill_to = Vector2(0, 1)
 [sub_resource type="RectangleShape2D" id="ArenaCanopyShape"]
 size = Vector2(211, 12)
 
-[node name="Level" type="Node2D" unique_id=1405360895]
+[node name="Level2" type="Node2D" unique_id=1405360895]
 process_mode = 1
 script = ExtResource("1_script")
 
@@ -170,6 +171,10 @@ position = Vector2(0, 7)
 shape = SubResource("CanopyShape1")
 one_way_collision = true
 
+[node name="CanopyGuard1" parent="Canopy1" unique_id=1569042586 instance=ExtResource("selva_papa")]
+position = Vector2(252, -75)
+stay_on_platform = true
+
 [node name="CanopyTree2" type="Sprite2D" parent="." unique_id=311322254]
 z_index = -2
 texture_filter = 1
@@ -186,6 +191,10 @@ collision_mask = 0
 position = Vector2(0, 7)
 shape = SubResource("CanopyShape2")
 one_way_collision = true
+
+[node name="CanopyGuard2" parent="Canopy2" unique_id=1507113428 instance=ExtResource("selva_coca")]
+position = Vector2(0, -88)
+stay_on_platform = true
 
 [node name="CanopyTree3" type="Sprite2D" parent="." unique_id=1490387095]
 z_index = -2
@@ -204,6 +213,10 @@ position = Vector2(0, 7)
 shape = SubResource("CanopyShape3")
 one_way_collision = true
 
+[node name="CanopyGuard3" parent="Canopy3" unique_id=1162427519 instance=ExtResource("selva_papa")]
+position = Vector2(0, -88)
+stay_on_platform = true
+
 [node name="CanopyTree4" type="Sprite2D" parent="." unique_id=1920195096]
 z_index = -2
 texture_filter = 1
@@ -221,6 +234,10 @@ position = Vector2(0, 7)
 shape = SubResource("CanopyShape4")
 one_way_collision = true
 
+[node name="CanopyGuard4" parent="Canopy4" unique_id=2002881440 instance=ExtResource("selva_coca")]
+position = Vector2(0, -88)
+stay_on_platform = true
+
 [node name="CanopyTree5" type="Sprite2D" parent="." unique_id=1035256881]
 z_index = -2
 texture_filter = 1
@@ -237,6 +254,10 @@ collision_mask = 0
 position = Vector2(0, 7)
 shape = SubResource("CanopyShape5")
 one_way_collision = true
+
+[node name="CanopyGuard5" parent="Canopy5" unique_id=1965164067 instance=ExtResource("selva_papa")]
+position = Vector2(-427, -3)
+stay_on_platform = true
 
 [node name="JunglePlant0_0" type="Sprite2D" parent="." unique_id=701637533]
 z_index = -2
@@ -753,7 +774,7 @@ story_dialogue_id = "jaguar"
 process_mode = 4
 
 [node name="Guard1" parent="VillageEnemies" unique_id=1746361125 instance=ExtResource("selva_enemy")]
-position = Vector2(460, 2500)
+position = Vector2(2768, 2408)
 patrol_speed = 65.0
 chase_speed = 110.0
 patrol_distance = 48.0

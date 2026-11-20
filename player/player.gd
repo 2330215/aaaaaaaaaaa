@@ -59,7 +59,8 @@ var _is_dead := false
 ## Estado de invencibilidad post-respawn
 var _invincible := false
 ## Punto elegido para reaparecer tras recibir dano o caer al vacio.
-var _respawn_position: Vector2 = Vector2.ZERO
+var stage_start_position: Vector2 = Vector2.ZERO
+var stage_background_index: int = 0
 ## escudo 
 var shield_time_left: float = 0.0
 var _shield_effect: Node2D
@@ -75,7 +76,7 @@ func _ready() -> void:
 	add_child(_shield_effect)
 	add_to_group("player")
 	coin_collected.connect(_on_coin_collected_internal)
-	_respawn_position = global_position
+	stage_start_position = global_position
 	invincibility_timer.timeout.connect(_on_invincibility_timeout)
 
 
@@ -217,7 +218,7 @@ func take_damage(respawn_override: Vector2 = Vector2.INF) -> void:
 		return
 
 	_is_dead = true
-	_respawn_position = global_position if respawn_override == Vector2.INF else respawn_override
+	var respawn_position := global_position if respawn_override == Vector2.INF else respawn_override
 
 	# La colisión se mantiene activa para que el cuerpo descanse en el suelo.
 	# _is_dead=true ya impide que se reciba daño de enemigos en _physics_process.
@@ -240,18 +241,24 @@ func take_damage(respawn_override: Vector2 = Vector2.INF) -> void:
 	# Decidir si quedan vidas o es Game Over
 	var has_lives := GameState.lose_life()
 	if has_lives:
-		_do_respawn()
+		_do_respawn(respawn_position)
 	else:
 		_do_game_over()
 
 
-func _do_respawn() -> void:
+func enter_stage(start_position: Vector2, background_index: int) -> void:
+	stage_start_position = start_position
+	stage_background_index = background_index
+	global_position = start_position
+
+
+func _do_respawn(respawn_position: Vector2) -> void:
 	# Resetear sprite
 	sprite.rotation_degrees = 0.0
 	sprite.modulate.a = 1.0
 
 	# Teletransportar al punto de reaparicion elegido.
-	global_position = _respawn_position
+	global_position = respawn_position
 	velocity = Vector2.ZERO
 
 	_is_dead = false
@@ -283,7 +290,7 @@ func _do_game_over() -> void:
 	# Aquí no hacemos nada para evitar que el juego continúe o se recargue.
 	pass
 
-## Llamado por PitHazard cuando el jugador cae al vacío (pasa la posición de respawn).
+## Las caídas al vacío ignoran el escudo y la invencibilidad temporal.
 func die_from_pit(respawn_pos: Vector2) -> void:
 	if _is_dead:
 		return
