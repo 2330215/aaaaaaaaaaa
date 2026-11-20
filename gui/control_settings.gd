@@ -11,13 +11,13 @@ const DEFAULTS := [Vector2(0.12, 0.81), Vector2(0.77, 0.86), Vector2(0.89, 0.69)
 var positions: Array[Vector2] = []
 var opacity: float = 0.65
 var icon_scale: float = 1.0
-var cheats_enabled: bool = true
+# Los trucos se activan por sesión, incluso si una versión anterior los guardó.
+var cheats_enabled: bool = false
 
 func _ready() -> void:
 	positions.assign(DEFAULTS)
 	var config := ConfigFile.new()
 	if config.load(PATH) == OK:
-		cheats_enabled = bool(config.get_value("gameplay", "cheats_enabled", true))
 		icon_scale = clampf(float(config.get_value("controls", "icon_scale", 1.0)), 0.6, 1.6)
 		opacity = clampf(float(config.get_value("controls", "opacity", 0.65)), 0.2, 1.0)
 		for index in range(IDS.size()):
@@ -50,7 +50,6 @@ func reset() -> void:
 
 func save() -> void:
 	var config := ConfigFile.new()
-	config.set_value("gameplay", "cheats_enabled", cheats_enabled)
 	config.set_value("controls", "opacity", opacity)
 	config.set_value("controls", "icon_scale", icon_scale)
 	for index in range(IDS.size()):
@@ -64,7 +63,6 @@ func set_cheats_enabled(enabled: bool) -> void:
 	if cheats_enabled == enabled:
 		return
 	cheats_enabled = enabled
-	save()
 	cheats_changed.emit()
 
 

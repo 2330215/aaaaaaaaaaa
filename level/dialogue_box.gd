@@ -133,18 +133,18 @@ func _on_transition_in_finished() -> void:
 	_is_opening = false
 
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if not _active:
 		return
 
-	# Solo avanza con click izquierdo (escritorio) o tap (móvil)
-	var is_click := event is InputEventMouseButton \
-		and (event as InputEventMouseButton).button_index == MOUSE_BUTTON_LEFT \
-		and (event as InputEventMouseButton).pressed
-	var is_tap := event is InputEventScreenTouch \
-		and (event as InputEventScreenTouch).pressed
+	# Capturar antes de la GUI y contar solo el evento original de cada pulsación.
+	if event.device == InputEvent.DEVICE_ID_EMULATION:
+		return
+	var is_click: bool = event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed
+	var is_tap: bool = event is InputEventScreenTouch and event.pressed
+	var is_confirm := event is InputEventKey and event.is_action_pressed("ui_accept")
 
-	if not (is_click or is_tap):
+	if not (is_click or is_tap or is_confirm):
 		return
 
 	get_viewport().set_input_as_handled()
